@@ -1,6 +1,6 @@
 ---
 name: 機能用 issue template
-about: 機能用のissueを想定したテンプレです。
+about: 機能実装のissue用テンプレートです。
 title: ''
 labels: ''
 assignees: ''
