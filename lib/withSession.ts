@@ -13,6 +13,7 @@ declare module "iron-session" {
         itemName: string;
         rentalPeriod: number;
         price: number;
+        itemImage: string;
       }[]
     }
   }

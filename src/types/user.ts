@@ -40,6 +40,7 @@ type UserCart = {
   // 単位：日
   rentalPeriod: number;
   price: number;
+  itemImage: string;
 };
 
 export type { User, RentalHistory, UserCart };
