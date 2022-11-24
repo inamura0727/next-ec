@@ -4,6 +4,14 @@ type User = {
   userName: string;
   familyName: string;
   fisrtName: string;
+  familyNameKana: string;
+  fisrtNameKana: string;
+  zipcode: string;
+  prefecture: string
+  city: string
+  houseNumber:string
+  building: string
+  phoneNumber: string
   mailAddress: string;
   password: string;
   rentalHistory: RentalHistory[];
@@ -16,7 +24,7 @@ type RentalHistory = {
   price: number;
   itemImage: string;
   // 単位：日
-  rentalPriod: number;
+  rentalPeriod: number;
   // 形式: yyyy-MM-dd hh:mm:ss
   payDate: Date;
   // 形式: yyyy-MM-dd hh:mm:ss
@@ -30,7 +38,7 @@ type UserCart = {
   id: number;
   itemName: string;
   // 単位：日
-  rentalpriod: number;
+  rentalPeriod: number;
   price: number;
 };
 

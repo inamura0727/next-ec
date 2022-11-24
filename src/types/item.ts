@@ -11,7 +11,7 @@ type Item = {
   palyTime: number;
   twoDaysPrice: number;
   sevenDaysPrice: number;
-  Categories: [id: number];
+  categories: [id: number];
 };
 
 
