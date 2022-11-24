@@ -49,7 +49,7 @@ export default function Item({ item }: { item: any }) {
       price: val,
     };
 
-    fetch(`http://localhost:3000/api/users/${id}`),
+    fetch(`http://localhost:3000/api/users/}`),
       {
         method: 'PATCH',
         headers: {
