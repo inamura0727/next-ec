@@ -3,15 +3,15 @@ type User = {
   id: number;
   userName: string;
   familyName: string;
-  fisrtName: string;
+  firstName: string;
   familyNameKana: string;
-  fisrtNameKana: string;
+  firstNameKana: string;
   zipcode: string;
-  prefecture: string
-  city: string
-  houseNumber:string
-  building: string
-  phoneNumber: string
+  prefecture: string;
+  city: string;
+  houseNumber: string;
+  building: string;
+  phoneNumber: string;
   mailAddress: string;
   password: string;
   rentalHistory: RentalHistory[];
