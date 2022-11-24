@@ -12,8 +12,16 @@ const nextConfig = {
         source: '/api/items/:slug',
         destination: 'http://localhost:8000/items/:slug',
       },
+      {
+        source: '/api/users',
+        destination: 'http://localhost:8000/users',
+      },
+      {
+        source: '/api/items/:slug',
+        destination: 'http://localhost:8000/items/:slug',
+      },
     ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

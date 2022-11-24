@@ -1,11 +1,8 @@
 import styles from '../../styles/Home.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
 
 export default function CartList() {
-  const carts: any = Cookies.get('cart');
-  console.log(carts);
   return (
     <div className="cart-content">
       <div className="cart-media">
