@@ -9,7 +9,7 @@ declare module "iron-session" {
       };
       
       cart?:{
-        id: string;
+        id: number;
         itemName: string;
         rentalPeriod: number;
         price: number;
