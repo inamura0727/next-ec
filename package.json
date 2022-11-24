@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "git config --local core.hooksPath '.git-hooks'",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
