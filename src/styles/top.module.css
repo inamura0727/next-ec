@@ -1,0 +1,14 @@
+.itemList {
+    display: flex;
+    flex-wrap : wrap;
+  }
+  
+  .item{
+    width: 200px;
+    margin: 20px;
+  }
+  
+  .item:hover{
+    opacity: 0.5;
+  }
+  
