@@ -10,7 +10,6 @@ export async function getStaticPaths() {
     return {
       params: {
         id: item.id.toString(),
-        // item.itemId.toString()だと表示されない、なぜ？
       },
     };
   });
