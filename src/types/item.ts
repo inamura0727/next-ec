@@ -2,7 +2,7 @@
 type Item = {
   id: number;
   fesName: string;
-  airtist: string;
+  artist: string;
   itemDetail: string;
   itemImage: string;
   // 形式: yyyy-MM-dd
