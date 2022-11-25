@@ -4,8 +4,8 @@
   }
   
   .item{
-    width: 200px;
-    margin: 20px;
+    width: 20rem;
+    margin: 2rem;
   }
   
   .item:hover{
