@@ -6,7 +6,6 @@ import { User } from 'types/user';
 import { ironOptions } from '../../lib/ironOprion';
 import { withIronSessionSsr } from 'iron-session/next';
 
-
 // ログイン後の場合、商品のデータ情報とユーザー情報の取得
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, query }) {
@@ -17,7 +16,14 @@ export const getServerSideProps = withIronSessionSsr(
     const user = req.session.user;
     if (user === undefined) {
       return {
-        notFound: true,
+        props: {
+          user: {
+            id: 0,
+            userName: 'ゲスト',
+            userCarts:[],
+          },
+          item:items
+        },
       };
     }
     return {
@@ -38,7 +44,6 @@ export default function ItemDetail({
   user: User;
 }) {
   const [price, setPrice] = useState(0);
-  // const [userCart, setUserCart] = useState<UserCart[]>([]);
   const [period, setPeriod] = useState(0);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
@@ -52,9 +57,13 @@ export default function ItemDetail({
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    
     // ユーザーidの取得
     const id = user.id;
+    console.log(id)
 
+    // ログイン後
+    if(id !== 0){
     const req = await fetch(`http://localhost:3000/api/users/${id}`);
     const data = await req.json();
     const res = data.userCarts;
@@ -71,8 +80,8 @@ export default function ItemDetail({
     res.push(userCarts);
     const body = { userCarts: res };
 
+    // ログイン後　userCartsに追加
     fetch(`http://localhost:3000/api/users/${id}`, {
-      // user情報はgetserverside
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -86,6 +95,36 @@ export default function ItemDetail({
       .catch((error) => {
         console.log('Error', error);
       });
+
+    }else{
+      console.log('elseきた')
+      // ログイン前
+      let userCarts: UserCart = {
+        id: item.id,
+        itemName: item.artist + item.fesName,
+        rentalPeriod: period,
+        price: price,
+        itemImage: item.itemImage,
+      };
+
+      const body = {cart: userCarts}
+
+    // ログイン前　cookieに保存するために/api/cartに飛ばす
+    fetch(`/api/cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      // .then((res) => res.json())
+      .then((result) => {
+        console.log('Success', result);
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+    }
   };
 
   return (
