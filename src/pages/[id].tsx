@@ -2,41 +2,41 @@ import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
+import { User } from 'types/user';
+import { ironOptions } from '../../lib/ironOprion';
+import { withIronSessionSsr } from 'iron-session/next';
 
-export async function getStaticPaths() {
-  const req = await fetch('http://localhost:3000/api/items');
-  const data = await req.json();
 
-  const paths = data.map((item: { id: number }) => {
+// ログイン後の場合、商品のデータ情報とユーザー情報の取得
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req, query }) {
+    const id = query.id;
+    const data = await fetch(`http://localhost:3000/api/items/${id}`);
+    const items = await data.json();
+
+    const user = req.session.user;
+    if (user === undefined) {
+      return {
+        notFound: true,
+      };
+    }
     return {
-      params: {
-        id: item.id.toString(),
+      props: {
+        user: req.session.user,
+        item: items,
       },
     };
-  });
-  return {
-    paths,
-    fallback: false,
-  };
-}
+  },
+  ironOptions
+);
 
-export async function getStaticProps({
-  params,
+export default function ItemDetail({
+  item,
+  user,
 }: {
-  params: { id: string };
+  item: Item;
+  user: User;
 }) {
-  const id = params.id;
-  const req = await fetch(`http://localhost:3000/api/items/${id}`);
-  const data = await req.json();
-
-  return {
-    props: {
-      item: data,
-    },
-  };
-}
-
-export default function ItemDetail({ item }: { item: Item }) {
   const [price, setPrice] = useState(0);
   // const [userCart, setUserCart] = useState<UserCart[]>([]);
   const [period, setPeriod] = useState(0);
@@ -50,31 +50,28 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   };
 
-  // const addItem = async () => {
-  // console.log('hoge');
-  // };
-
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const req = await fetch(`http://localhost:3000/api/users/2`);
+    // ユーザーidの取得
+    const id = user.id;
+
+    const req = await fetch(`http://localhost:3000/api/users/${id}`);
     const data = await req.json();
     const res = data.userCarts;
     console.log(res);
 
     let userCarts: UserCart = {
       id: item.id,
-      itemName: item.artist,
+      itemName: item.artist + item.fesName,
       rentalPeriod: period,
       price: price,
       itemImage: item.itemImage,
     };
 
     res.push(userCarts);
-    // setUserCart(res);
     const body = { userCarts: res };
-    // console.log(userCart)
 
-    fetch(`http://localhost:3000/api/users/2`, {
+    fetch(`http://localhost:3000/api/users/${id}`, {
       // user情報はgetserverside
       method: 'PATCH',
       headers: {
@@ -133,11 +130,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                   7泊&nbsp;¥{item.sevenDaysPrice}円
                 </label>
                 <br />
-                <button
-                  type="submit"
-                  className="detail-btn"
-                  // onClick={(e) => addItem()}
-                >
+                <button type="submit" className="detail-btn">
                   カートに追加
                 </button>
               </div>
