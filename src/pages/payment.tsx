@@ -7,6 +7,7 @@ import styles from '../styles/payment.module.css';
 import Head from 'next/head';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -19,57 +20,39 @@ export const getServerSideProps: GetServerSideProps =
     req,
     query,
   }) {
+    let error: stripeError = '';
     // カート情報の取得
-    // const user = req.session.user;
-    // if(user === undefined){
-    //   return {}
-    // }
-    // const result = await fetch(`/api/user?id=${user.id}`);
-    // const cart: UserCart[] = await result.json();
+    const user = req.session.user;
+    if (user !== undefined) {
+      const result = await fetch(
+        `http://localhost:3000/api/users/${user.id}`
+      );
+      const userData = await result.json();
+      const cart: UserCart[] = userData.userCarts;
+      // ID昇順
+      cart.sort((a, b) => {
+        return a.id - b.id;
+      });
 
-    const cart = [
-      {
-        id: 3,
-        itemName: 'TokyoIdolFestival 2022 =LOVE',
-        rentalPeriod: 2,
-        price: 400,
-        itemImage: '/images/仮サムネ.jpg',
-      },
-      {
-        id: 7,
-        itemName: 'JAPAN JAM2022 sumika',
-        rentalPeriod: 7,
-        price: 200,
-        itemImage: '/images/仮サムネ.jpg',
-      },
-      {
-        id: 2,
-        itemName: 'JAPAN JAM2022 ポルカドットスティングレイ',
-        rentalPeriod: 2,
-        price: 50,
-        itemImage: '/images/仮サムネ.jpg',
-      },
-    ];
+      // エラー時の処理
+      if (query.error) {
+        error = query.error;
+      }
 
-    // ID昇順
-    cart.sort((a, b) => {
-      return a.id - b.id;
-    });
-
-    // エラー時の処理
-    // const error: Error = query?.error;
-    // let error: stripeError = ''
-    // if(query.error){
-    //   error = query.error;
-    // }
-    
-
-    return {
-      props: {
-        cart: cart,
-        // error: error,
-      },
-    };
+      return {
+        props: {
+          cart: cart,
+          error: error,
+        },
+      };
+    } else {
+      return {
+        props: {
+          cart: [],
+          error: error,
+        },
+      };
+    }
   },
   ironOptions);
 
@@ -80,8 +63,6 @@ export default function Payment({
   cart: UserCart[];
   error: stripeError;
 }) {
-  const [errorState, setErrorState] = useState(error);
-
   // 合計金額
   const sum = cart
     .map((item) => item.price)
@@ -89,18 +70,6 @@ export default function Payment({
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
-  const postStripe = () => {
-    const body = {price:sum};
-    fetch('/api/checkout_stripe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    }).then((res) => {
-      if (res.status === 500) {
-        setErrorState('aaaa');
-      }
-    });
-  };
 
   return (
     <>
@@ -137,13 +106,10 @@ export default function Payment({
           <div>合計:{cart.length}点</div>
         </section>
 
-        {/* <form onSubmit={postStripe}> */}
-        <form action='/api/checkout_stripe'>
+        <form action="/api/checkout_stripe" method="POST">
           <div className={styles.sumPrice}>ご請求金額：{sum}円</div>
           <input type="hidden" name="price" value={sum} />
-          <button type="submit">
-            決済する
-          </button>
+          <button type="submit">決済する</button>
         </form>
       </main>
     </>

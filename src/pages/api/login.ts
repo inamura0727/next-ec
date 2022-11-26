@@ -15,5 +15,5 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
   await req.session.save();
 
   /* ↓飛ばしたい画面に変更可能 */
-  res.redirect('/top');
+  res.redirect('/payment');
 }
