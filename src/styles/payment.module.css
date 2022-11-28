@@ -1,0 +1,30 @@
+.paymentMain{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.paymentMain .errorMessage{
+    color: red;
+    border: 0.1rem solid;
+    border-radius: 1rem;
+    display: inline-block;
+    padding: 2rem;
+}
+
+.paymentMain .orderWrapper{
+    border: 0.1rem solid black;
+    padding: 2rem;
+    border-radius: 5%;
+}
+.paymentMain .orderWrapper .itemWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+    border-bottom: 0.1rem solid black;
+    padding-bottom: 2rem;
+}
+.paymentMain form{
+    margin: 2rem 0;
+    text-align: center;
+}

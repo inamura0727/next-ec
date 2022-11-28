@@ -6,6 +6,7 @@ declare module "iron-session" {
       user?: {
         id: number;
         userName: string;
+        userCarts?:any[];
       };
       
       cart?:{
@@ -14,6 +15,10 @@ declare module "iron-session" {
         rentalPeriod: number;
         price: number;
         itemImage: string;
-      }[]
+      }[];
+
+      isLoggedIn?:{
+        login: boolean
+      }
     }
   }
