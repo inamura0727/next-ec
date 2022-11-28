@@ -98,7 +98,7 @@
       "itemDetail": "イギリス出身のバンド。2022年8月20,21日に、東京・大阪で開催された3年ぶりSUMMER SONICでMARINE STAGEのトリを務める。",
       "itemImage": "/images/image01.jpg",
       "releaseDate": 20220831,
-      "palyTime": 60,
+      "playTime": 60,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 300,
       "Categories": [
@@ -142,15 +142,7 @@
   "users": [
     {
       "id": 1,
-      "userCarts": [
-        {
-          "id": 7,
-          "itemName": "The1975SUMMER SONIC",
-          "rentalPeriod": 2,
-          "price": 300,
-          "itemImage": "/images/image01.jpg"
-        }
-      ]
+      "userCarts": []
     },
     {
       "id": 2,

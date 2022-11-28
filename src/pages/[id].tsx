@@ -121,7 +121,6 @@ export default function ItemDetail({
         });
     } else {
       // ログイン前
-      console.log('elseきた');
       let userCarts: UserCart = {
         id: item.id,
         itemName: item.artist + item.fesName,
@@ -140,7 +139,7 @@ export default function ItemDetail({
         },
         body: JSON.stringify(body),
       })
-        // .then((res) => res.json())
+        .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
           if (checked === true) {
@@ -193,8 +192,6 @@ export default function ItemDetail({
     e.preventDefault();
     addToCart ? handleDelte(item) : handleAddtoCart(item);
   };
-
-  //カートに追加されている場合の商品の削除
 
   return (
     <section className={styles.detail}>

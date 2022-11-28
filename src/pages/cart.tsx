@@ -15,12 +15,11 @@ export const getServerSideProps = withIronSessionSsr(
     const user = req.session.user;
     const isLoggedIn = req.session.isLoggedIn;
     let cart = req.session.cart;
-    // console.log(cart)
+
     if (!cart) {
       cart = [];
       console.log('hoge');
     }
-    // console.log(req);
 
     if (user === undefined) {
       return {
@@ -54,8 +53,6 @@ export default function CartList({
   // ユーザーのidを取得予定
   const id = user.id;
 
-  // console.log(user.userCarts);
-
   //問題発生URLによってカートページが表示されない問題(できたから保留。)
   //下記の場合はログイン前の場合表示される
   // const { data, error } = useSWR(`/api/users?id=${id}`, fetcher);
@@ -72,37 +69,58 @@ export default function CartList({
   } else {
     items = user.userCarts;
   }
-  // console.log(items);
 
   // ログイン後の選択された商品の削除
-  // できなーい！なぜ？
   const handleDelte = async (item: UserCart) => {
-    const req = await fetch(`http://localhost:3000/api/users/${id}`);
-    const data = await req.json();
-    const res = data.userCarts;
+    if (id !== 0) {
+      const req = await fetch(
+        `http://localhost:3000/api/users/${id}`
+      );
+      const data = await req.json();
+      const res = data.userCarts;
 
-    console.log(`${res}`);
-    const fil = res.filter((cartItem: UserCart) => {
-      return cartItem.id !== item.id;
-    });
-
-    console.log(fil);
-    const body = { userCarts: fil };
-
-    fetch(`http://localhost:3000/api/users/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log('Success', result);
-      })
-      .catch((error) => {
-        console.log('Error', error);
+      // console.log(`${res}`);
+      const fil = res.filter((cartItem: UserCart) => {
+        return cartItem.id !== item.id;
       });
+
+      // console.log(fil);
+      const body = { userCarts: fil };
+
+      fetch(`http://localhost:3000/api/users/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log('Success', result);
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    } else {
+      // ログイン前の削除
+
+      const body = { id: item.id };
+
+      fetch(`/api/itemDelete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log('Success', result);
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    }
   };
 
   return (

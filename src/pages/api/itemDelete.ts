@@ -2,14 +2,17 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 
 export default withIronSessionApiRoute(async (req, res) => {
-  const { cart } = await req.body;
+  const { id } = await req.body;
   const carts = req.session.cart;
+  console.log(id);
   // console.log(carts);
+
   try {
     if (carts) {
-      carts?.push(cart);
-    } else {
-      req.session.cart = [cart];
+      const fil = carts.filter((cartItem) => {
+        return cartItem.id !== id;
+      });
+      req.session.cart = fil;
     }
     await req.session.save();
     // console.log(req.session.cart);
@@ -18,6 +21,6 @@ export default withIronSessionApiRoute(async (req, res) => {
   }
   // res.status(200).end();
   res.json({
-    message: '追加できました',
+    message: '削除できました',
   });
 }, ironOptions);
