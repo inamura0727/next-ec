@@ -200,6 +200,7 @@ export default function ItemDetail({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          setAddtoCart(!addToCart);
         })
         .catch((error) => {
           console.log('Error', error);

@@ -142,7 +142,15 @@
   "users": [
     {
       "id": 1,
-      "userCarts": []
+      "userCarts": [
+        {
+          "id": 5,
+          "itemName": "≒JOYTokyoIdolFestival 2022",
+          "rentalPeriod": 7,
+          "price": 200,
+          "itemImage": "/images/仮サムネ.jpg"
+        }
+      ]
     },
     {
       "id": 2,

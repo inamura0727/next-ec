@@ -10,9 +10,14 @@
 }
 .cartImg {
 }
+.cartBodyWrapper {
+  display: flex;
+  align-items: center;
+}
 .cartInner {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .cartBtnWrapper {
   text-align: right;
@@ -26,6 +31,9 @@
 .btnWrapper {
   text-align: center;
   padding: 30px;
+}
+.cartBeforeBtnWrapper {
+  text-align: right;
 }
 
 .cartBtn {
@@ -43,7 +51,6 @@
   transition: 0.25s;
   border-radius: 50px;
 }
-
 .cartBtn:focus,
 .cartBtn:hover {
   background-color: #fff;
