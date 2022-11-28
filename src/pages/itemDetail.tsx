@@ -6,7 +6,7 @@ import { User } from 'types/user';
 import { ironOptions } from '../../lib/ironOprion';
 import { withIronSessionSsr } from 'iron-session/next';
 import styles from 'styles/detail.module.css';
-import cart from './api/cart';
+import cart from './api/addCart';
 
 // ログイン後の場合、商品のデータ情報とユーザー情報の取得
 export const getServerSideProps = withIronSessionSsr(

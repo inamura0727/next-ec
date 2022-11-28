@@ -13,7 +13,6 @@ const fetcher = (resource: string) =>
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req }) {
     const user = req.session.user;
-    const isLoggedIn = req.session.isLoggedIn;
     let cart = req.session.cart;
 
     if (!cart) {

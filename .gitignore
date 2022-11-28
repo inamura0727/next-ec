@@ -40,3 +40,7 @@ next-env.d.ts
 
 #db.json 要らない
 /data/
+
+# デモログイン
+/src/pages/api/login.ts
+/src/pages/index.tsx
