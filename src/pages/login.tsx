@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Link from 'next/link';
 import styles from 'styles/login.module.css';
+import withIronSessionApiRoute from '../pages/api/login'
 
 export default function Home() {
-  const [mailAddress, setMailAddress] = React.useState(''); //名前の情報を更新して保存
-  const [password, setPassword] = React.useState('');
+  const [mailAddress, setMailAddress] = useState(''); //名前の情報を更新して保存
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   //ログイン
-  const submitHandler = async (e: any) => {
+  const submitHandler = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault(); //既定の動作を止める
     const response = await fetch('/api/login', {
       //Jsonファイルに送る
@@ -21,14 +26,13 @@ export default function Home() {
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
-    }).then(() => {
-      router.push('http://localhost:3000/top');
+    }).then((res) => {
+      if(res.status === 200){
+        router.push('/top');
+      }else{
+        setErrorMessage('ログイン情報が異なります');
+      }
     });
-  };
-
-  const cancelHandler = async (e: any) => {
-    e.preventDefault(); //既定の動作を止める
-    window.location.href = 'http://localhost:3000/top';
   };
 
   return (
@@ -63,9 +67,10 @@ export default function Home() {
                 />
               </li>
             </ul>
+            <p>{errorMessage}</p>
             <button type="submit">ログイン</button>
-            <button onClick={cancelHandler}>キャンセル</button>
           </form>
+          <Link href={`/top`}>トップページへ</Link>
         </div>
       </main>
     </>

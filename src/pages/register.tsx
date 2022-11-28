@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from 'styles/register.module.css';
+import Link from 'next/link';
 
 export default function LoginScreen() {
   const initialValues = {
@@ -41,16 +42,13 @@ export default function LoginScreen() {
   const router = useRouter(); //登録された情報を更新した状態でページを移動
 
   //住所を検索
-  const submitAddress = async (e: any) => {
+  const submitAddress = async () => {
     ///住所API
     //住所情報のURLを作成
     let api: any =
       'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
-
-    let zipcode = document.getElementById(
-      'zipcode'
-    ) as HTMLInputElement;
-    let url = api + zipcode.value;
+     
+    let url = api + formValues.zipcode;
     //住所情報を取得
     const response = await fetch(url, {
       method: 'GET',
@@ -67,14 +65,14 @@ export default function LoginScreen() {
   };
 
   //文字を打った時
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
     // console.log(formValues);
   };
 
   //会員登録ボタンを押した時
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const error: any = validate(formValues);
     setFormErrors(error);
@@ -97,7 +95,7 @@ export default function LoginScreen() {
       )
     ) {
       // 登録内容を登録する
-      const response = await fetch('http://localhost:8000/items', {
+      const response = await fetch('http://localhost:8000/users', {
         //Jsonファイルに送る
         method: 'POST',
         body: JSON.stringify({
@@ -362,11 +360,9 @@ export default function LoginScreen() {
           <li>
             <button type="submit">会員登録</button>
           </li>
-          <li>
-            <button type="submit">キャンセル</button>
-          </li>
         </ul>
       </form>
+      <Link href={`/top`}>トップページへ</Link>
     </>
   );
 }
