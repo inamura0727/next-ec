@@ -154,35 +154,57 @@ export default function ItemDetail({
 
   const handleDelte = async (item: Item) => {
     const id = user.id;
-    // console.log(id)
-    const req = await fetch(`http://localhost:3000/api/users/${id}`);
-    const data = await req.json();
-    const res = data.userCarts;
+    if (id !== 0) {
+      // ログイン後の場合
+      const req = await fetch(
+        `http://localhost:3000/api/users/${id}`
+      );
+      const data = await req.json();
+      const res = data.userCarts;
 
-    console.log(`${res}`);
-    const fil = res.filter((cartItem: UserCart) => {
-      return cartItem.id !== item.id;
-    });
-
-    console.log(fil);
-    const body = { userCarts: fil };
-
-    fetch(`http://localhost:3000/api/users/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log('Success', result);
-        setAddtoCart(!addToCart);
-        console.log(addToCart);
-      })
-      .catch((error) => {
-        console.log('Error', error);
+      console.log(`${res}`);
+      const fil = res.filter((cartItem: UserCart) => {
+        return cartItem.id !== item.id;
       });
+
+      console.log(fil);
+      const body = { userCarts: fil };
+
+      fetch(`http://localhost:3000/api/users/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log('Success', result);
+          setAddtoCart(!addToCart);
+          console.log(addToCart);
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    } else {
+      // ログイン前の場合
+      const body = { id: item.id };
+
+      fetch(`/api/itemDelete`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          console.log('Success', result);
+        })
+        .catch((error) => {
+          console.log('Error', error);
+        });
+    }
   };
 
   const handleSubmit = async (
