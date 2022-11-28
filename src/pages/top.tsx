@@ -51,7 +51,7 @@ export default function Top ({items}: {items: Array<Item>}) {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await fetch('http://localhost:3000/api/items')
     const items = await res.json()
     return {
