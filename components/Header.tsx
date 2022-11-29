@@ -3,12 +3,12 @@ import Link from 'next/link';
 import styles from 'styles/header.module.css';
 
 type headerProps = {
-  isLogined?: boolean;
+  isLoggedin?: boolean;
   // ログアウト後処理を受け取る
   dologout: () => void;
 };
 
-export default function Header({ isLogined, dologout }: headerProps) {
+export default function Header({ isLoggedin, dologout }: headerProps) {
   return (
     <header className={styles.header}>
       <div className={styles.info}>
@@ -20,7 +20,7 @@ export default function Header({ isLogined, dologout }: headerProps) {
         />
 
         <span className={styles.loginInfo}>
-          {isLogined ? (
+          {isLoggedin ? (
             <Link
               href="/api/logout"
               onClick={async (e) => {
