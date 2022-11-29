@@ -1,0 +1,16 @@
+.payCompMain{
+    width: 80%;
+    margin: 0 auto;
+    background-color: beige;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+}
+.payCompMain .contents{
+    text-align: center;
+}
+
+.payCompMain .contents p{
+    margin: 3rem 0;
+}
