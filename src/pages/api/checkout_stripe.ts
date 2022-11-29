@@ -1,7 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from 'next';
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export default async function handler(req:NextApiRequest, res:NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === 'POST') {
     try {
       const session = await stripe.checkout.sessions.create({
@@ -18,11 +22,11 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
           },
         ],
         mode: 'payment',
-        success_url: `${req.headers.origin}/paymentComp`,
+        success_url: `${req.headers.origin}/api/addRentalHistory`,
         cancel_url: `${req.headers.origin}/payment`,
       });
       res.redirect(303, session.url);
-    } catch (err:any) {
+    } catch (err: any) {
       res.redirect(`${req.headers.origin}/payment?error=true`);
     }
   } else {

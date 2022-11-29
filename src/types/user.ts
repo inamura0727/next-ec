@@ -14,7 +14,7 @@ type User = {
   phoneNumber: string;
   mailAddress: string;
   password: string;
-  rentalHistory: RentalHistory[];
+  rentalHistorys: RentalHistory[];
   userCarts: UserCart[];
 };
 
@@ -28,9 +28,9 @@ type RentalHistory = {
   // 形式: yyyy-MM-dd hh:mm:ss
   payDate: Date;
   // 形式: yyyy-MM-dd hh:mm:ss
-  rentalStart: Date;
+  rentalStart?: Date;
   // 形式: yyyy-MM-dd hh:mm:ss
-  rentalEnd: Date;
+  rentalEnd?: Date;
 };
 
 // カート情報
