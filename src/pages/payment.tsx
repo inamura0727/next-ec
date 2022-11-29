@@ -1,31 +1,30 @@
-import { GetServerSideProps } from 'next';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import { UserCart, User } from '../types/user';
+import { GetServerSideProps } from 'next';
+import { UserCart } from '../types/user';
 import Image from 'next/image';
 import styles from '../styles/payment.module.css';
 import Head from 'next/head';
 import { loadStripe } from '@stripe/stripe-js';
-import { useState } from 'react';
+import Header from '../../components/Header';
+import { SessionUser } from 'pages/api/getUser';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
 );
 
-type stripeError = string | string[] | undefined;
-
 export const getServerSideProps: GetServerSideProps =
-  withIronSessionSsr(async function getServerSideProps({
-    req,
-    query,
-  }) {
-    let error: stripeError = '';
-    // カート情報の取得
-    const user = req.session.user;
-    if (user !== undefined) {
+  withIronSessionSsr(async ({ req, query }) => {
+    // ユーザー情報の取得
+    let user: SessionUser = {
+      isLogined: false,
+    };
+    // ログインしている場合、カート情報を取得する
+    if (req.session.user) {
       const result = await fetch(
-        `http://localhost:3000/api/users/${user.id}`
+        `http://localhost:3000/api/users/${req.session.user.id}`
       );
       const userData = await result.json();
       const cart: UserCart[] = userData.userCarts;
@@ -33,39 +32,42 @@ export const getServerSideProps: GetServerSideProps =
       cart.sort((a, b) => {
         return a.id - b.id;
       });
-
-      // エラー時の処理
-      if (query.error) {
-        error = query.error;
-      }
-
-      return {
-        props: {
-          cart: cart,
-          error: error,
-        },
-      };
-    } else {
-      return {
-        props: {
-          cart: [],
-          error: error,
-        },
-      };
+      user.userId = req.session.user.id;
+      user.userCarts = cart;
+      user.isLogined = true;
     }
-  },
-  ironOptions);
+
+    // stripeエラー時の判定情報を設定
+    const { error } = query;
+    let errorflg = '';
+    if (error && typeof error === 'string') {
+      errorflg = error;
+    }
+    return {
+      props: {
+        user: user,
+        stripeError: errorflg,
+      },
+    };
+  }, ironOptions);
 
 export default function Payment({
-  cart,
-  error,
+  user,
+  stripeError,
 }: {
-  cart: UserCart[];
-  error: stripeError;
+  user: SessionUser;
+  stripeError: string;
 }) {
+  const router = useRouter();
+  const [isLogined, setIsLogined] = useState(user.isLogined);
+
+  // ログインしていない場合は、ログイン画面へ
+  if (!isLogined) {
+    router.push(`/login`);
+  }
   // 合計金額
-  const sum = cart
-    .map((item) => item.price)
+  const sum = user.userCarts
+    ?.map((item) => item.price)
     .reduce(
       (accumulator, currentValue) => accumulator + currentValue,
       0
@@ -76,8 +78,12 @@ export default function Payment({
       <Head>
         <title>決済画面</title>
       </Head>
+      <Header
+        isLogined={isLogined}
+        dologout={() => setIsLogined(!isLogined)}
+      />
       <main className={styles.paymentMain}>
-        {error && (
+        {stripeError && (
           <p className={styles.errorMessage}>
             決済処理中にエラーが発生しました。
             <br />
@@ -88,7 +94,7 @@ export default function Payment({
         <section className={styles.orderWrapper}>
           <h3>注文内容</h3>
           <h4>ご利用明細</h4>
-          {cart.map((item: UserCart) => (
+          {user.userCarts?.map((item: UserCart) => (
             <div className={styles.itemWrapper} key={item.id}>
               <Image
                 src={item.itemImage}
@@ -103,7 +109,7 @@ export default function Payment({
               <div className={styles.price}>{item.price}円</div>
             </div>
           ))}
-          <div>合計:{cart.length}点</div>
+          <div>合計:{user.userCarts?.length}点</div>
         </section>
 
         <form action="/api/checkout_stripe" method="POST">
