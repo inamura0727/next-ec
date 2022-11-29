@@ -8,7 +8,7 @@ export default withIronSessionApiRoute(getUserRoute, ironOptions);
 export type SessionUser = {
     userId?: number,
     userCarts?: UserCart[],
-    isLoggedin: boolean
+    isLoggedIn: boolean
 }
 
 async function getUserRoute(req: NextApiRequest, res: NextApiResponse<SessionUser>) {
@@ -25,11 +25,11 @@ async function getUserRoute(req: NextApiRequest, res: NextApiResponse<SessionUse
     res.json({
       userId: req.session.user.id,
       userCarts: cart,
-      isLoggedin: true,
+      isLoggedIn: true,
     });
   } else {
     res.json({
-      isLoggedin: false,
+      isLoggedIn: false,
     });
   }
 }

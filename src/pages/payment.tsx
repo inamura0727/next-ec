@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps =
   withIronSessionSsr(async ({ req, query }) => {
     // ユーザー情報の取得
     let user: SessionUser = {
-      isLoggedin: false,
+      isLoggedIn: false,
     };
     // ログインしている場合、カート情報を取得する
     if (req.session.user) {
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps =
       });
       user.userId = req.session.user.id;
       user.userCarts = cart;
-      user.isLoggedin = true;
+      user.isLoggedIn = true;
     }
 
     // stripeエラー時の判定情報を設定
@@ -59,10 +59,10 @@ export default function Payment({
   stripeError: string;
 }) {
   const router = useRouter();
-  const [isLoggedin, setIsLoggedin] = useState(user.isLoggedin);
+  const [isLoggedIn, setIsLoggedIn] = useState(user.isLoggedIn);
 
   // ログインしていない場合は、ログイン画面へ
-  if (!isLoggedin) {
+  if (!isLoggedIn) {
     router.push(`/login`);
   }
   // 合計金額
@@ -79,8 +79,8 @@ export default function Payment({
         <title>決済画面</title>
       </Head>
       <Header
-        isLoggedin={isLoggedin}
-        dologout={() => setIsLoggedin(!isLoggedin)}
+        isLoggedIn={isLoggedIn}
+        dologout={() => setIsLoggedIn(!isLoggedIn)}
       />
       <main className={styles.paymentMain}>
         {stripeError && (
