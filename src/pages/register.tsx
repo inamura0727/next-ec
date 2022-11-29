@@ -114,7 +114,7 @@ export default function LoginScreen() {
       )
     ) {
       // 登録内容を登録する
-      const response = await fetch('http://localhost:8000/users', {
+      const response = await fetch('http://localhost:3000/api/users', {
         //Jsonファイルに送る
         method: 'POST',
         body: JSON.stringify({
@@ -138,7 +138,7 @@ export default function LoginScreen() {
           'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
         },
       }).then(() => {
-        router.push('http://localhost:3000/completion'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+        router.push('http://localhost:3000/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
       });
     }
   };

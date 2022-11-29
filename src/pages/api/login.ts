@@ -3,7 +3,7 @@ import {ironOptions} from "../../../lib/ironOprion"
  
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
-    const response = await fetch(`http://localhost:8000/users?mailAddress=${req.body.mailAddress}&password=${req.body.password}`, {
+    const response = await fetch(`http://localhost:3000/api/users?mailAddress=${req.body.mailAddress}&password=${req.body.password}`, {
       //Jsonファイルに送る
       method: 'GET',
     });
