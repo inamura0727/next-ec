@@ -7,7 +7,6 @@ import { ironOptions } from '../../lib/ironOprion';
 import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
 import DeleteBtn from '../../components/Deleteitem';
-// import addCart from './api/addCart';
 
 const fetcher = (resource: string) =>
   fetch(resource).then((res) => res.json());

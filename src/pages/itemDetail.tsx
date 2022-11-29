@@ -89,7 +89,7 @@ export default function ItemDetail({
 
       let userCarts: UserCart = {
         id: item.id,
-        itemName: `${item.artist}${item.fesName}`,
+        itemName: `${item.artist}  ${item.fesName}`,
         // アーティスト名とフェス名の間の空白どうやったら入る？？
         rentalPeriod: period,
         price: price,
@@ -118,7 +118,7 @@ export default function ItemDetail({
       // ログイン前
       let userCarts: UserCart = {
         id: item.id,
-        itemName: item.artist + item.fesName,
+        itemName: `${item.artist}  ${item.fesName}`,
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,

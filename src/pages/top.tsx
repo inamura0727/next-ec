@@ -18,7 +18,7 @@ export default function Top({ items }: { items: Array<Item> }) {
             .map((item) => {
               return (
                 <div key={item.id} className={styles.item}>
-                  <Link href={`//ItemDetail?id=${item.id}`}>
+                  <Link href={`/ItemDetail?id=${item.id}`}>
                     <Image
                       src={item.itemImage}
                       width={200}
