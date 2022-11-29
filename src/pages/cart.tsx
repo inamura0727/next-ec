@@ -7,7 +7,7 @@ import { ironOptions } from '../../lib/ironOprion';
 import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
 import DeleteBtn from '../../lib/itemDelete';
-import addCart from './api/addCart';
+// import addCart from './api/addCart';
 
 const fetcher = (resource: string) =>
   fetch(resource).then((res) => res.json());
@@ -66,59 +66,6 @@ export default function CartList({
     items = user.userCarts;
   }
 
-  // ログイン後の選択された商品の削除
-  // const handleDelte = async (item: UserCart) => {
-  //   if (id !== 0) {
-  //     const req = await fetch(
-  //       `http://localhost:3000/api/users/${id}`
-  //     );
-  //     const data = await req.json();
-  //     const res = data.userCarts;
-
-  //     // console.log(`${res}`);
-  //     const fil = res.filter((cartItem: UserCart) => {
-  //       return cartItem.id !== item.id;
-  //     });
-
-  //     // console.log(fil);
-  //     const body = { userCarts: fil };
-
-  //     fetch(`http://localhost:3000/api/users/${id}`, {
-  //       method: 'PATCH',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(body),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((result) => {
-  //         console.log('Success', result);
-  //       })
-  //       .catch((error) => {
-  //         console.log('Error', error);
-  //       });
-  //   } else {
-  //     // ログイン前の削除
-
-  //     const body = { id: item.id };
-
-  //     fetch(`/api/itemDelete`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(body),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((result) => {
-  //         console.log('Success', result);
-  //       })
-  //       .catch((error) => {
-  //         console.log('Error', error);
-  //       });
-  //   }
-  // };
-
   return (
     <section className="cart">
       {items?.map((item: UserCart) => {
@@ -153,14 +100,6 @@ export default function CartList({
                   <p className={styles.cartPrice}>￥{item.price}</p>
                 </div>
               </div>
-              {/* <div className={styles.cartBeforeBtnWrapper}>
-                <button
-                  className={styles.cartBeforeBtn}
-                  onClick={() => handleDelte(id, item)}
-                >
-                  削除
-                </button>
-              </div> */}
               <DeleteBtn id={id} itemId={item.id} />
             </div>
           </div>

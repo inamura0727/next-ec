@@ -15,7 +15,7 @@ export const getServerSideProps = withIronSessionSsr(
     const id = query.id;
     const data = await fetch(`http://localhost:3000/api/items/${id}`);
     const items = await data.json();
-
+    
     // ユーザー情報の取得
     const user = req.session.user;
     if (user === undefined) {
@@ -60,6 +60,7 @@ export default function ItemDetail({
       setPrice(item.sevenDaysPrice);
     }
   };
+  
 
   const handleAddtoCart = async (item: Item) => {
     // 　ラジオボタンの判定のチェック(多分できた)
