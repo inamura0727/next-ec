@@ -84,7 +84,6 @@
   border-radius: 50px;
 }
 
-.detailBtn:focus,
 .detailBtn:hover {
   background-color: #fff;
   border-color: currentColor;

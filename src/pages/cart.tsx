@@ -19,7 +19,6 @@ export const getServerSideProps = withIronSessionSsr(
 
     if (!cart) {
       cart = [];
-      console.log('hoge');
     }
 
     if (user === undefined) {
@@ -54,6 +53,7 @@ export default function CartList({
   // ユーザーのidを取得予定
   const id = user.id;
 
+  console.log(user.userCarts);
   const { data, error } = useSWR(`/api/users/${id}`, fetcher);
   if (error) return <div>Failed to load</div>;
 
@@ -89,7 +89,7 @@ export default function CartList({
                     </p>
                     <p className={styles.cartPeriod}>レンタル期間</p>
                     <Link
-                      href={`http://localhost:3000/${item.id}`}
+                      href={`/ItemDetail?id=${item.id}`}
                       legacyBehavior
                     >
                       <a>詳細ページへ</a>
@@ -106,10 +106,18 @@ export default function CartList({
         );
       })}
       <div className={styles.btnWrapper}>
-        <p>{isLoggedIn ? '' : '※決済に進むにはログインが必要です'}</p>
-        <button className={styles.cartBtn}>
-          {isLoggedIn ? '決済へ進む' : 'ログインしてくだい'}
-        </button>
+        {isLoggedIn ? (
+          <Link href="/payment">
+            <button className={styles.cartBtn}>決済へ進む</button>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <p>※決済に進むにはログインが必要です</p>
+            <button className={styles.cartBtn}>
+              ログインしてください
+            </button>
+          </Link>
+        )}
       </div>
       <style jsx>
         {`

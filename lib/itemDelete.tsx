@@ -10,7 +10,6 @@ export default function DeleteBtn({
   id: number;
   itemId: number;
 }) {
-  const [addToCart, setAddtoCart] = useState(false);
   const handleDelte = async () => {
     if (id !== 0) {
       // ログイン後の場合
@@ -38,8 +37,6 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          // カートページの方にはない
-          setAddtoCart(!addToCart);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -58,7 +55,6 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          setAddtoCart(!addToCart);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -66,7 +62,7 @@ export default function DeleteBtn({
     }
   };
   return (
-    <div>
+    <div className={styles.cartBeforeBtnWrapper}>
       <button
         className={styles.cartBeforeBtn}
         onClick={() => handleDelte()}

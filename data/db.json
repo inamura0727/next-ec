@@ -90,6 +90,21 @@
         1,
         2
       ]
+    },
+    {
+      "id": 7,
+      "fesName": "SUMMER SONIC 2022 TOKYO",
+      "artist": "THE 1975",
+      "itemDetail": "イギリス出身のバンド。サマソニのヘッドライナーとして完璧なステージを披露。",
+      "itemImage": "/images/image01.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 150,
+      "sevenDaysPrice": 250,
+      "categories": [
+        3,
+        4
+      ]
     }
   ],
   "categories": [
@@ -152,9 +167,16 @@
       ],
       "userCarts": [
         {
+          "id": 7,
+          "itemName": "THE 1975SUMMER SONIC 2022 TOKYO",
+          "rentalPeriod": 2,
+          "price": 250,
+          "itemImage": "/images/image01.jpg"
+        },
+        {
           "id": 4,
           "itemName": "ポルカドットスティングレイJAPAN JAM2022",
-          "rentalPeriod": 2,
+          "rentalPeriod": 7,
           "price": 200,
           "itemImage": "/images/仮サムネ.jpg"
         }

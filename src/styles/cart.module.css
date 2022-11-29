@@ -51,9 +51,41 @@
   transition: 0.25s;
   border-radius: 50px;
 }
-.cartBtn:focus,
+
 .cartBtn:hover {
   background-color: #fff;
   border-color: currentColor;
   color: #e25c00;
+}
+.cartBeforeBtnWrapper {
+  text-align: right;
+}
+
+.cartBeforeBtn {
+  position: relative;
+  padding: 5px 10px 5px 30px;
+  cursor: pointer;
+}
+
+.cartBeforeBtn::before,
+.cartBeforeBtn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  width: 2px;
+  height: 16px;
+  background: #333;
+}
+
+.cartBeforeBtn::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.cartBeforeBtn::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.cartBody a {
+  text-decoration: underline;
 }

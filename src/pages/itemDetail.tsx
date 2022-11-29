@@ -15,9 +15,10 @@ export const getServerSideProps = withIronSessionSsr(
     const id = query.id;
     const data = await fetch(`http://localhost:3000/api/items/${id}`);
     const items = await data.json();
-    
+
     // ユーザー情報の取得
     const user = req.session.user;
+    console.log(user);
     if (user === undefined) {
       return {
         props: {
@@ -60,7 +61,6 @@ export default function ItemDetail({
       setPrice(item.sevenDaysPrice);
     }
   };
-  
 
   const handleAddtoCart = async (item: Item) => {
     // 　ラジオボタンの判定のチェック(多分できた)
@@ -128,7 +128,7 @@ export default function ItemDetail({
       const body = { cart: userCarts };
 
       // ログイン前　cookieに保存するために/api/cartに飛ばす
-      fetch(`/api/cart`, {
+      fetch(`/api/addCart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -210,6 +210,7 @@ export default function ItemDetail({
     item: Item
   ) => {
     e.preventDefault();
+    console.log(addToCart);
     addToCart ? handleDelte(item) : handleAddtoCart(item);
   };
 
@@ -266,7 +267,6 @@ export default function ItemDetail({
                     <button
                       type="submit"
                       className={styles.detailBtn}
-                      onClick={() => handleDelte(item)}
                     >
                       {addToCart ? 'カートから削除' : 'カートに追加'}
                     </button>
