@@ -37,3 +37,4 @@ next-env.d.ts
 
 # .history フォルダは要らない
 .history/
+
