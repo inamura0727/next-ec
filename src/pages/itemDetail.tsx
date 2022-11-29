@@ -6,7 +6,6 @@ import { User } from 'types/user';
 import { ironOptions } from '../../lib/ironOprion';
 import { withIronSessionSsr } from 'iron-session/next';
 import styles from 'styles/detail.module.css';
-import cart from './api/addCart';
 
 // ログイン後の場合、商品のデータ情報とユーザー情報の取得
 export const getServerSideProps = withIronSessionSsr(
@@ -63,7 +62,7 @@ export default function ItemDetail({
   };
 
   const handleAddtoCart = async (item: Item) => {
-    // 　ラジオボタンの判定のチェック(多分できた)
+    // 　ラジオボタンの判定のチェック
     if (price === 0 && period === 0) {
       setChecked(!checked);
       return;
@@ -74,7 +73,7 @@ export default function ItemDetail({
       setChecked(!checked);
     }
 
-    // カートに追加と削除の表示切り替え（多分できた？）
+    // カートに追加と削除の表示切り替え
     setAddtoCart(!addToCart);
 
     // ユーザーidの取得
@@ -90,7 +89,7 @@ export default function ItemDetail({
 
       let userCarts: UserCart = {
         id: item.id,
-        itemName: item.artist + item.fesName,
+        itemName: `${item.artist}${item.fesName}`,
         // アーティスト名とフェス名の間の空白どうやったら入る？？
         rentalPeriod: period,
         price: price,

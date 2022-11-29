@@ -38,7 +38,3 @@ next-env.d.ts
 # .history フォルダは要らない
 .history/
 
-
-# デモログイン
-/src/pages/api/login.ts
-/src/pages/index.tsx

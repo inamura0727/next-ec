@@ -1,6 +1,5 @@
 import { Item } from 'types/item';
 import { useState } from 'react';
-// import { UserCart } from 'types/user';
 import styles from 'styles/cart.module.css';
 
 export default function DeleteBtn({

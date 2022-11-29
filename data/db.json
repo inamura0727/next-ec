@@ -179,6 +179,13 @@
           "rentalPeriod": 7,
           "price": 200,
           "itemImage": "/images/仮サムネ.jpg"
+        },
+        {
+          "id": 4,
+          "itemName": "ポルカドットスティングレイJAPAN JAM2022",
+          "rentalPeriod": 2,
+          "price": 200,
+          "itemImage": "/images/仮サムネ.jpg"
         }
       ],
       "id": 1
