@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
 import { User } from 'types/user';
