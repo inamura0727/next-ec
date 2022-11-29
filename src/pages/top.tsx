@@ -1,8 +1,5 @@
 import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
 import {Item} from "types/item"
-import styles from "styles/top.module.css";
 import ItemList from "components/ItemList";
 
 export default function Top ({items}: {items: Array<Item>}) {
