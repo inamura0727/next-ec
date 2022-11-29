@@ -1,0 +1,155 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "fesName": "TokyoIdolFestival 2022",
+      "artist": "=LOVE",
+      "itemDetail": "「TIF」6年目で2日目トリ 貫禄の8曲パフォーマンス",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [1, 2]
+    },
+    {
+      "id": 2,
+      "fesName": "TokyoIdolFestival 2022",
+      "artist": "≠ME",
+      "itemDetail": "最新曲「す、好きじゃない！」を熱唱",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [1, 2]
+    },
+    {
+      "id": 3,
+      "fesName": "JAPAN JAM2022",
+      "artist": "sumika",
+      "itemDetail": "sumikaです",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [3, 4]
+    },
+    {
+      "id": 4,
+      "fesName": "JAPAN JAM2022",
+      "artist": "ポルカドットスティングレイ",
+      "itemDetail": "ポルカです",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [3, 2, 4]
+    },
+    {
+      "id": 5,
+      "fesName": "TokyoIdolFestival 2022",
+      "artist": "≒JOY",
+      "itemDetail": "ニアジョイです",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [1, 2]
+    },
+    {
+      "id": 6,
+      "fesName": "TokyoIdolFestival 2022",
+      "artist": "FRUITS ZIPPER",
+      "itemDetail": "FRUITS ZIPPERです",
+      "itemImage": "/images/仮サムネ.jpg",
+      "releaseDate": "2022-11-24",
+      "playTime": 60,
+      "twoDaysPrice": 100,
+      "sevenDaysPrice": 200,
+      "categories": [1, 2]
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "categoryName": "アイドル"
+    },
+    {
+      "id": 2,
+      "categoryName": "女性アーティスト"
+    },
+    {
+      "id": 3,
+      "categoryName": "バンド"
+    },
+    {
+      "id": 4,
+      "categoryName": "男性アーティスト"
+    }
+  ],
+  "users": [
+    {
+      "userName": "ユーザー",
+      "zipcode": "7310111",
+      "prefectures": "広島県",
+      "city": "広島市安佐南区",
+      "houseNumber": "東野",
+      "buildingName": "011",
+      "familyName": "田中",
+      "firstName": "涼",
+      "familyNameKana": "タナカ",
+      "firstNameKana": "リョウ",
+      "mailAddress": "safas@eref",
+      "password": "qwe123qwe@",
+      "retalHistorys": [
+        {
+          "id": 1,
+          "price": 500,
+          "itemImage": "public/images/仮サムネ.jpg",
+          "payDate": "2022-11-24",
+          "rentalStart": "2022-12-1",
+          "rentalEnd": "2022-12-8"
+        },
+        {
+          "id": 2,
+          "price": 200,
+          "itemImage": "public/images/仮サムネ.jpg",
+          "payDate": "2022-11-25",
+          "rentalStart": "2022-12-2",
+          "rentalEnd": "2022-12-9"
+        },
+        {
+          "id": 3,
+          "price": 400,
+          "itemImage": "public/images/仮サムネ.jpg",
+          "payDate": "2022-11-26",
+          "rentalStart": "2022-12-3",
+          "rentalEnd": "2022-12-10"
+        }
+      ],
+      "userCarts": [],
+      "id": 1
+    },
+    {
+      "userName": "ユ",
+      "zipcode": "6666",
+      "prefectures": "広島県",
+      "city": "広",
+      "houseNumber": "東",
+      "buildingName": "222",
+      "familyName": "田",
+      "firstName": "涼",
+      "familyNameKana": "タ",
+      "firstNameKana": "リョ",
+      "mailAddress": "saa",
+      "password": "qwe123qwe@",
+      "retalHistorys": [],
+      "userCarts": [],
+      "id": 3
+    }
+  ]
+}

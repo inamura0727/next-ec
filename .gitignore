@@ -37,6 +37,3 @@ next-env.d.ts
 
 # .history フォルダは要らない
 .history/
-
-#db.json 要らない
-/data/
