@@ -6,6 +6,8 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
+import DeleteBtn from '../../lib/itemDelete';
+import addCart from './api/addCart';
 
 const fetcher = (resource: string) =>
   fetch(resource).then((res) => res.json());
@@ -52,11 +54,6 @@ export default function CartList({
   // ユーザーのidを取得予定
   const id = user.id;
 
-  //問題発生URLによってカートページが表示されない問題(できたから保留。)
-  //下記の場合はログイン前の場合表示される
-  // const { data, error } = useSWR(`/api/users?id=${id}`, fetcher);
-
-  // 下記の場合、ログイン後の場合表示される
   const { data, error } = useSWR(`/api/users/${id}`, fetcher);
   if (error) return <div>Failed to load</div>;
 
@@ -70,57 +67,57 @@ export default function CartList({
   }
 
   // ログイン後の選択された商品の削除
-  const handleDelte = async (item: UserCart) => {
-    if (id !== 0) {
-      const req = await fetch(
-        `http://localhost:3000/api/users/${id}`
-      );
-      const data = await req.json();
-      const res = data.userCarts;
+  // const handleDelte = async (item: UserCart) => {
+  //   if (id !== 0) {
+  //     const req = await fetch(
+  //       `http://localhost:3000/api/users/${id}`
+  //     );
+  //     const data = await req.json();
+  //     const res = data.userCarts;
 
-      // console.log(`${res}`);
-      const fil = res.filter((cartItem: UserCart) => {
-        return cartItem.id !== item.id;
-      });
+  //     // console.log(`${res}`);
+  //     const fil = res.filter((cartItem: UserCart) => {
+  //       return cartItem.id !== item.id;
+  //     });
 
-      // console.log(fil);
-      const body = { userCarts: fil };
+  //     // console.log(fil);
+  //     const body = { userCarts: fil };
 
-      fetch(`http://localhost:3000/api/users/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log('Success', result);
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
-    } else {
-      // ログイン前の削除
+  //     fetch(`http://localhost:3000/api/users/${id}`, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(body),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((result) => {
+  //         console.log('Success', result);
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error', error);
+  //       });
+  //   } else {
+  //     // ログイン前の削除
 
-      const body = { id: item.id };
+  //     const body = { id: item.id };
 
-      fetch(`/api/itemDelete`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          console.log('Success', result);
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
-    }
-  };
+  //     fetch(`/api/itemDelete`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(body),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((result) => {
+  //         console.log('Success', result);
+  //       })
+  //       .catch((error) => {
+  //         console.log('Error', error);
+  //       });
+  //   }
+  // };
 
   return (
     <section className="cart">
@@ -156,14 +153,15 @@ export default function CartList({
                   <p className={styles.cartPrice}>￥{item.price}</p>
                 </div>
               </div>
-              <div className={styles.cartBeforeBtnWrapper}>
+              {/* <div className={styles.cartBeforeBtnWrapper}>
                 <button
                   className={styles.cartBeforeBtn}
-                  onClick={() => handleDelte(item)}
+                  onClick={() => handleDelte(id, item)}
                 >
                   削除
                 </button>
-              </div>
+              </div> */}
+              <DeleteBtn id={id} itemId={item.id} />
             </div>
           </div>
         );

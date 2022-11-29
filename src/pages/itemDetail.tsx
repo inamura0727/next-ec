@@ -18,7 +18,6 @@ export const getServerSideProps = withIronSessionSsr(
 
     // ユーザー情報の取得
     const user = req.session.user;
-    console.log(user);
     if (user === undefined) {
       return {
         props: {
@@ -74,14 +73,11 @@ export default function ItemDetail({
       setChecked(!checked);
     }
 
-    console.log(checked);
-
     // カートに追加と削除の表示切り替え（多分できた？）
     setAddtoCart(!addToCart);
 
     // ユーザーidの取得
     const id = user.id;
-    console.log(id);
 
     // ログイン後
     if (id !== 0) {
@@ -90,7 +86,6 @@ export default function ItemDetail({
       );
       const data = await req.json();
       const res = data.userCarts;
-      console.log(res);
 
       let userCarts: UserCart = {
         id: item.id,
@@ -152,6 +147,7 @@ export default function ItemDetail({
     }
   };
 
+  // 選択した商品をカートから削除
   const handleDelte = async (item: Item) => {
     const id = user.id;
     if (id !== 0) {
@@ -269,7 +265,7 @@ export default function ItemDetail({
                     <button
                       type="submit"
                       className={styles.detailBtn}
-                      // onClick={() => handleDelte(item)}
+                      onClick={() => handleDelte(item)}
                     >
                       {addToCart ? 'カートから削除' : 'カートに追加'}
                     </button>
