@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
 import { User } from 'types/user';
@@ -53,10 +53,15 @@ export default function ItemDetail({
   const [addToCart, setAddtoCart] = useState(false);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
-    setPeriod(num);
-    if (period === 2) {
+    chengeRentalPeriod(num);
+  };
+
+  const chengeRentalPeriod = (num: number) => {
+    if (num === 2) {
+      setPeriod(num);
       setPrice(item.twoDaysPrice);
     } else {
+      setPeriod(num);
       setPrice(item.sevenDaysPrice);
     }
   };
@@ -209,7 +214,6 @@ export default function ItemDetail({
     item: Item
   ) => {
     e.preventDefault();
-    console.log(addToCart);
     addToCart ? handleDelte(item) : handleAddtoCart(item);
   };
 

@@ -86,7 +86,9 @@ export default function CartList({
                     <p className={styles.cartTitle}>
                       {item.itemName}
                     </p>
-                    <p className={styles.cartPeriod}>レンタル期間</p>
+                    <p className={styles.cartPeriod}>
+                      レンタル期間 {item.rentalPeriod}泊
+                    </p>
                     <Link
                       href={`/ItemDetail?id=${item.id}`}
                       legacyBehavior
