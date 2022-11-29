@@ -3,6 +3,23 @@ import { useRouter } from 'next/router';
 import styles from 'styles/register.module.css';
 import Link from 'next/link';
 
+type Errors = {
+  userName: string;
+  zipcode: string;
+  prefectures: string;
+  city: string;
+  houseNumber: string;
+  buildingName: string;
+  familyName: string;
+  firstName: string;
+  familyNameKana: string;
+  firstNameKana: string;
+  phoneNumbe: string;
+  mailAddress: string;
+  password: string;
+  passwordTest: string;
+};
+
 export default function LoginScreen() {
   const initialValues = {
     userName: '',
@@ -37,17 +54,17 @@ export default function LoginScreen() {
     password: '',
     passwordTest: '',
   });
-  const retalHistorys: any = []; ///レンタル履歴
-  const userCarts: any = [];     //カートの中身
+  const retalHistorys: [] = []; ///レンタル履歴
+  const userCarts: [] = []; //カートの中身
   const router = useRouter(); //登録された情報を更新した状態でページを移動
 
   //住所を検索
   const submitAddress = async () => {
     ///住所API
     //住所情報のURLを作成
-    let api: any =
+    let api =
       'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
-     
+
     let url = api + formValues.zipcode;
     //住所情報を取得
     const response = await fetch(url, {
@@ -72,9 +89,11 @@ export default function LoginScreen() {
   };
 
   //会員登録ボタンを押した時
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     e.preventDefault();
-    const error: any = validate(formValues);
+    const error:Errors = validate(formValues);
     setFormErrors(error);
 
     if (
@@ -125,8 +144,23 @@ export default function LoginScreen() {
   };
 
   //入力情報エラー条件
-  const validate = (values: any) => {
-    const errors = {} as any;
+  const validate = (values:Errors) => {
+    const errors: Errors = {
+      userName: '',
+      zipcode: '',
+      prefectures: '',
+      city: '',
+      houseNumber: '',
+      buildingName: '',
+      familyName: '',
+      firstName: '',
+      familyNameKana: '',
+      firstNameKana: '',
+      phoneNumbe: '',
+      mailAddress: '',
+      password: '',
+      passwordTest: '',
+    };
     const regex =
       /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,16}$/;
 
@@ -165,8 +199,9 @@ export default function LoginScreen() {
     }
     if (!formValues.password) {
       errors.password = 'パスワードを入力してください';
-    }else if(!regex.test(formValues.password)){
-      errors.password = "※8文字以上16文字以内。大文字、小文字、数字、記号のうち3種類以上";
+    } else if (!regex.test(formValues.password)) {
+      errors.password =
+        '※8文字以上16文字以内。大文字、小文字、数字、記号のうち3種類以上';
     }
     if (!formValues.passwordTest) {
       errors.passwordTest = '確認用パスワードを入力してください';
