@@ -54,7 +54,7 @@ export default function LoginScreen() {
     password: '',
     passwordTest: '',
   });
-  const retalHistorys: [] = []; ///レンタル履歴
+  const rentalHistories: [] = []; ///レンタル履歴
   const userCarts: [] = []; //カートの中身
   const router = useRouter(); //登録された情報を更新した状態でページを移動
 
@@ -131,7 +131,7 @@ export default function LoginScreen() {
           firstNameKana: formValues.firstNameKana,
           mailAddress: formValues.mailAddress,
           password: formValues.password,
-          retalHistorys,
+          rentalHistories,
           userCarts,
         }),
         headers: {
