@@ -9,25 +9,26 @@ import Pagination from "components/Paging";
 import SearchForm from "components/SearchForm";
 import SortSelect from "components/SortSelect";
 
-// 1ページあたりの最大表示件数を指定
+// 1ページあたりの最大表示件数を指定(仮で2件にしています。)
 const PAGE_SIZE = 2;
 
-type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number}
+type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number, sort: string}
 
-export default function SearchIndex ({items, keyword, genre, page, totalCount}: Props) {
+export default function SearchIndex ({items, keyword, genre, page, totalCount, sort}: Props) {
     const router = useRouter();
     const onClick = (index: number) => {
         router.push({
             pathname: '/searchResult',
-            query: { keyword: keyword, genre: genre, page: index },
+            query: {categories_like: genre, q: keyword, page: index},
         });
     }
     const onSortChange = (value: string)=>{
         router.push({
             pathname: '/searchResult',
-            query: { keyword: keyword, genre: genre, sort: value },
+            query: { categories_like: genre, q: keyword, _sort: value},
         });
     }
+    console.log(items)
     return (
         <>
         <Head>
@@ -40,7 +41,7 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount}: 
             <>
             <div>条件に合う検索結果がありません。</div>
             </>
-        ): (
+        ) : (
             <section className={styles.itemList}>
                 {items.map((item)=>{
                     return(
@@ -67,71 +68,24 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount}: 
     )
 }
 
-
 export async function getServerSideProps ({query}: GetServerSidePropsContext) {
-    const keyword = query.keyword as string;
-    const genre = query.genre as string;
-    const page = query.page ? + query.page : 1
-    const sort = query.sort? query.sort : 'new';
-    const res = await fetch(`http://localhost:3000/api/items`)
+    const keyword = query.q;
+    const genre = query.categories_like as string;
+    const page = query.page ? +query.page : 1
+    const sort = query._sort? query._sort as string : 'id&_order=desc';
+    const res = await fetch(`http://localhost:3000/api/items?categories_like=${genre}&q=${keyword}&_sort=${sort}`)
     const items = await res.json()
-    const result = items.filter((item: Item)=>{
-        if (!keyword) {
-            for(let category of item.categories){
-                if(category === parseInt(genre)){
-                    return item
-                }
+        const count = items.length;
+        const startIndex = (page - 1) * PAGE_SIZE;
+        const paging = items.slice(startIndex, (startIndex + PAGE_SIZE));
+        return {
+            props: {
+                items: paging,
+                keyword: keyword,
+                genre: genre,
+                page: page,
+                totalCount: count ? count : 0,
+                sort: sort
             }
-        }
-        else if (!genre) {
-            if(item.artist.indexOf(keyword) > -1 ){
-                return item
-            } else if(item.fesName.indexOf(keyword) > -1 ){
-                return item
-            } else {
-                for(let word of item.keywords){
-                    if(word.indexOf(keyword) > -1){
-                        return item
-                    }
-            }
-            }
-        } else if (genre && keyword) {
-                for(let word of item.keywords){
-                    for(let category of item.categories){
-                    if(category === parseInt(genre) && item.artist.indexOf(keyword) > -1){
-                        return item
-                        } else if(category === parseInt(genre) && word.indexOf(keyword) > -1){
-                            return item
-                        } else if(category === parseInt(genre) &&  item.fesName.indexOf(keyword) > -1){
-                            return item
-                        }
-                    }
-                }
-            }
-    }).reverse();
-    const ordered = result.sort((a: Item, b: Item)=>{if(sort === 'new'){
-                                                        if(b.id - a.id) {return -1}
-                                                        if(a.id - b.id) {return 1}
-                                                        {return 0}}
-                                                    else if(sort === 'higher'){
-                                                        if(a.twoDaysPrice - b.twoDaysPrice) {return -1}
-                                                        if(b.twoDaysPrice - a.twoDaysPrice) {return 1}
-                                                        {return 0}}
-                                                    else if(sort === 'lower'){
-                                                        if(b.twoDaysPrice - a.twoDaysPrice){return -1}
-                                                        if(a.twoDaysPrice - b.twoDaysPrice) {return 1}
-                                                        {return 0}}
-                                                    })
-    const count = ordered.length;
-    const startIndex = (page - 1) * PAGE_SIZE;
-    const paging = ordered.slice(startIndex, (startIndex + PAGE_SIZE));
-    return {
-        props: {
-            items: paging,
-            keyword: keyword,
-            genre: genre,
-            page: page,
-            totalCount: count ? count : 0,
-        }
     }
 }

@@ -9,7 +9,7 @@ export default function SearchForm () {
         e.preventDefault();
         router.push({
             pathname: '/searchResult',
-            query: {keyword: data, genre: genre}
+            query: {categories_like: genre, q: data}
         })
     }
     return (

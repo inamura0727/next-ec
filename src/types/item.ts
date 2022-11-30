@@ -8,10 +8,11 @@ type Item = {
   // 形式: yyyy-MM-dd
   releaseDate: Date;
   // 単位：分
-  palyTime: number;
+  playTime: number;
   twoDaysPrice: number;
   sevenDaysPrice: number;
   categories: [id: number];
+  keywords: [keyword: string]
 };
 
 
