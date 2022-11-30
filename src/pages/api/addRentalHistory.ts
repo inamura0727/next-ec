@@ -23,7 +23,8 @@ async function getUserRoute(
     }
     cart.map((item) => {
       const addItem: RentalHistory = {
-        id: item.id,
+        id: rentalHistory.length,
+        itemId: item.id,
         price: item.price,
         itemImage: item.itemImage,
         rentalPeriod: item.rentalPeriod,
