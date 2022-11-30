@@ -12,6 +12,7 @@ type Item = {
   twoDaysPrice: number;
   sevenDaysPrice: number;
   categories: [id: number];
+  keywords: [keyword: string]
 };
 
 
