@@ -8,7 +8,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -92,12 +92,12 @@ export default function ItemDetail({ item }: { item: Item }) {
       const res = data.userCarts;
 
       let userCarts: UserCart = {
-        id: item.id,
+        id: res.length,
         itemName: `${item.artist}  ${item.fesName}`,
-        // アーティスト名とフェス名の間の空白どうやったら入る？？
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
+        itemId: item.id,
       };
 
       res.push(userCarts);
@@ -120,12 +120,18 @@ export default function ItemDetail({ item }: { item: Item }) {
         });
     } else {
       // ログイン前
+      let itemId;
+      if (data.userCarts === undefined) {
+        return (itemId = 1);
+      }
+
       let userCarts: UserCart = {
-        id: item.id,
+        id: data.userCarts.length + 1,
         itemName: `${item.artist}  ${item.fesName}`,
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
+        itemId: item.id,
       };
 
       const body = { cart: userCarts };

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, use, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
 import { User } from 'types/user';
@@ -51,6 +51,7 @@ export default function ItemDetail({
   const [period, setPeriod] = useState(0);
   const [checked, setChecked] = useState(false);
   const [addToCart, setAddtoCart] = useState(false);
+  const [count, setCount] = useState(0);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
     chengeRentalPeriod(num);
@@ -99,6 +100,7 @@ export default function ItemDetail({
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
+        itemId: count,
       };
 
       res.push(userCarts);
@@ -127,6 +129,7 @@ export default function ItemDetail({
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
+        itemId: count,
       };
 
       const body = { cart: userCarts };

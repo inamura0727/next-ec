@@ -4,8 +4,6 @@ import { ironOptions } from '../../../lib/ironOprion';
 export default withIronSessionApiRoute(async (req, res) => {
   const { id } = await req.body;
   const carts = req.session.cart;
-  console.log(id);
-  // console.log(carts);
 
   try {
     if (carts) {
@@ -15,7 +13,6 @@ export default withIronSessionApiRoute(async (req, res) => {
       req.session.cart = fil;
     }
     await req.session.save();
-    // console.log(req.session.cart);
   } catch {
     console.log('エラー');
   }

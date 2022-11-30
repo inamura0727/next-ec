@@ -1,13 +1,16 @@
 import { Item } from 'types/item';
 import { useState } from 'react';
 import styles from 'styles/cart.module.css';
+import { useSWRConfig } from 'swr';
 
 export default function DeleteBtn({
   id,
   itemId,
+  rebuild,
 }: {
   id: number | undefined;
   itemId: number;
+  rebuild: () => void;
 }) {
   const handleDelte = async () => {
     if (id !== undefined) {
@@ -36,6 +39,7 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          rebuild();
         })
         .catch((error) => {
           console.log('Error', error);
@@ -54,6 +58,7 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          rebuild();
         })
         .catch((error) => {
           console.log('Error', error);

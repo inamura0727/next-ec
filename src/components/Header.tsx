@@ -8,7 +8,10 @@ type headerProps = {
   dologout: () => void;
 };
 
-export default function Header({ isLoggedIn, dologout }: headerProps) {
+export default function Header({
+  isLoggedIn,
+  dologout,
+}: headerProps) {
   return (
     <header className={styles.header}>
       <div className={styles.info}>
@@ -38,7 +41,7 @@ export default function Header({ isLoggedIn, dologout }: headerProps) {
       <nav className={styles.nav}>
         <ul>
           <li>
-            <Link href="/top">トップページ</Link>
+            <Link href="/">トップページ</Link>
           </li>
           <li>
             <Link href="/search">検索</Link>

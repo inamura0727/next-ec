@@ -1,7 +1,7 @@
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { UserCart, RentalHistory } from '../../types/user';
+import { User, UserCart, RentalHistory } from '../../types/user';
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
@@ -20,7 +20,7 @@ async function getUserRoute(
     const result = await fetch(
       `http://localhost:3000/api/users/${req.session.user.id}`
     );
-    const userData = await result.json();
+    const userData: User = await result.json();
     const cart: UserCart[] = userData.userCarts;
     // ID昇順
     cart.sort((a, b) => {
@@ -29,11 +29,18 @@ async function getUserRoute(
     res.json({
       userId: req.session.user.id,
       userCarts: cart,
-      userRentalHistory: userData.rentalHistory,
+      userRentalHistory: userData.rentalHistories,
       isLoggedIn: true,
     });
   } else {
+    const sessionCart = req.session.cart;
+    if (!sessionCart) {
+      res.json({
+        isLoggedIn: false,
+      });
+    }
     res.json({
+      userCarts: sessionCart,
       isLoggedIn: false,
     });
   }

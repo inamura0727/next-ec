@@ -6,44 +6,44 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
-import DeleteBtn from '../../components/DeleteItem';
+import DeleteBtn from '../components/DeleteItem';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
 // const fetcher = (resource: string) =>
 //   fetch(resource).then((res) => res.json());
 
-export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req }) {
-    const user = req.session.user;
-    let cart = req.session.cart;
+// export const getServerSideProps = withIronSessionSsr(
+//   async function getServerSideProps({ req }) {
+//     const user = req.session.user;
+//     let cart = req.session.cart;
 
-    if (!cart) {
-      cart = [];
-    }
+//     if (!cart) {
+//       cart = [];
+//     }
 
-    if (user === undefined) {
-      return {
-        props: {
-          user: {
-            id: 0,
-            userName: 'ゲスト',
-            userCarts: cart,
-          },
-          isLoggedIn: false,
-        },
-      };
-    }
-    return {
-      props: {
-        user: req.session.user,
-        isLoggedIn: true,
-      },
-    };
-  },
-  ironOptions
-);
+//     if (user === undefined) {
+//       return {
+//         props: {
+//           user: {
+//             id: 0,
+//             userName: 'ゲスト',
+//             userCarts: cart,
+//           },
+//           isLoggedIn: false,
+//         },
+//       };
+//     }
+//     return {
+//       props: {
+//         user: req.session.user,
+//         isLoggedIn: true,
+//       },
+//     };
+//   },
+//   ironOptions
+// );
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -52,13 +52,19 @@ export default function CartList() {
   if (!data) return <div>Loading</div>;
   // ユーザーのidを取得予定
   const id = data.userId;
-
   // console.log(user.userCarts);
   // const { data, error } = useSWR(`/api/users/${id}`, fetcher);
   // if (error) return <div>Failed to load</div>;
 
   // if (!data) return <div>Loading</div>;
-let items = data.userCarts
+  let items = data.userCarts;
+
+  let sum = 0;
+  if (items !== undefined) {
+    items.map((item) => {
+      sum += item.price;
+    });
+  }
 
   return (
     <>
@@ -98,12 +104,19 @@ let items = data.userCarts
                     <p className={styles.cartPrice}>￥{item.price}</p>
                   </div>
                 </div>
-                <DeleteBtn id={id} itemId={item.id} />
+                <DeleteBtn
+                  id={id}
+                  itemId={item.id}
+                  rebuild={() => mutate('/api/getUser')}
+                />
               </div>
             </div>
           );
         })}
         <div className={styles.btnWrapper}>
+          <div>
+            <p>合計金額￥{sum}</p>
+          </div>
           {data.isLoggedIn ? (
             <Link href="/payment">
               <button className={styles.cartBtn}>決済へ進む</button>
