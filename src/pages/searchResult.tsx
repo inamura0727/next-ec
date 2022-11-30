@@ -5,12 +5,17 @@ import {Item} from "types/item"
 import styles from "styles/top.module.css";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
+import Header from '../../components/Header';
 import Pagination from "components/Paging";
 import SearchForm from "components/SearchForm";
 import SortSelect from "components/SortSelect";
+import UseSWR, { mutate } from 'swr';
+import { SessionUser } from '../pages/api/getUser';
 
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
 const PAGE_SIZE = 2;
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number}
 
@@ -28,11 +33,14 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount}: 
             query: { categories_like: genre, q: keyword, _sort: value},
         });
     }
+    const { data } = UseSWR<SessionUser>('/api/getUser',fetcher);
+    if(!data) return <div>Loading</div>
     return (
         <>
         <Head>
             <title>検索結果</title>
         </Head>
+        <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')}/>
         <SearchForm />
         <div>検索結果：{totalCount}件</div>
         <SortSelect onSortChange={onSortChange} />
