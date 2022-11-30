@@ -5,7 +5,7 @@ export default function SearchForm () {
     const [data, setData] = useState('');
     const [genre, setGenre] = useState('');
     const router = useRouter()
-    function search (e: any){
+    function search (e: { preventDefault: () => void; }){
         e.preventDefault();
         router.push({
             pathname: '/searchResult',

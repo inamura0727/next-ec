@@ -1,5 +1,5 @@
 
-export default function SortSelect ({onSortChange}: any) {
+export default function SortSelect ({onSortChange}: {onSortChange: (value: string)=>void}) {
     const sortChange = (value: string) => {
         onSortChange(value);
     }
