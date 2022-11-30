@@ -11,39 +11,6 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
 
-// const fetcher = (resource: string) =>
-//   fetch(resource).then((res) => res.json());
-
-// export const getServerSideProps = withIronSessionSsr(
-//   async function getServerSideProps({ req }) {
-//     const user = req.session.user;
-//     let cart = req.session.cart;
-
-//     if (!cart) {
-//       cart = [];
-//     }
-
-//     if (user === undefined) {
-//       return {
-//         props: {
-//           user: {
-//             id: 0,
-//             userName: 'ゲスト',
-//             userCarts: cart,
-//           },
-//           isLoggedIn: false,
-//         },
-//       };
-//     }
-//     return {
-//       props: {
-//         user: req.session.user,
-//         isLoggedIn: true,
-//       },
-//     };
-//   },
-//   ironOptions
-// );
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -52,11 +19,7 @@ export default function CartList() {
   if (!data) return <div>Loading</div>;
   // ユーザーのidを取得予定
   const id = data.userId;
-  // console.log(user.userCarts);
-  // const { data, error } = useSWR(`/api/users/${id}`, fetcher);
-  // if (error) return <div>Failed to load</div>;
-
-  // if (!data) return <div>Loading</div>;
+  
   let items = data.userCarts;
 
   let sum = 0;

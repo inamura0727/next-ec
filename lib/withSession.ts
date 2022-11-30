@@ -10,6 +10,7 @@ declare module 'iron-session' {
 
     cart?: {
       id: number;
+      itemId: number;
       itemName: string;
       rentalPeriod: number;
       price: number;

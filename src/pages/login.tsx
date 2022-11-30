@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>登録完了</title>
+        <title>ログイン</title>
       </Head>
       <main className={styles.itemList}>
         <div>
@@ -70,7 +70,7 @@ export default function Home() {
             <p>{errorMessage}</p>
             <button type="submit">ログイン</button>
           </form>
-          <Link href={`/top`}>トップページへ</Link>
+          <Link href={`/`}>トップページへ</Link>
         </div>
       </main>
     </>
