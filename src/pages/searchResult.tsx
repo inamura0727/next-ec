@@ -12,9 +12,9 @@ import SortSelect from "components/SortSelect";
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
 const PAGE_SIZE = 2;
 
-type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number, sort: string}
+type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number}
 
-export default function SearchIndex ({items, keyword, genre, page, totalCount, sort}: Props) {
+export default function SearchIndex ({items, keyword, genre, page, totalCount}: Props) {
     const router = useRouter();
     const onClick = (index: number) => {
         router.push({
@@ -28,7 +28,6 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount, s
             query: { categories_like: genre, q: keyword, _sort: value},
         });
     }
-    console.log(items)
     return (
         <>
         <Head>
@@ -70,9 +69,9 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount, s
 
 export async function getServerSideProps ({query}: GetServerSidePropsContext) {
     const keyword = query.q;
-    const genre = query.categories_like as string;
+    const genre = query.categories_like;
     const page = query.page ? +query.page : 1
-    const sort = query._sort? query._sort as string : 'id&_order=desc';
+    const sort = query._sort? query._sort : 'id&_order=desc';
     const res = await fetch(`http://localhost:3000/api/items?categories_like=${genre}&q=${keyword}&_sort=${sort}`)
     const items = await res.json()
         const count = items.length;
@@ -85,7 +84,6 @@ export async function getServerSideProps ({query}: GetServerSidePropsContext) {
                 genre: genre,
                 page: page,
                 totalCount: count ? count : 0,
-                sort: sort
             }
     }
 }
