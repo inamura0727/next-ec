@@ -21,6 +21,7 @@ type User = {
 // レンタル履歴
 type RentalHistory = {
   id: number;
+  itemId: number;
   price: number;
   itemImage: string;
   // 単位：日
@@ -36,6 +37,7 @@ type RentalHistory = {
 // カート情報
 type UserCart = {
   id: number;
+  itemId: number;
   itemName: string;
   // 単位：日
   rentalPeriod: number;
