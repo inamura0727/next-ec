@@ -6,11 +6,11 @@ export default function DeleteBtn({
   id,
   itemId,
 }: {
-  id: number;
+  id: number | undefined;
   itemId: number;
 }) {
   const handleDelte = async () => {
-    if (id !== 0) {
+    if (id !== undefined) {
       // ログイン後の場合
       const req = await fetch(
         `http://localhost:3000/api/users/${id}`

@@ -18,6 +18,7 @@ export default withIronSessionApiRoute(async (req, res) => {
   }
   // res.status(200).end();
   res.json({
+    cart: cart,
     message: '追加できました',
   });
 }, ironOptions);
