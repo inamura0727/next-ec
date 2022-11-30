@@ -229,6 +229,29 @@
           "itemImage": "/images/仮サムネ.jpg"
         }
       ],
+      "userCarts": [
+        {
+          "id": 7,
+          "itemName": "THE 1975SUMMER SONIC 2022 TOKYO",
+          "rentalPeriod": 2,
+          "price": 250,
+          "itemImage": "/images/image01.jpg"
+        },
+        {
+          "id": 4,
+          "itemName": "ポルカドットスティングレイJAPAN JAM2022",
+          "rentalPeriod": 7,
+          "price": 200,
+          "itemImage": "/images/仮サムネ.jpg"
+        },
+        {
+          "id": 4,
+          "itemName": "ポルカドットスティングレイJAPAN JAM2022",
+          "rentalPeriod": 2,
+          "price": 200,
+          "itemImage": "/images/仮サムネ.jpg"
+        }
+      ],
       "id": 1
     },
     {
