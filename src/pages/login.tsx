@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from 'styles/login.module.css';
-import withIronSessionApiRoute from '../pages/api/login'
+import withIronSessionApiRoute from '../pages/api/login';
 
 export default function Home() {
   const [mailAddress, setMailAddress] = useState(''); //名前の情報を更新して保存
@@ -27,9 +27,9 @@ export default function Home() {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then((res) => {
-      if(res.status === 200){
-        router.push('/top');
-      }else{
+      if (res.status === 200) {
+        router.push('/');
+      } else {
         setErrorMessage('ログイン情報が異なります');
       }
     });
@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>登録完了</title>
+        <title>ログイン</title>
       </Head>
       <main className={styles.itemList}>
         <div>
@@ -70,7 +70,7 @@ export default function Home() {
             <p>{errorMessage}</p>
             <button type="submit">ログイン</button>
           </form>
-          <Link href={`/top`}>トップページへ</Link>
+          <Link href={`/`}>トップページへ</Link>
         </div>
       </main>
     </>
