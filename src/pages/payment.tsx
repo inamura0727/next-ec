@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from '../styles/payment.module.css';
 import Head from 'next/head';
 import { loadStripe } from '@stripe/stripe-js';
-import Header from '../../components/Header';
+import Header from '../components/Header';
 import { SessionUser } from 'pages/api/getUser';
 import { useRouter } from 'next/router';
 import { useState } from 'react';

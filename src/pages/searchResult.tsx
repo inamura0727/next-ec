@@ -5,7 +5,7 @@ import {Item} from "types/item"
 import styles from "styles/top.module.css";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import Header from '../../components/Header';
+import Header from '../components/Header';
 import Pagination from "components/Paging";
 import SearchForm from "components/SearchForm";
 import SortSelect from "components/SortSelect";

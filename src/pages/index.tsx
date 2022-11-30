@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Item } from 'types/item';
-import Header from '../../components/Header';
+import Header from '../components/Header';
 import ItemList from "components/ItemList";
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
