@@ -5,13 +5,6 @@ import { User, UserCart, RentalHistory } from '../../types/user';
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
-export type SessionUser = {
-  userId?: number;
-  userCarts?: UserCart[];
-  userRentalHistory?: RentalHistory[];
-  isLoggedIn: boolean;
-};
-
 async function getUserRoute(
   req: NextApiRequest,
   res: NextApiResponse
@@ -22,7 +15,7 @@ async function getUserRoute(
     );
     const userData: User = await result.json();
     let cart: UserCart[] = userData.userCarts;
-    let rentalHistory: RentalHistory[] = userData.rentalHistorys;
+    let rentalHistory: RentalHistory[] = userData.rentalHistories;
     const time = new Date();
 
     if (!cart) {
@@ -46,7 +39,7 @@ async function getUserRoute(
     // カートを空にする
     cart = [];
     // データベースを更新する
-    const data = { userCarts: cart, rentalHistorys: rentalHistory };
+    const data = { userCarts: cart, rentalHistories: rentalHistory };
     await fetch(
       `http://localhost:3000/api/users/${req.session.user.id}`,
       {

@@ -26,7 +26,7 @@ export default async function handler(
         cancel_url: `${req.headers.origin}/payment`,
       });
       res.redirect(303, session.url);
-    } catch (err: any) {
+    } catch (err) {
       res.redirect(`${req.headers.origin}/payment?error=true`);
     }
   } else {

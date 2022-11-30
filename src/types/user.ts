@@ -14,7 +14,7 @@ type User = {
   phoneNumber: string;
   mailAddress: string;
   password: string;
-  rentalHistorys: RentalHistory[];
+  rentalHistories: RentalHistory[];
   userCarts: UserCart[];
 };
 
