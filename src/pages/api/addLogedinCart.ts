@@ -9,12 +9,18 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
     if(req.session.user){
         const response = await fetch(`http://localhost:3000/api/users/${req.session.user.id}`);
         const userData: User = await response.json();
-        let cart: UserCart[] = userData.userCarts;
+        const userCart: UserCart[] = userData.userCarts;
         if(req.session.cart){
-            const sessionCart = req.session.cart;
-            cart.push(...sessionCart);
+            // userのカートにsessionのカートをマージ
+            let sessionCart = req.session.cart;
+            console.log(sessionCart)
+            userCart.push(...sessionCart);
+            // sessionのカートを空にする
+            sessionCart = []
+            console.log(sessionCart)
+            console.log(userCart)
         }
-        const data = { userCarts: cart};
+        const data = { userCarts: userCart};
         await fetch(
         `http://localhost:3000/api/users/${req.session.user.id}`,
         {
