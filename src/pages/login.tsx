@@ -28,7 +28,7 @@ export default function Home() {
       },
     }).then((res) => {
       if (res.status === 200) {
-        router.push('/');
+        router.push('/api/addLogedinCart')
       } else {
         setErrorMessage('ログイン情報が異なります');
       }
