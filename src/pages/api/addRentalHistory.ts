@@ -21,19 +21,20 @@ async function getUserRoute(
     if (!cart) {
       return false;
     }
+    // レンタル履歴がundefiedの場合は配列を新規作成
+    if (!rentalHistory) {
+      rentalHistory = [];
+    }
     cart.map((item) => {
       const addItem: RentalHistory = {
-        id: rentalHistory.length,
+        id: rentalHistory.length + 1,
         itemId: item.id,
+        itemName: item.itemName,
         price: item.price,
         itemImage: item.itemImage,
         rentalPeriod: item.rentalPeriod,
         payDate: time,
       };
-      // レンタル履歴がundefiedの場合は配列を新規作成
-      if (!rentalHistory) {
-        rentalHistory = [addItem];
-      }
       // レンタル履歴に追加
       rentalHistory.push(addItem);
     });
