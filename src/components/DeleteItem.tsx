@@ -28,6 +28,7 @@ export default function DeleteBtn({
 
       console.log(fil);
       const body = { userCarts: fil };
+      
 
       fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'PATCH',

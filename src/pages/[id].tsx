@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -47,6 +47,32 @@ export default function ItemDetail({ item }: { item: Item }) {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data) return <div>Loading</div>;
 
+  let carts = data.userCarts;
+
+  // if (!carts) {
+  //   setIsAdd(false);
+  // } else {
+  //   const check = carts.filter((cart) => {
+  //     return cart.itemId === item.id;
+  //   });
+  //   if (check.length) {
+  //     setIsAdd(true);
+  //   }
+  // }
+
+  let cartflg = false;
+  if (carts) {
+    // 商品が既に追加されている場合に同じitemIdがないか確かめる
+    const check = carts.filter((cart) => {
+      return cart.itemId === item.id;
+    });
+    if (check.length) {
+      console.log(`check:${check}`);
+      cartflg = true;
+      mutate('/api/getUser');
+    }
+  }
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
     chengeRentalPeriod(num);
@@ -65,32 +91,9 @@ export default function ItemDetail({ item }: { item: Item }) {
 
   const handleisAdd = async (item: Item) => {
     // 　ラジオボタンの判定のチェック
-    if (price === 0 && period === 0) {
+    if (price === 0 || period === 0) {
       setIsChoiced(true);
       return;
-    }
-
-    // 「カートから削除」が表示されている場合
-    // if (isChoiced) {
-    //   setIsChoiced(!isChoiced);
-    // }
-
-    // カートに追加と削除の表示切り替え
-    // setIsAdd(!isAdd);
-
-    // 何も商品が追加されていない場合
-    let carts = data.userCarts;
-    console.log(carts)
-    if (!carts) {
-      setIsAdd(false);
-    } else {
-      // 商品が既に追加されている場合に同じitemIdがないか確かめる
-      const check = carts.filter((cart) => {
-        return cart.itemId === item.id;
-      });
-      if (check) {
-        setIsAdd(true);
-      }
     }
 
     // ユーザーidの取得
@@ -130,7 +133,8 @@ export default function ItemDetail({ item }: { item: Item }) {
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
-          console.log(isAdd);
+          cartflg = true;
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -170,7 +174,8 @@ export default function ItemDetail({ item }: { item: Item }) {
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
-          console.log(isAdd);
+          cartflg = true;
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -191,7 +196,7 @@ export default function ItemDetail({ item }: { item: Item }) {
 
       console.log(`${res}`);
       const fil = res.filter((cartItem: UserCart) => {
-        return cartItem.id !== item.id;
+        return cartItem.itemId !== item.id;
       });
 
       console.log(fil);
@@ -207,7 +212,8 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          // setIsAdd(!isAdd);
+          console.log('削除きた');
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -226,7 +232,8 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          // setIsAdd(!isAdd);
+          cartflg = true;
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -240,7 +247,7 @@ export default function ItemDetail({ item }: { item: Item }) {
   ) => {
     e.preventDefault();
     console.log(data.userId);
-    isAdd ? handleDelte(item) : handleisAdd(item);
+    cartflg ? handleDelte(item) : handleisAdd(item);
   };
 
   return (
@@ -270,44 +277,57 @@ export default function ItemDetail({ item }: { item: Item }) {
                     <p>{item.fesName}</p>
                     <p>{item.playTime}分</p>
                   </div>
-                  <div className={styles.detailRadioWrapper}>
-                    <p className={styles.detailLerge}>
-                      【レンタル期間】
-                    </p>
-                    <label htmlFor="palyTime">
-                      <input
-                        type="radio"
-                        name="palyTime"
-                        value={2}
-                        onChange={(e) => handleChange(e)}
-                      />
-                      48時間&nbsp;¥{item.twoDaysPrice}円
-                    </label>
-                    <br />
-                    <label htmlFor="palyTime">
-                      <input
-                        type="radio"
-                        name="palyTime"
-                        value={7}
-                        onChange={(e) => handleChange(e)}
-                      />
-                      7泊&nbsp;¥{item.sevenDaysPrice}円
-                    </label>
-                    <br />
-                    <p className={styles.cartAlert}>
-                      {isChoiced
-                        ? 'レンタル期間を選択してください'
-                        : ''}
-                    </p>
-                    <div className={styles.detailBtnWrapper}>
-                      <button
-                        type="submit"
-                        className={styles.detailBtn}
-                      >
-                        {isAdd ? 'カートから削除' : 'カートに追加'}
-                      </button>
+                  {cartflg ? (
+                    <div className={styles.detailRadioWrapper}>
+                      <div className={styles.detailBtnWrapper}>
+                        <button
+                          type="submit"
+                          className={styles.detailBtn}
+                        >
+                          カートから削除
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className={styles.detailRadioWrapper}>
+                      <p className={styles.detailLerge}>
+                        【レンタル期間】
+                      </p>
+                      <label htmlFor="palyTime">
+                        <input
+                          type="radio"
+                          name="palyTime"
+                          value={2}
+                          onChange={(e) => handleChange(e)}
+                        />
+                        48時間&nbsp;¥{item.twoDaysPrice}円
+                      </label>
+                      <br />
+                      <label htmlFor="palyTime">
+                        <input
+                          type="radio"
+                          name="palyTime"
+                          value={7}
+                          onChange={(e) => handleChange(e)}
+                        />
+                        7泊&nbsp;¥{item.sevenDaysPrice}円
+                      </label>
+                      <br />
+                      <p className={styles.cartAlert}>
+                        {isChoiced
+                          ? 'レンタル期間を選択してください'
+                          : ''}
+                      </p>
+                      <div className={styles.detailBtnWrapper}>
+                        <button
+                          type="submit"
+                          className={styles.detailBtn}
+                        >
+                          カートに追加
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
