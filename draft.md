@@ -1,8 +1,3 @@
-同じ商品を何個も追加できるんだったら、詳細ページの「カートに追加」「カートから削除」の切り替え要らなくない？？
-代替案
-商品がすでに入っている場合は、カートから削除ボタンを表示するようにする？
-（何泊のものが入っているかまでわからないと、意味はないかも。。。）
-
 ```
     {
       "id": 5,
@@ -215,60 +210,4 @@
         2,3,4,5
       ]
     }
-
-
-
-```
-
-
-```
-
-                    <p className={styles.detailLerge}>
-                      【レンタル期間】
-                    </p>
-                    <label htmlFor="palyTime">
-                      <input
-                        type="radio"
-                        name="palyTime"
-                        value={2}
-                        onChange={(e) => handleChange(e)}
-                      />
-                      48時間&nbsp;¥{item.twoDaysPrice}円
-                    </label>
-                    <br />
-                    <label htmlFor="palyTime">
-                      <input
-                        type="radio"
-                        name="palyTime"
-                        value={7}
-                        onChange={(e) => handleChange(e)}
-                      />
-                      7泊&nbsp;¥{item.sevenDaysPrice}円
-                    </label>
-                    <br />
-                    <p className={styles.cartAlert}>
-                      {isChoiced
-                        ? 'レンタル期間を選択してください'
-                        : ''}
-                    </p>
-                    <div className={styles.detailBtnWrapper}>
-                      <button
-                        type="submit"
-                        className={styles.detailBtn}
-                      >
-                      カートに追加
-                      </button>
-                    </div>
-
-```
-
-```
-                    <div className={styles.detailBtnWrapper}>
-                      <button
-                        type="submit"
-                        className={styles.detailBtn}
-                      >
-                        カートから削除
-                      </button>
-                    </div>
 ```
