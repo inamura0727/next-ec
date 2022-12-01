@@ -17,14 +17,14 @@ const PAGE_SIZE = 2;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number}
+type Props = {items: Array<Item>, keyword: string, genre: string, page: number, totalCount: number, sort: string}
 
-export default function SearchIndex ({items, keyword, genre, page, totalCount}: Props) {
+export default function SearchIndex ({items, keyword, genre, page, totalCount, sort}: Props) {
     const router = useRouter();
     const onClick = (index: number) => {
         router.push({
             pathname: '/searchResult',
-            query: {categories_like: genre, q: keyword, page: index},
+            query: {categories_like: genre, q: keyword, page: index, _sort: sort},
         });
     }
     const onSortChange = (value: string)=>{
@@ -92,6 +92,7 @@ export async function getServerSideProps ({query}: GetServerSidePropsContext) {
                 genre: genre,
                 page: page,
                 totalCount: count ? count : 0,
+                sort: sort
             }
     }
 }
