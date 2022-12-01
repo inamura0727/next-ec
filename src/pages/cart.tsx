@@ -1,16 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import useSWR, { useSWRConfig } from 'swr';
 import { UserCart } from 'types/user';
-import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '../../lib/ironOprion';
-import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
 import DeleteBtn from '../components/DeleteItem';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
-
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -19,9 +14,12 @@ export default function CartList() {
   if (!data) return <div>Loading</div>;
   // ユーザーのidを取得予定
   const id = data.userId;
-  
+  // ユーザーのカート情報を取得
   let items = data.userCarts;
 
+  console.log(items)
+
+  // 合計金額の表示
   let sum = 0;
   if (items !== undefined) {
     items.map((item) => {
@@ -58,12 +56,13 @@ export default function CartList() {
                       <p className={styles.cartPeriod}>
                         レンタル期間 {item.rentalPeriod}泊
                       </p>
-                      <Link href={`/${item.id}`} legacyBehavior>
+                      <Link href={`/${item.itemId}`} legacyBehavior>
                         <a>詳細ページへ</a>
                       </Link>
                     </div>
                   </div>
                   <div className={styles.cartPriceWrapper}>
+                    <p>価格</p>
                     <p className={styles.cartPrice}>￥{item.price}</p>
                   </div>
                 </div>

@@ -2,9 +2,6 @@ import Image from 'next/image';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart } from 'types/user';
-import { User } from 'types/user';
-import { ironOptions } from '../../lib/ironOprion';
-import { withIronSessionSsr } from 'iron-session/next';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
@@ -44,8 +41,8 @@ export async function getStaticProps({ params }: { params: any }) {
 export default function ItemDetail({ item }: { item: Item }) {
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
-  const [checked, setChecked] = useState(false);
-  const [addToCart, setAddtoCart] = useState(false);
+  const [isChoiced, setIsChoiced] = useState(false);
+  const [isAdd, setIsAdd] = useState(false);
 
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data) return <div>Loading</div>;
@@ -55,6 +52,7 @@ export default function ItemDetail({ item }: { item: Item }) {
     chengeRentalPeriod(num);
   };
 
+  // レンタル期間と価格の切り替え
   const chengeRentalPeriod = (num: number) => {
     if (num === 2) {
       setPeriod(num);
@@ -65,20 +63,34 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   };
 
-  const handleAddtoCart = async (item: Item) => {
+  const handleisAdd = async (item: Item) => {
     // 　ラジオボタンの判定のチェック
     if (price === 0 && period === 0) {
-      setChecked(!checked);
+      setIsChoiced(true);
       return;
     }
 
     // 「カートから削除」が表示されている場合
-    if (checked) {
-      setChecked(!checked);
-    }
+    // if (isChoiced) {
+    //   setIsChoiced(!isChoiced);
+    // }
 
     // カートに追加と削除の表示切り替え
-    setAddtoCart(!addToCart);
+    // setIsAdd(!isAdd);
+
+    // 何も商品が追加されていない場合
+    let carts = data.userCarts;
+    if (!carts) {
+      setIsAdd(false);
+    } else {
+      // 商品が既に追加されている場合に同じitemIdがないか確かめる
+      const check = carts.filter((cart) => {
+        cart.itemId === item.id;
+      });
+      if (check) {
+        setIsAdd(true);
+      }
+    }
 
     // ユーザーidの取得
     const id = data.userId;
@@ -114,19 +126,26 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          if (isChoiced === true) {
+            setIsChoiced(!isChoiced);
+          }
+          console.log(isAdd);
         })
         .catch((error) => {
           console.log('Error', error);
         });
     } else {
       // ログイン前
-      let itemId;
-      if (data.userCarts === undefined) {
-        return (itemId = 1);
+
+      let cartId;
+      if (!data.userCarts) {
+        return (cartId = 1);
+      } else {
+        cartId = data.userCarts.length;
       }
 
       let userCarts: UserCart = {
-        id: data.userCarts.length + 1,
+        id: cartId,
         itemName: `${item.artist}  ${item.fesName}`,
         rentalPeriod: period,
         price: price,
@@ -136,7 +155,7 @@ export default function ItemDetail({ item }: { item: Item }) {
 
       const body = { cart: userCarts };
 
-      // ログイン前　cookieに保存するために/api/cartに飛ばす
+      // cookieに保存するために/api/cartに飛ばす
       fetch(`/api/addCart`, {
         method: 'POST',
         headers: {
@@ -147,9 +166,10 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          if (checked === true) {
-            setChecked(!checked);
+          if (isChoiced === true) {
+            setIsChoiced(!isChoiced);
           }
+          console.log(isAdd);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -186,8 +206,7 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          setAddtoCart(!addToCart);
-          console.log(addToCart);
+          // setIsAdd(!isAdd);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -206,7 +225,7 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          setAddtoCart(!addToCart);
+          // setIsAdd(!isAdd);
         })
         .catch((error) => {
           console.log('Error', error);
@@ -220,7 +239,7 @@ export default function ItemDetail({ item }: { item: Item }) {
   ) => {
     e.preventDefault();
     console.log(data.userId);
-    addToCart ? handleDelte(item) : handleAddtoCart(item);
+    isAdd ? handleDelte(item) : handleisAdd(item);
   };
 
   return (
@@ -275,7 +294,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                     </label>
                     <br />
                     <p className={styles.cartAlert}>
-                      {checked
+                      {isChoiced
                         ? 'レンタル期間を選択してください'
                         : ''}
                     </p>
@@ -284,9 +303,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                         type="submit"
                         className={styles.detailBtn}
                       >
-                        {addToCart
-                          ? 'カートから削除'
-                          : 'カートに追加'}
+                        {isAdd ? 'カートから削除' : 'カートに追加'}
                       </button>
                     </div>
                   </div>
