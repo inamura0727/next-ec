@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from 'styles/login.module.css';
-import withIronSessionApiRoute from '../pages/api/login';
 
 export default function Home() {
   const [mailAddress, setMailAddress] = useState(''); //名前の情報を更新して保存
@@ -49,7 +48,7 @@ export default function Home() {
               <li>
                 <label>メースアドレス</label>
                 <input
-                  type="text"
+                  type="email"
                   name="mailAddress"
                   id="mailAddress"
                   value={mailAddress}
@@ -59,7 +58,7 @@ export default function Home() {
               <li>
                 <label>パスワード</label>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   id="password"
                   value={password}
