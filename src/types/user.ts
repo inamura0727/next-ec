@@ -22,6 +22,7 @@ type User = {
 type RentalHistory = {
   id: number;
   itemId: number;
+  itemName: string;
   price: number;
   itemImage: string;
   // 単位：日
