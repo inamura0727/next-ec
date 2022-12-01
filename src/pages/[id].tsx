@@ -67,7 +67,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       return cart.itemId === item.id;
     });
     if (check.length) {
-      console.log(`check:${check}`);
       cartflg = true;
       mutate('/api/getUser');
     }
@@ -144,10 +143,11 @@ export default function ItemDetail({ item }: { item: Item }) {
 
       let cartId;
       if (!data.userCarts) {
-        return (cartId = 1);
+        cartId = 1;
       } else {
         cartId = data.userCarts.length;
       }
+      console.log('elseきた');
 
       let userCarts: UserCart = {
         id: cartId,
@@ -194,12 +194,10 @@ export default function ItemDetail({ item }: { item: Item }) {
       const data = await req.json();
       const res = data.userCarts;
 
-      console.log(`${res}`);
       const fil = res.filter((cartItem: UserCart) => {
         return cartItem.itemId !== item.id;
       });
 
-      console.log(fil);
       const body = { userCarts: fil };
 
       fetch(`http://localhost:3000/api/users/${id}`, {
@@ -212,7 +210,8 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          console.log('削除きた');
+          // console.log('削除きた');
+          cartflg = false;
           mutate('/api/getUser');
         })
         .catch((error) => {
@@ -220,7 +219,7 @@ export default function ItemDetail({ item }: { item: Item }) {
         });
     } else {
       // ログイン前の場合
-      const body = { id: item.id };
+      const body = { id: item.id, detail: true };
 
       fetch(`/api/itemDelete`, {
         method: 'POST',
@@ -232,7 +231,7 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          cartflg = true;
+          cartflg = false;
           mutate('/api/getUser');
         })
         .catch((error) => {

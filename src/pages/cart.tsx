@@ -68,7 +68,7 @@ export default function CartList() {
                 </div>
                 <DeleteBtn
                   id={id}
-                  itemId={item.id}
+                  cartId={item.id}
                   rebuild={() => mutate('/api/getUser')}
                 />
               </div>

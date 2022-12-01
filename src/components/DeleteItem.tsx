@@ -5,11 +5,11 @@ import { useSWRConfig } from 'swr';
 
 export default function DeleteBtn({
   id,
-  itemId,
+  cartId,
   rebuild,
 }: {
   id: number | undefined;
-  itemId: number;
+  cartId: number;
   rebuild: () => void;
 }) {
   const handleDelte = async () => {
@@ -23,12 +23,11 @@ export default function DeleteBtn({
 
       console.log(`${res}`);
       const fil = res.filter((cartItem: Item) => {
-        return cartItem.id !== itemId;
+        return cartItem.id !== cartId;
       });
 
       console.log(fil);
       const body = { userCarts: fil };
-      
 
       fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'PATCH',
@@ -47,7 +46,7 @@ export default function DeleteBtn({
         });
     } else {
       // ログイン前の場合
-      const body = { id: itemId };
+      const body = { id: cartId };
 
       fetch(`/api/itemDelete`, {
         method: 'POST',

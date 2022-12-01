@@ -4,7 +4,6 @@ import { ironOptions } from '../../../lib/ironOprion';
 export default withIronSessionApiRoute(async (req, res) => {
   const { cart } = await req.body;
   const carts = req.session.cart;
-  console.log(carts);
   try {
     if (carts) {
       carts?.push(cart);
