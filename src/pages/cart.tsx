@@ -17,8 +17,6 @@ export default function CartList() {
   // ユーザーのカート情報を取得
   let items = data.userCarts;
 
-  console.log(items)
-
   // 合計金額の表示
   let sum = 0;
   if (items !== undefined) {

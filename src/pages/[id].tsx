@@ -88,7 +88,8 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   };
 
-  const handleisAdd = async (item: Item) => {
+  // 選択した商品をカートに追加
+  const handleAddItem = async (item: Item) => {
     // 　ラジオボタンの判定のチェック
     if (price === 0 || period === 0) {
       setIsChoiced(true);
@@ -210,7 +211,6 @@ export default function ItemDetail({ item }: { item: Item }) {
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
-          // console.log('削除きた');
           cartflg = false;
           mutate('/api/getUser');
         })
@@ -245,8 +245,7 @@ export default function ItemDetail({ item }: { item: Item }) {
     item: Item
   ) => {
     e.preventDefault();
-    console.log(data.userId);
-    cartflg ? handleDelte(item) : handleisAdd(item);
+    cartflg ? handleDelte(item) : handleAddItem(item);
   };
 
   return (
