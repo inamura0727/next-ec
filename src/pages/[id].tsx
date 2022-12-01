@@ -80,12 +80,13 @@ export default function ItemDetail({ item }: { item: Item }) {
 
     // 何も商品が追加されていない場合
     let carts = data.userCarts;
+    console.log(carts)
     if (!carts) {
       setIsAdd(false);
     } else {
       // 商品が既に追加されている場合に同じitemIdがないか確かめる
       const check = carts.filter((cart) => {
-        cart.itemId === item.id;
+        return cart.itemId === item.id;
       });
       if (check) {
         setIsAdd(true);
