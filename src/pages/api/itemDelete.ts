@@ -8,7 +8,6 @@ export default withIronSessionApiRoute(async (req, res) => {
 
   try {
     if (carts) {
-      // let fil;
       if (detail) {
         const fil = carts.filter((cartItem) => {
           return cartItem.itemId !== id;
@@ -20,8 +19,6 @@ export default withIronSessionApiRoute(async (req, res) => {
         });
         req.session.cart = fil;
       }
-
-      // req.session.cart = fil;
     }
     await req.session.save();
   } catch {
