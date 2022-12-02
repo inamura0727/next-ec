@@ -1,15 +1,12 @@
 import ReactPlayer from 'react-player';
-import { useState, useEffect } from 'react';
 import styles from '../styles/player.module.css';
 
 type playerProps = {
   id: number;
-  // ログアウト後処理を受け取る
   closePlayer: () => void;
-  url: string
 };
 
-export default function Player({closePlayer,id,url}:playerProps) {
+export default function Player({closePlayer,id}:playerProps) {
   const sample = (id:number) => {
     const data = {id:id};
     fetch('/api/startRental', {
@@ -21,7 +18,7 @@ export default function Player({closePlayer,id,url}:playerProps) {
   return (
     <div className={styles.playerArea}>
       <ReactPlayer
-        url={url}
+        url={'https://www.youtube.com/watch?v=k444Bkah5-M'}
         className={styles.reactPlayer}
         width='70%'
         height='70%'
