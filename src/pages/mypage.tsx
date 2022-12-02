@@ -4,10 +4,20 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from './api/getUser';
 import { RentalHistory } from '../types/user';
 import Header from '../components/Header';
+import { useState } from 'react';
+import Player from '../components/Player';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Mypage() {
+  // 動画プレイヤー用のstateと関数
+  const [start, setStart] = useState(false);
+  const [startId, setStartId] = useState(0);
+  const startPlayer = (id: number) => {
+    setStart(!start);
+    setStartId(id);
+  };
+
   //ログインしたアカウント情報を取得
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data) return <div>Loading</div>;
@@ -28,7 +38,7 @@ export default function Mypage() {
   const rentalHistories = rentalHistory?.map((rentalHistories) => {
     const PayDay = new Date(rentalHistories.payDate);
     const PayYear = PayDay.getFullYear();
-    const PayMonth = PayDay.getMonth()+1;
+    const PayMonth = PayDay.getMonth() + 1;
     const PayDate = PayDay.getDate();
 
     let addRentalHistories = {
@@ -45,10 +55,10 @@ export default function Mypage() {
       const StartDay = new Date(rentalHistories.rentalStart);
       const EndDay = new Date(rentalHistories.rentalEnd);
       const StartYear = StartDay.getFullYear();
-      const StartMonth = StartDay.getMonth()+1;
+      const StartMonth = StartDay.getMonth() + 1;
       const StartDate = StartDay.getDate();
       const EndYear = EndDay.getFullYear();
-      const EndMonth = EndDay.getMonth()+1;
+      const EndMonth = EndDay.getMonth() + 1;
       const EndDate = EndDay.getDate();
       addRentalHistories.period = `${StartYear}年${StartMonth}月${StartDate}日〜${EndYear}年${EndMonth}月${EndDate}日`;
     } else {
@@ -87,7 +97,9 @@ export default function Mypage() {
                       alt="画像"
                     />
                     <h2>{`${rentalNow.itemName}`}</h2>
-                    <button>再生</button>
+                    <button onClick={() => startPlayer(rentalNow.id)}>
+                      再生
+                    </button>
                   </li>
                 ));
               } else {
@@ -122,6 +134,10 @@ export default function Mypage() {
             })()}
           </div>
         </div>
+
+        {start && (
+          <Player closePlayer={() => setStart(!start)} id={startId} />
+        )}
       </main>
     </>
   );
