@@ -1,16 +1,19 @@
 import { Item } from 'types/item';
 import { useState } from 'react';
 import styles from 'styles/cart.module.css';
+import { useSWRConfig } from 'swr';
 
 export default function DeleteBtn({
   id,
-  itemId,
+  cartId,
+  rebuild,
 }: {
-  id: number;
-  itemId: number;
+  id: number | undefined;
+  cartId: number;
+  rebuild: () => void;
 }) {
   const handleDelte = async () => {
-    if (id !== 0) {
+    if (id !== undefined) {
       // ログイン後の場合
       const req = await fetch(
         `http://localhost:3000/api/users/${id}`
@@ -20,7 +23,7 @@ export default function DeleteBtn({
 
       console.log(`${res}`);
       const fil = res.filter((cartItem: Item) => {
-        return cartItem.id !== itemId;
+        return cartItem.id !== cartId;
       });
 
       console.log(fil);
@@ -36,13 +39,14 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          rebuild();
         })
         .catch((error) => {
           console.log('Error', error);
         });
     } else {
       // ログイン前の場合
-      const body = { id: itemId };
+      const body = { id: cartId };
 
       fetch(`/api/itemDelete`, {
         method: 'POST',
@@ -54,6 +58,7 @@ export default function DeleteBtn({
         .then((res) => res.json())
         .then((result) => {
           console.log('Success', result);
+          rebuild();
         })
         .catch((error) => {
           console.log('Error', error);
