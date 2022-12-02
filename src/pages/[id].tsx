@@ -1,12 +1,20 @@
 import Image from 'next/image';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Item } from 'types/item';
-import { UserCart } from 'types/user';
+import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
 import Head from 'next/head';
+import Player from '../components/Player';
+
+export type loginUser = {
+  userId: number;
+  userCarts: UserCart[];
+  userRentalHistories: RentalHistory[];
+  isLoggedIn: boolean;
+};
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -43,13 +51,43 @@ export default function ItemDetail({ item }: { item: Item }) {
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
+  const [start, setStart] = useState(false);
+  const [startId, setStartId] = useState(0);
+  const startPlayer = (id: number) => {
+    setStart(!start);
+    setStartId(id);
+  };
 
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data) return <div>Loading</div>;
 
   let carts = data.userCarts;
-  let rentalHistory = data.userRentalHistories;
-  // console.log(rentalHystory);
+  let rentalHistory: RentalHistory[] | undefined =
+    data.userRentalHistories;
+
+  //ユーザーか否かを調べる型ガード
+  function isUser(data: SessionUser): data is loginUser {
+    return data.isLoggedIn === true;
+  }
+
+  // レンタルエンドがあるか否か
+  let isRentalEnd = false;
+  if (isUser(data)) {
+    let rentalItem = data.userRentalHistories;
+    if ('rentalEnd' in rentalItem) {
+      isRentalEnd = false;
+    } else {
+      isRentalEnd = true;
+    }
+  }
+
+  // レンタルされてる商品のIDを取得
+  // let rentalCartId:number;
+  // if (!rentalHistory) {
+  //   console.log('購入なし');
+  // } else {
+  //   rentalCartId = rentalHistory.id
+  // }
 
   //レンタル中（既に再生ボタンが押されている）
   let nowDate = new Date();
@@ -61,30 +99,30 @@ export default function ItemDetail({ item }: { item: Item }) {
     return false;
   });
 
-  //レンタル履歴に表示する情報取得
-  const rentalHistories = rentalHistory?.map((rentalHistories) => {
-    const PayDay = new Date(rentalHistories.payDate);
-    const PayYear = PayDay.getFullYear();
-    const PayMonth = PayDay.getMonth();
-    const PayDate = PayDay.getDate();
+  // // レンタル中あるいはレンタルエンドがないもの
+  let rentalFlg = false;
+  // レンタル商品のIDを格納するため
+  let rentalCartId: number;
 
-    let addRentalHistories = {
-      id: rentalHistories.id,
-      itemImage: rentalHistories.itemImage,
-      itemName: rentalHistories.itemName,
-      payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
-      period: '',
-      price: rentalHistories.price,
-    };
-    // レンタル中（未再生）
-    // if(){
-
-    // }
-  });
+  if (rentalNows || isRentalEnd === true) {
+    if (rentalHistory) {
+      const isRentaled: RentalHistory[] = rentalHistory.filter(
+        (rental) => {
+          return rental.itemId === item.id;
+        }
+      );
+      console.log(isRentaled);
+      if (isRentaled.length) {
+        rentalFlg = true;
+        rentalCartId = isRentaled[0].id;
+        console.log(rentalCartId);
+      }
+    }
+  }
 
   console.log(rentalNows);
   // 詳細画面で選択されている作品がレンタル中か否か調べる
-  let rentalFlg = false;
+
   if (rentalNows) {
     const isRental = rentalNows.filter((rental) => {
       rental.itemId === item.id;
@@ -317,61 +355,66 @@ export default function ItemDetail({ item }: { item: Item }) {
                   </div>
                   {rentalFlg ? (
                     <div>
-                      <p>hello</p>
+                      <button
+                        onClick={() => startPlayer(rentalCartId)}
+                      >
+                        再生
+                      </button>
                     </div>
                   ) : (
-                    <p>false</p>
-                  )}
-                  {cartflg ? (
-                    <div className={styles.detailRadioWrapper}>
-                      <div className={styles.detailBtnWrapper}>
-                        <button
-                          type="submit"
-                          className={styles.detailBtn}
-                        >
-                          カートから削除
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={styles.detailRadioWrapper}>
-                      <p className={styles.detailLerge}>
-                        【レンタル期間】
-                      </p>
-                      <label htmlFor="palyTime">
-                        <input
-                          type="radio"
-                          name="palyTime"
-                          value={2}
-                          onChange={(e) => handleChange(e)}
-                        />
-                        48時間&nbsp;¥{item.twoDaysPrice}
-                      </label>
-                      <br />
-                      <label htmlFor="palyTime">
-                        <input
-                          type="radio"
-                          name="palyTime"
-                          value={7}
-                          onChange={(e) => handleChange(e)}
-                        />
-                        7泊&nbsp;¥{item.sevenDaysPrice}円
-                      </label>
-                      <br />
-                      <p className={styles.cartAlert}>
-                        {isChoiced
-                          ? 'レンタル期間を選択してください'
-                          : ''}
-                      </p>
-                      <div className={styles.detailBtnWrapper}>
-                        <button
-                          type="submit"
-                          className={styles.detailBtn}
-                        >
-                          カートに追加
-                        </button>
-                      </div>
-                    </div>
+                    <>
+                      {cartflg ? (
+                        <div className={styles.detailRadioWrapper}>
+                          <div className={styles.detailBtnWrapper}>
+                            <button
+                              type="submit"
+                              className={styles.detailBtn}
+                            >
+                              カートから削除
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className={styles.detailRadioWrapper}>
+                          <p className={styles.detailLerge}>
+                            【レンタル期間】
+                          </p>
+                          <label htmlFor="palyTime">
+                            <input
+                              type="radio"
+                              name="palyTime"
+                              value={2}
+                              onChange={(e) => handleChange(e)}
+                            />
+                            48時間&nbsp;{item.twoDaysPrice}円
+                          </label>
+                          <br />
+                          <label htmlFor="palyTime">
+                            <input
+                              type="radio"
+                              name="palyTime"
+                              value={7}
+                              onChange={(e) => handleChange(e)}
+                            />
+                            7泊&nbsp;{item.sevenDaysPrice}円
+                          </label>
+                          <br />
+                          <p className={styles.cartAlert}>
+                            {isChoiced
+                              ? 'レンタル期間を選択してください'
+                              : ''}
+                          </p>
+                          <div className={styles.detailBtnWrapper}>
+                            <button
+                              type="submit"
+                              className={styles.detailBtn}
+                            >
+                              カートに追加
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -384,6 +427,9 @@ export default function ItemDetail({ item }: { item: Item }) {
             `}</style>
           </div>
         </form>
+        {start && (
+          <Player closePlayer={() => setStart(!start)} id={startId} />
+        )}
       </section>
     </>
   );

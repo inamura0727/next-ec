@@ -70,7 +70,7 @@ export default function CartList() {
                   </div>
                   <div className={styles.cartPriceWrapper}>
                     <p>価格</p>
-                    <p className={styles.cartPrice}>￥{item.price}</p>
+                    <p className={styles.cartPrice}>{item.price}円</p>
                   </div>
                 </div>
                 <DeleteBtn
@@ -82,10 +82,12 @@ export default function CartList() {
             </div>
           );
         })}
-        <p className={styles.isCartFlg}>{isCartflg ? '' : 'カートには何も追加されていません。'}</p>
+        <p className={styles.isCartFlg}>
+          {isCartflg ? '' : 'カートには何も追加されていません。'}
+        </p>
         <div className={styles.btnWrapper}>
           <div>
-            <p>合計金額￥{sum}</p>
+            <p>合計金額{sum}円</p>
           </div>
           {data.isLoggedIn ? (
             <Link href="/payment">
