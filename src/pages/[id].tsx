@@ -6,6 +6,7 @@ import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
+import Head from 'next/head';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -42,23 +43,58 @@ export default function ItemDetail({ item }: { item: Item }) {
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
-  const [isAdd, setIsAdd] = useState(false);
 
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data) return <div>Loading</div>;
 
   let carts = data.userCarts;
+  let rentalHistory = data.userRentalHistory;
+  // console.log(rentalHystory);
 
-  // if (!carts) {
-  //   setIsAdd(false);
-  // } else {
-  //   const check = carts.filter((cart) => {
-  //     return cart.itemId === item.id;
-  //   });
-  //   if (check.length) {
-  //     setIsAdd(true);
-  //   }
-  // }
+  //レンタル中（既に再生ボタンが押されている）
+  let nowDate = new Date();
+  const rentalNows = rentalHistory?.filter((rental) => {
+    if (rental.rentalEnd) {
+      const rentalEnd = new Date(rental.rentalEnd);
+      return rentalEnd > nowDate;
+    }
+    return false;
+  });
+
+  //レンタル履歴に表示する情報取得
+  const rentalHistories = rentalHistory?.map((rentalHistories) => {
+    const PayDay = new Date(rentalHistories.payDate);
+    const PayYear = PayDay.getFullYear();
+    const PayMonth = PayDay.getMonth();
+    const PayDate = PayDay.getDate();
+
+    let addRentalHistories = {
+      id: rentalHistories.id,
+      itemImage: rentalHistories.itemImage,
+      itemName: rentalHistories.itemName,
+      payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
+      period: '',
+      price: rentalHistories.price,
+    };
+  // レンタル中（未再生）
+  if(){
+
+  }
+})
+
+
+  console.log(rentalNows )
+    // 詳細画面で選択されている作品がレンタル中か否か調べる
+    let rentalFlg = false;
+    if (rentalNows) {
+      const isRental = rentalNows.filter((rental) => {
+        rental.itemId === item.id;
+      });
+      console.log(isRental)
+      if (isRental.length) {
+        rentalFlg = true;
+      }
+    }
 
   let cartflg = false;
   if (carts) {
@@ -71,6 +107,9 @@ export default function ItemDetail({ item }: { item: Item }) {
       mutate('/api/getUser');
     }
   }
+
+  // レンタル中の作品情報を取得
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
@@ -250,6 +289,9 @@ export default function ItemDetail({ item }: { item: Item }) {
 
   return (
     <>
+    <Head>
+        <title>{item.artist}{item.fesName}</title>
+      </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
@@ -275,6 +317,13 @@ export default function ItemDetail({ item }: { item: Item }) {
                     <p>{item.fesName}</p>
                     <p>{item.playTime}分</p>
                   </div>
+                  {rentalFlg ? (
+                    <div>
+                      <p>hello</p>
+                    </div>
+                  ) : (
+                    <p>false</p>
+                  )}
                   {cartflg ? (
                     <div className={styles.detailRadioWrapper}>
                       <div className={styles.detailBtnWrapper}>
@@ -298,7 +347,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                           value={2}
                           onChange={(e) => handleChange(e)}
                         />
-                        48時間&nbsp;¥{item.twoDaysPrice}円
+                        48時間&nbsp;¥{item.twoDaysPrice}
                       </label>
                       <br />
                       <label htmlFor="palyTime">
