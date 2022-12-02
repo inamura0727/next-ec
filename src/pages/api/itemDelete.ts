@@ -3,19 +3,24 @@ import { ironOptions } from '../../../lib/ironOprion';
 
 export default withIronSessionApiRoute(async (req, res) => {
   const { id } = await req.body;
+  const { detail } = await req.body;
   const carts = req.session.cart;
-  console.log(id);
-  // console.log(carts);
 
   try {
     if (carts) {
-      const fil = carts.filter((cartItem) => {
-        return cartItem.id !== id;
-      });
-      req.session.cart = fil;
+      if (detail) {
+        const fil = carts.filter((cartItem) => {
+          return cartItem.itemId !== id;
+        });
+        req.session.cart = fil;
+      } else {
+        const fil = carts.filter((cartItem) => {
+          return cartItem.id !== id;
+        });
+        req.session.cart = fil;
+      }
     }
     await req.session.save();
-    // console.log(req.session.cart);
   } catch {
     console.log('エラー');
   }
