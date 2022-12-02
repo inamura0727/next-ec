@@ -6,7 +6,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import { User } from 'types/user';
 import styles from 'styles/cart.module.css';
-import DeleteBtn from '../../components/Deleteitem';
+import DeleteBtn from '../components/DeleteItem';
 
 const fetcher = (resource: string) =>
   fetch(resource).then((res) => res.json());
