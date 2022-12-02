@@ -29,7 +29,7 @@ export default function Home() {
       if (res.status === 200) {
         router.push('/api/addLogedinCart')
       } else {
-        setErrorMessage('ログイン情報が異なります');
+        setErrorMessage('メールアドレスまたはパスワードが間違っています');
       }
     });
   };
@@ -46,7 +46,7 @@ export default function Home() {
             <span id="Message"></span>
             <ul>
               <li>
-                <label>メースアドレス</label>
+                <label>メールアドレス</label>
                 <input
                   type="email"
                   name="mailAddress"

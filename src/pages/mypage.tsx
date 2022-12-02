@@ -19,7 +19,7 @@ export default function Mypage() {
   const rentalNows = rentalHistory?.filter((rental) => {
     if (rental.rentalEnd) {
       const rentalEnd = new Date(rental.rentalEnd);
-      return rentalEnd > nowDate;
+      return rentalEnd >= nowDate;
     }
     return false;
   });
@@ -28,7 +28,7 @@ export default function Mypage() {
   const rentalHistories = rentalHistory?.map((rentalHistories) => {
     const PayDay = new Date(rentalHistories.payDate);
     const PayYear = PayDay.getFullYear();
-    const PayMonth = PayDay.getMonth();
+    const PayMonth = PayDay.getMonth()+1;
     const PayDate = PayDay.getDate();
 
     let addRentalHistories = {
@@ -45,10 +45,10 @@ export default function Mypage() {
       const StartDay = new Date(rentalHistories.rentalStart);
       const EndDay = new Date(rentalHistories.rentalEnd);
       const StartYear = StartDay.getFullYear();
-      const StartMonth = StartDay.getMonth();
+      const StartMonth = StartDay.getMonth()+1;
       const StartDate = StartDay.getDate();
       const EndYear = EndDay.getFullYear();
-      const EndMonth = EndDay.getMonth();
+      const EndMonth = EndDay.getMonth()+1;
       const EndDate = EndDay.getDate();
       addRentalHistories.period = `${StartYear}年${StartMonth}月${StartDate}日〜${EndYear}年${EndMonth}月${EndDate}日`;
     } else {

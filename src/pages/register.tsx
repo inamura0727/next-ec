@@ -397,7 +397,7 @@ export default function LoginScreen() {
           </li>
         </ul>
       </form>
-      <Link href={`/top`}>トップページへ</Link>
+      <Link href={`/`}>トップページへ</Link>
     </>
   );
 }
