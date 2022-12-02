@@ -48,7 +48,7 @@ export default function ItemDetail({ item }: { item: Item }) {
   if (!data) return <div>Loading</div>;
 
   let carts = data.userCarts;
-  let rentalHistory = data.userRentalHistory;
+  let rentalHistory = data.userRentalHistories;
   // console.log(rentalHystory);
 
   //レンタル中（既に再生ボタンが押されている）
@@ -76,25 +76,24 @@ export default function ItemDetail({ item }: { item: Item }) {
       period: '',
       price: rentalHistories.price,
     };
-  // レンタル中（未再生）
-  if(){
+    // レンタル中（未再生）
+    // if(){
 
-  }
-})
+    // }
+  });
 
-
-  console.log(rentalNows )
-    // 詳細画面で選択されている作品がレンタル中か否か調べる
-    let rentalFlg = false;
-    if (rentalNows) {
-      const isRental = rentalNows.filter((rental) => {
-        rental.itemId === item.id;
-      });
-      console.log(isRental)
-      if (isRental.length) {
-        rentalFlg = true;
-      }
+  console.log(rentalNows);
+  // 詳細画面で選択されている作品がレンタル中か否か調べる
+  let rentalFlg = false;
+  if (rentalNows) {
+    const isRental = rentalNows.filter((rental) => {
+      rental.itemId === item.id;
+    });
+    console.log(isRental);
+    if (isRental.length) {
+      rentalFlg = true;
     }
+  }
 
   let cartflg = false;
   if (carts) {
@@ -109,7 +108,6 @@ export default function ItemDetail({ item }: { item: Item }) {
   }
 
   // レンタル中の作品情報を取得
-
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
@@ -289,8 +287,8 @@ export default function ItemDetail({ item }: { item: Item }) {
 
   return (
     <>
-    <Head>
-        <title>{item.artist}{item.fesName}</title>
+      <Head>
+        <title>{`${item.artist} ${item.fesName}`}</title>
       </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}

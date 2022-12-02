@@ -8,7 +8,7 @@ export default withIronSessionApiRoute(getUserRoute, ironOptions);
 export type SessionUser = {
   userId?: number;
   userCarts?: UserCart[];
-  userRentalHistory?: RentalHistory[];
+  userRentalHistories?: RentalHistory[];
   isLoggedIn: boolean;
 };
 
@@ -29,7 +29,7 @@ async function getUserRoute(
     res.json({
       userId: req.session.user.id,
       userCarts: cart,
-      userRentalHistory: userData.rentalHistories,
+      userRentalHistories: userData.rentalHistories,
       isLoggedIn: true,
     });
   } else {

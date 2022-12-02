@@ -8,8 +8,6 @@
   padding: 10px;
   background-color: #fff;
 }
-.cartImg {
-}
 .cartBodyWrapper {
   display: flex;
   align-items: center;
@@ -98,4 +96,10 @@
 .cartPrice {
   font-weight: bold;
   font-size: 2rem;
+}
+
+.isCartFlg {
+  font-size: 2rem;
+  text-align: center;
+  padding: 20px;
 }

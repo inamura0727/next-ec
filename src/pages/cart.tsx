@@ -6,6 +6,7 @@ import DeleteBtn from '../components/DeleteItem';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
+import Head from 'next/head';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -17,6 +18,11 @@ export default function CartList() {
   // ユーザーのカート情報を取得
   let items = data.userCarts;
 
+  let isCartflg = true;
+  if (!items?.length) {
+    isCartflg = false;
+  }
+
   // 合計金額の表示
   let sum = 0;
   if (items !== undefined) {
@@ -27,6 +33,9 @@ export default function CartList() {
 
   return (
     <>
+      <Head>
+        <title>カート</title>
+      </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
@@ -73,6 +82,7 @@ export default function CartList() {
             </div>
           );
         })}
+        <p className={styles.isCartFlg}>{isCartflg ? '' : 'カートには何も追加されていません。'}</p>
         <div className={styles.btnWrapper}>
           <div>
             <p>合計金額￥{sum}</p>

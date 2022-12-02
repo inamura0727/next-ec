@@ -10,10 +10,7 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 200,
-      "categories": [
-        1,
-        2
-      ],
+      "categories": [1, 2],
       "keywords": [
         "イコールラブ",
         "イコラブ",
@@ -32,10 +29,7 @@
       "playTime": 60,
       "twoDaysPrice": 400,
       "sevenDaysPrice": 200,
-      "categories": [
-        1,
-        2
-      ],
+      "categories": [1, 2],
       "keywords": [
         "ノットイコールミー",
         "ノイミー",
@@ -54,15 +48,8 @@
       "playTime": 60,
       "twoDaysPrice": 100,
       "sevenDaysPrice": 200,
-      "categories": [
-        3,
-        4
-      ],
-      "keywords": [
-        "スミカ",
-        "すみか",
-        "ジャパンジャム"
-      ]
+      "categories": [3, 4],
+      "keywords": ["スミカ", "すみか", "ジャパンジャム"]
     },
     {
       "id": 4,
@@ -74,15 +61,8 @@
       "playTime": 60,
       "twoDaysPrice": 1000,
       "sevenDaysPrice": 200,
-      "categories": [
-        3,
-        2,
-        4
-      ],
-      "keywords": [
-        "ぽるかどっとすてぃんぐれい",
-        "ジャパンジャム"
-      ]
+      "categories": [3, 2, 4],
+      "keywords": ["ぽるかどっとすてぃんぐれい", "ジャパンジャム"]
     },
     {
       "id": 5,
@@ -94,10 +74,7 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 200,
-      "categories": [
-        1,
-        2
-      ],
+      "categories": [1, 2],
       "keywords": [
         "にありーいこーるじょい",
         "にあじょい",
@@ -115,14 +92,8 @@
       "playTime": 60,
       "twoDaysPrice": 10,
       "sevenDaysPrice": 200,
-      "keywords": [
-        "フルーツジッパー",
-        "ふるーつじっぱー"
-      ],
-      "categories": [
-        1,
-        2
-      ]
+      "keywords": ["フルーツジッパー", "ふるーつじっぱー"],
+      "categories": [1, 2]
     },
     {
       "id": 7,
@@ -134,13 +105,8 @@
       "playTime": 60,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 20,
-      "keywords": [
-        "イギリス"
-      ],
-      "categories": [
-        3,
-        4
-      ]
+      "keywords": ["イギリス"],
+      "categories": [3, 4]
     },
     {
       "id": 8,
@@ -152,10 +118,7 @@
       "playTime": 30,
       "twoDaysPrice": 100,
       "sevenDaysPrice": 150,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 9,
@@ -167,11 +130,7 @@
       "playTime": 60,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
-      "categories": [
-        3,
-        4,
-        5
-      ]
+      "categories": [3, 4, 5]
     },
     {
       "id": 10,
@@ -183,11 +142,7 @@
       "playTime": 50,
       "twoDaysPrice": 250,
       "sevenDaysPrice": 350,
-      "categories": [
-        3,
-        4,
-        5
-      ]
+      "categories": [3, 4, 5]
     },
     {
       "id": 11,
@@ -199,10 +154,7 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 12,
@@ -214,10 +166,7 @@
       "playTime": 40,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 250,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 13,
@@ -229,10 +178,7 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 14,
@@ -244,10 +190,7 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 15,
@@ -259,11 +202,7 @@
       "playTime": 21,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
-      "categories": [
-        3,
-        4,
-        5
-      ]
+      "categories": [3, 4, 5]
     },
     {
       "id": 16,
@@ -275,10 +214,7 @@
       "playTime": 50,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
-      "categories": [
-        1,
-        2
-      ]
+      "categories": [1, 2]
     },
     {
       "id": 17,
@@ -290,11 +226,7 @@
       "playTime": 30,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 250,
-      "categories": [
-        2,
-        3,
-        4
-      ]
+      "categories": [2, 3, 4]
     },
     {
       "id": 18,
@@ -306,10 +238,7 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 18,
@@ -321,10 +250,7 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        3,
-        4
-      ]
+      "categories": [3, 4]
     },
     {
       "id": 19,
@@ -336,10 +262,7 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
-      "categories": [
-        2,
-        5
-      ]
+      "categories": [2, 5]
     },
     {
       "id": 20,
@@ -351,12 +274,7 @@
       "playTime": 50,
       "twoDaysPrice": 250,
       "sevenDaysPrice": 350,
-      "categories": [
-        2,
-        3,
-        4,
-        5
-      ]
+      "categories": [2, 3, 4, 5]
     }
   ],
   "categories": [
@@ -375,6 +293,10 @@
     {
       "id": 4,
       "categoryName": "男性アーティスト"
+    },
+    {
+      "id": 5,
+      "categoryName": "洋楽"
     }
   ],
   "users": [
@@ -402,10 +324,7 @@
           "playTime": 60,
           "twoDaysPrice": 100,
           "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
+          "categories": [1, 2],
           "keywords": [
             "イコールラブ",
             "いこーるらぶ",
@@ -425,10 +344,7 @@
           "playTime": 80,
           "twoDaysPrice": 100,
           "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
+          "categories": [1, 2],
           "keywords": [
             "ノットイコールミー",
             "のっといこーるみー",
@@ -448,16 +364,8 @@
           "playTime": 90,
           "twoDaysPrice": 100,
           "sevenDaysPrice": 200,
-          "categories": [
-            3,
-            4
-          ],
-          "keywords": [
-            "スミカ",
-            "すみか",
-            "Sumika",
-            "ジャパンジャム"
-          ]
+          "categories": [3, 4],
+          "keywords": ["スミカ", "すみか", "Sumika", "ジャパンジャム"]
         },
         {
           "id": 4,
@@ -469,14 +377,8 @@
           "playTime": 1000,
           "twoDaysPrice": 100,
           "sevenDaysPrice": 200,
-          "categories": [
-            2,
-            3,
-            4
-          ],
-          "keywords": [
-            "ジャパンジャム"
-          ]
+          "categories": [2, 3, 4],
+          "keywords": ["ジャパンジャム"]
         },
         {
           "id": 5,
@@ -488,10 +390,7 @@
           "playTime": 60,
           "twoDaysPrice": 10,
           "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
+          "categories": [1, 2],
           "keywords": [
             "ニアリーイコールジョイ",
             "にありーいこーるじょい",
@@ -511,10 +410,7 @@
           "playTime": 60,
           "twoDaysPrice": 2,
           "sevenDaysPrice": 400,
-          "categories": [
-            1,
-            2
-          ],
+          "categories": [1, 2],
           "keywords": [
             "フルーツジッパー",
             "ふるーつじっぱー",
@@ -528,11 +424,11 @@
       "userCarts": [
         {
           "id": 0,
-          "itemName": "ORANGE RANGE  ROCK IN JAPAN FES.2018 2018-8-12",
+          "itemName": "MEGAN THEE STALLION  SUMMER SONIC 2022 TOKYO",
           "rentalPeriod": 2,
           "price": 200,
           "itemImage": "/images/仮サムネ.jpg",
-          "itemId": 18
+          "itemId": 19
         }
       ],
       "id": 1
