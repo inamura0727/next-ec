@@ -97,7 +97,7 @@ export default function Mypage() {
                       alt="画像"
                     />
                     <h2>{`${rentalNow.itemName}`}</h2>
-                    <button onClick={() => startPlayer(1)}>
+                    <button onClick={() => startPlayer(rentalNow.id)}>
                       再生
                     </button>
                   </li>
