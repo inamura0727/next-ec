@@ -69,6 +69,7 @@ export default function Home() {
             <p>{errorMessage}</p>
             <button type="submit">ログイン</button>
           </form>
+          <Link href={`/register`}>新規登録へ</Link>
           <Link href={`/`}>トップページへ</Link>
         </div>
       </main>
