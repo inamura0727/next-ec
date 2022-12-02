@@ -81,14 +81,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   }
 
-  // レンタルされてる商品のIDを取得
-  // let rentalCartId:number;
-  // if (!rentalHistory) {
-  //   console.log('購入なし');
-  // } else {
-  //   rentalCartId = rentalHistory.id
-  // }
-
   //レンタル中（既に再生ボタンが押されている）
   let nowDate = new Date();
   const rentalNows = rentalHistory?.filter((rental) => {
@@ -120,7 +112,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   }
 
-  console.log(rentalNows);
   // 詳細画面で選択されている作品がレンタル中か否か調べる
 
   if (rentalNows) {

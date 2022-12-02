@@ -82,9 +82,11 @@ export default function CartList() {
             </div>
           );
         })}
-        <p className={styles.isCartFlg}>
-          {isCartflg ? '' : 'カートには何も追加されていません。'}
-        </p>
+        {isCartflg || (
+          <p className={styles.isCartFlg}>
+            カートには何も追加されていません。
+          </p>
+        )}
         <div className={styles.btnWrapper}>
           <div>
             <p>合計金額{sum}円</p>
