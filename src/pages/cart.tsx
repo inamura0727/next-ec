@@ -82,7 +82,7 @@ export default function CartList() {
             </div>
           );
         })}
-        {isCartflg || (
+        {!isCartflg && (
           <p className={styles.isCartFlg}>
             カートには何も追加されていません。
           </p>
