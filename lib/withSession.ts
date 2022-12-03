@@ -15,7 +15,6 @@ declare module 'iron-session' {
       rentalPeriod: number;
       price: number;
       itemImage: string;
-      itemId :number
     }[];
   }
 }

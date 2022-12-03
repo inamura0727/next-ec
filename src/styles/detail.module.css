@@ -142,7 +142,7 @@
   transform: translateY(-50%);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .detailTitle {
     font-size: 4rem;
   }

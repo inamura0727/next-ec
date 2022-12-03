@@ -7,7 +7,6 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
 import Head from 'next/head';
-import ItemDetail from './[id]';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -61,15 +60,14 @@ export default function CartList() {
                       <p className={styles.cartTitle}>
                         {item.itemName}
                       </p>
-                      <p className={styles.cartPeriod}>
+                      <p>
                         レンタル期間：
-                        {/* {
-                        if(item.rentalPeriod === 2){
-                          console.log('hello')
-                        }
-                      } */}
+                        {item.rentalPeriod === 2 ? '48時間' : '7泊'}
                       </p>
-                      <Link href={`/${item.itemId}`} legacyBehavior>
+                      <Link
+                        href={`/items/${item.itemId}`}
+                        legacyBehavior
+                      >
                         <a>詳細ページへ</a>
                       </Link>
                     </div>

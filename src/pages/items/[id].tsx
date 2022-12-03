@@ -4,10 +4,10 @@ import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
-import { SessionUser } from '../pages/api/getUser';
-import Header from '../components/Header';
+import { SessionUser } from '../api/getUser';
+import Header from '../../components/Header';
 import Head from 'next/head';
-import Player from '../components/Player';
+import Player from '../../components/Player';
 
 export type loginUser = {
   userId: number;
@@ -64,62 +64,36 @@ export default function ItemDetail({ item }: { item: Item }) {
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
+  console.log(rentalHistory);
 
-  //ユーザーか否かを調べる型ガード
-  function isUser(data: SessionUser): data is loginUser {
-    return data.isLoggedIn === true;
-  }
-
-  // レンタルエンドがあるか否か
-  let isRentalEnd = false;
-  if (isUser(data)) {
-    let rentalItem = data.userRentalHistories;
-    if ('rentalEnd' in rentalItem) {
-      isRentalEnd = false;
-    } else {
-      isRentalEnd = true;
-    }
-  }
-
-  //レンタル中（既に再生ボタンが押されている）
+  // //ユーザーか否かを調べる型ガード
+  // function isUser(data: SessionUser): data is loginUser {
+  //   return data.isLoggedIn === true;
+  // }
+  let rentalFlg = false;
+  let rentalCartId: number;
   let nowDate = new Date();
-  const rentalNows = rentalHistory?.filter((rental) => {
-    if (rental.rentalEnd) {
-      const rentalEnd = new Date(rental.rentalEnd);
-      return rentalEnd > nowDate;
-    }
-    return false;
+
+  let rentaledItems = rentalHistory?.filter((rentaledItem) => {
+    return rentaledItem.itemId === item.id;
   });
 
-  // // レンタル中あるいはレンタルエンドがないもの
-  let rentalFlg = false;
-  // レンタル商品のIDを格納するため
-  let rentalCartId: number;
-
-  if (rentalNows || isRentalEnd === true) {
-    if (rentalHistory) {
-      const isRentaled: RentalHistory[] = rentalHistory.filter(
-        (rental) => {
-          return rental.itemId === item.id;
-        }
-      );
-      if (isRentaled.length) {
-        rentalFlg = true;
-        rentalCartId = isRentaled[0].id;
-        console.log(rentalCartId);
-      }
-    }
-  }
-
-  // 詳細画面で選択されている作品がレンタル中か否か調べる
-
-  if (rentalNows) {
-    const isRental = rentalNows.filter((rental) => {
-      rental.itemId === item.id;
-    });
-    console.log(isRental);
-    if (isRental.length) {
+  // 再生ボタンの出しわけ
+  if (!rentaledItems?.length) {
+    rentalFlg = false;
+  } else if (rentaledItems.length) {
+    let lastItem = rentaledItems.slice(-1)[0];
+    console.log(lastItem);
+    if (!lastItem.rentalEnd) {
       rentalFlg = true;
+      rentalCartId = lastItem.id;
+    } else if (lastItem.rentalEnd) {
+      const rentalEnd = new Date(lastItem.rentalEnd);
+      if (rentalEnd > nowDate) {
+        console.log('ifきた');
+        rentalFlg = true;
+        rentalCartId = lastItem.id;
+      }
     }
   }
 
@@ -358,7 +332,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                           <div className={styles.detailBtnWrapper}>
                             <button
                               type="submit"
-                              className={styles.detailBtn}
+                              className={`${styles.detailBtn} ${styles.bgleft}`}
                             >
                               <span>カートから削除</span>
                             </button>
