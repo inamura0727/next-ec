@@ -13,6 +13,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
              <section className={styles.itemList}>
              {/* if文で表示したいカテゴリにフィルター(仮でバンド) */}
              {items.filter((item)=>{for(let category of item.categories){if(category === 4) return item}})
+             .slice(0, 10)
              .map((item)=>{
                  return(
                      <div key={item.id} className={styles.item}>
@@ -34,6 +35,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
              <section className={styles.itemList}>
              {/* if文で表示したいカテゴリにフィルター(仮でバンド) */}
              {items.filter((item)=>{for(let category of item.categories){if(category === 4) return item}})
+             .slice(0, 10)
              .map((item)=>{
                  return(
                      <div key={item.id} className={styles.item}>
@@ -55,10 +57,11 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
             <section className={styles.itemList}>
             {/* if文で表示したいカテゴリにフィルター */}
             {items.filter((item)=>{for(let category of item.categories){if(category === data.favoriteGenre) return item}})
+            .slice(0, 10)
             .map((item)=>{
                 return(
                     <div key={item.id} className={styles.item}>
-                    <Link href={`/${item.id}`}>
+                    <Link href={`/items/${item.id}`}>
                     <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
                     <br />
                     <div>{item.artist}</div>

@@ -8,10 +8,10 @@ export default function ItemList ({items}: {items: Array<Item>}) {
         <main>
         <p>新着作品</p>
         <section className={styles.itemList}>
-        {items.map((item)=>{
+        {items.slice(0, 10).map((item)=>{
             return(
                 <div key={item.id} className={styles.item}>
-                <Link href={`/${item.id}`}>
+                <Link href={`/items/${item.id}`}>
                 <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
                 <br />
                 <div>{item.artist}</div>
