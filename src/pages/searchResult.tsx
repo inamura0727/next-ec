@@ -53,7 +53,7 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount, s
                 {items.map((item)=>{
                     return(
                         <div key={item.id} className={styles.item}>
-                        <Link href={`/${item.id}`}>
+                        <Link href={`/items/${item.id}`}>
                         <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
                         <br />
                         <div>{item.artist}</div>
