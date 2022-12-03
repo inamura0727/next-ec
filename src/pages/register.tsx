@@ -63,9 +63,7 @@ export default function LoginScreen() {
   const submitAddress = async () => {
     ///住所API
     //住所情報のURLを作成
-    let api =
-      'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
-
+    let api = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
     let url = api + formValues.zipcode;
     //住所情報を取得
     const response = await fetch(url, {
@@ -73,13 +71,30 @@ export default function LoginScreen() {
     });
     const Address = await response.json();
 
-    // prefectures,city,houseNumberの値を変更
-    setFormValues({
-      ...formValues,
-      prefectures: Address.results[0].address1,
-      city: Address.results[0].address2,
-      houseNumber: Address.results[0].address3,
-    });
+    //郵便番号が正しく取得できているか
+    if (Address.results !== null) {
+      // prefectures,city,houseNumberの値を変更
+      setFormValues({
+        ...formValues,
+        prefectures: Address.results[0].address1,
+        city: Address.results[0].address2 + Address.results[0].address3,
+
+      });
+
+      setFormErrors({
+        ...formValues,
+        zipcode: '',
+        prefectures: '',
+        city: '',
+        houseNumber: '',
+      });
+    } else {
+      setFormErrors({
+        ...formErros,
+        zipcode: '正しい郵便番号を入力してください',
+
+      });
+    }
   };
 
   //文字を打った時
@@ -94,7 +109,22 @@ export default function LoginScreen() {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    const error:Errors = validate(formValues);
+    const error: Errors = validate(formValues);
+    // 登録済みのメールアドレスを確認する
+    const res = await fetch('/api/mailConditions', {
+      //Jsonファイルに送る
+      method: 'POST',
+      body: JSON.stringify({
+        formValues,
+      }),
+      headers: {
+        'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
+      },
+    })
+    const data = await res.json();
+    if(!data.result){
+      error.mailAddress = data.message ;
+    }
     setFormErrors(error);
 
     if (
@@ -114,39 +144,44 @@ export default function LoginScreen() {
         formValues.passwordTest === ''
       )
     ) {
+
+      
       // 登録内容を登録する
-      const response = await fetch('http://localhost:3000/api/users', {
-        //Jsonファイルに送る
-        method: 'POST',
-        body: JSON.stringify({
-          //Jsonデータに保存する内容を記載
-          userName: formValues.userName,
-          zipcode: formValues.zipcode,
-          prefectures: formValues.prefectures,
-          city: formValues.city,
-          houseNumber: formValues.houseNumber,
-          buildingName: formValues.buildingName,
-          familyName: formValues.familyName,
-          firstName: formValues.firstName,
-          familyNameKana: formValues.familyNameKana,
-          firstNameKana: formValues.firstNameKana,
-          mailAddress: formValues.mailAddress,
-          password: formValues.password,
-          rentalHistories,
-          userCarts,
-          favoriteGenre,
-        }),
-        headers: {
-          'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-        },
-      }).then(() => {
+      const response = await fetch(
+        'http://localhost:3000/api/users',
+        {
+          //Jsonファイルに送る
+          method: 'POST',
+          body: JSON.stringify({
+            //Jsonデータに保存する内容を記載
+            userName: formValues.userName,
+            zipcode: formValues.zipcode,
+            prefectures: formValues.prefectures,
+            city: formValues.city,
+            houseNumber: formValues.houseNumber,
+            buildingName: formValues.buildingName,
+            familyName: formValues.familyName,
+            firstName: formValues.firstName,
+            familyNameKana: formValues.familyNameKana,
+            firstNameKana: formValues.firstNameKana,
+            mailAddress: formValues.mailAddress,
+            password: formValues.password,
+            rentalHistories,
+            userCarts,
+            favoriteGenre,
+          }),
+          headers: {
+            'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
+          },
+        }
+      ).then(() => {
         router.push('http://localhost:3000/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
       });
     }
   };
 
   //入力情報エラー条件
-  const validate = (values:Errors) => {
+  const validate = (values: Errors) => {
     const errors: Errors = {
       userName: '',
       zipcode: '',
@@ -166,11 +201,17 @@ export default function LoginScreen() {
     const regex =
       /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,16}$/;
 
+    const tellRegex = /^0\d{9,10}$/;
+
+    
+
     if (!formValues.userName) {
       errors.userName = 'ユーザー名を入力してください';
     }
     if (!formValues.zipcode) {
       errors.zipcode = '郵便番号を入力してください';
+    } else if (!(formValues.zipcode.length === 7)) {
+      errors.zipcode = '正しい郵便番号を入力してください';
     }
     if (!formValues.prefectures) {
       errors.prefectures = '都道府県を入力してください';
@@ -195,6 +236,9 @@ export default function LoginScreen() {
     }
     if (!formValues.phoneNumbe) {
       errors.phoneNumbe = '電話番号を入力してください';
+    } else if (!tellRegex.test(formValues.phoneNumbe)) {
+      errors.phoneNumbe =
+        '正しい電話番号を入力してください(ハイフンなし)';
     }
     if (!formValues.mailAddress) {
       errors.mailAddress = 'メールアドレスを入力してください';
@@ -206,6 +250,8 @@ export default function LoginScreen() {
         '※8文字以上16文字以内。大文字、小文字、数字、記号のうち3種類以上';
     }
     if (!formValues.passwordTest) {
+      errors.passwordTest = '確認用パスワードを入力してください';
+    } else if (formValues.password !== formValues.passwordTest) {
       errors.passwordTest = '確認用パスワードを入力してください';
     }
     return errors;
