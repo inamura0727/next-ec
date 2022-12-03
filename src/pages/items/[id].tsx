@@ -4,10 +4,10 @@ import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
-import { SessionUser } from '../pages/api/getUser';
-import Header from '../components/Header';
+import { SessionUser } from '../api/getUser';
+import Header from '../../components/Header';
 import Head from 'next/head';
-import Player from '../components/Player';
+import Player from '../../components/Player';
 
 export type loginUser = {
   userId: number;
