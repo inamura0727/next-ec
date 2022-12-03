@@ -1,7 +1,70 @@
-.itemList{
+.loginMain {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 100vh;
+}
+
+.formWrapper {
+    background-color: #111111;
+    color: #fff;
+    border-radius: 1rem;
     padding: 5rem;
+    
+}
+
+.loginForm ul {
+    padding: 0;
+    margin: 4rem 0;
+}
+
+.loginForm ul li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+.loginForm ul li label{
+    font-size: 1.6rem;
+}
+
+.loginForm ul li input{
+    width: 55%;
+}
+
+.loginBtn{
+  width: 60%;
+  max-width: 100%;
+  padding: 1rem;
+  background: linear-gradient(45deg, #3490DE 0%, #A1DE93 100%);
+  border: 0.2rem solid transparent;
+  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+  color: #111111;
+  font-size: 1.75rem;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.25s;
+  border-radius: 3rem;
+  margin-bottom: 2rem;
+}
+.loginBtn:hover {
+    background-color: #fff;
+    border-color: currentColor;
+    color: #e25c00;
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
+}
+
+.topLink{
+    font-size: 1.6rem;
+}
+.topLink:hover {
+    text-decoration: revert;
+}
+
+.erroMessage{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ef4949;
 }
