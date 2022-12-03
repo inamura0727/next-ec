@@ -103,7 +103,6 @@ export default function ItemDetail({ item }: { item: Item }) {
           return rental.itemId === item.id;
         }
       );
-      console.log(isRentaled);
       if (isRentaled.length) {
         rentalFlg = true;
         rentalCartId = isRentaled[0].id;
@@ -137,7 +136,6 @@ export default function ItemDetail({ item }: { item: Item }) {
   }
 
   // レンタル中の作品情報を取得
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
     chengeRentalPeriod(num);
@@ -345,8 +343,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                     <p>{item.playTime}分</p>
                   </div>
                   {rentalFlg ? (
-                    <div>
+                    <div className={styles.btnWrapper}>
                       <button
+                        className={`${styles.btn}`}
                         onClick={() => startPlayer(rentalCartId)}
                       >
                         再生
@@ -361,7 +360,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                               type="submit"
                               className={styles.detailBtn}
                             >
-                              カートから削除
+                              <span>カートから削除</span>
                             </button>
                           </div>
                         </div>
@@ -398,9 +397,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                           <div className={styles.detailBtnWrapper}>
                             <button
                               type="submit"
-                              className={styles.detailBtn}
+                              className={`${styles.detailBtn} ${styles.bgleft}`}
                             >
-                              カートに追加
+                              <span>カートに追加</span>
                             </button>
                           </div>
                         </div>
