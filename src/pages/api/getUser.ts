@@ -7,8 +7,10 @@ export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
 export type SessionUser = {
   userId?: number;
+  userName?: string;
   userCarts?: UserCart[];
   userRentalHistories?: RentalHistory[];
+  favoriteGenre?: number;
   isLoggedIn: boolean;
 };
 
@@ -22,15 +24,13 @@ async function getUserRoute(
     );
     const userData: User = await result.json();
     const cart: UserCart[] = userData.userCarts;
-    // ID昇順
-    cart.sort((a, b) => {
-      return a.id - b.id;
-    });
     res.json({
-      userId: req.session.user.id,
-      userCarts: cart,
+      userId: userData.id,
+      userName: userData.userName,
+      userCarts: userData.userCarts,
       userRentalHistories: userData.rentalHistories,
-      isLoggedIn: true,
+      favoriteGenre: userData.favoriteGenre,
+      isLoggedIn: true
     });
   } else {
     const sessionCart = req.session.cart;
