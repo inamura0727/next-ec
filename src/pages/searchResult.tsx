@@ -13,7 +13,7 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 10;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
