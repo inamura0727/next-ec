@@ -24,7 +24,7 @@ export default function Search ({items}: {items: Array<Item>}) {
 }
 
 export async function getServerSideProps() {
-    const res = await fetch('http://localhost:3000/api/items')
+    const res = await fetch('http://localhost:3000/api/items?_limit=15')
     const items = await res.json()
     return {
         props: {

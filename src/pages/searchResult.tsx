@@ -13,7 +13,7 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 10;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -53,7 +53,7 @@ export default function SearchIndex ({items, keyword, genre, page, totalCount, s
                 {items.map((item)=>{
                     return(
                         <div key={item.id} className={styles.item}>
-                        <Link href={`/${item.id}`}>
+                        <Link href={`/items/${item.id}`}>
                         <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
                         <br />
                         <div>{item.artist}</div>

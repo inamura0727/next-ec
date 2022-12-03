@@ -16,6 +16,7 @@ type User = {
   password: string;
   rentalHistories: RentalHistory[];
   userCarts: UserCart[];
+  favoriteGenre: number;
 };
 
 // レンタル履歴
