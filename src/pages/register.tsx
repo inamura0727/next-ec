@@ -56,6 +56,7 @@ export default function LoginScreen() {
   });
   const rentalHistories: [] = []; ///レンタル履歴
   const userCarts: [] = []; //カートの中身
+  const favoriteGenre: number = 0; //お気に入りジャンル
   const router = useRouter(); //登録された情報を更新した状態でページを移動
 
   //住所を検索
@@ -133,6 +134,7 @@ export default function LoginScreen() {
           password: formValues.password,
           rentalHistories,
           userCarts,
+          favoriteGenre,
         }),
         headers: {
           'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
