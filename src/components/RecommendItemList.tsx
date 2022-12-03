@@ -12,7 +12,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
              <p>ジャンル:バンド</p>
              <section className={styles.itemList}>
              {/* if文で表示したいカテゴリにフィルター(仮でバンド) */}
-             {items.filter((item)=>{for(let category of item.categories){if(category === 4) return item}})
+             {items.filter((item)=>{if(item.categories.includes(4)) return item})
              .slice(0, 10)
              .map((item)=>{
                  return(
@@ -34,7 +34,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
              <p>ジャンル:バンド</p>
              <section className={styles.itemList}>
              {/* if文で表示したいカテゴリにフィルター(仮でバンド) */}
-             {items.filter((item)=>{for(let category of item.categories){if(category === 4) return item}})
+             {items.filter((item)=>{if(item.categories.includes(4) ) return item})
              .slice(0, 10)
              .map((item)=>{
                  return(
@@ -56,7 +56,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
             <p>{data.userName}さんへのおすすめ</p>
             <section className={styles.itemList}>
             {/* if文で表示したいカテゴリにフィルター */}
-            {items.filter((item)=>{for(let category of item.categories){if(category === data.favoriteGenre) return item}})
+            {items.filter((item)=>{if(data.favoriteGenre){if(item.categories.includes(data.favoriteGenre)) return item}})
             .slice(0, 10)
             .map((item)=>{
                 return(
