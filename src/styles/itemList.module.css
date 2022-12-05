@@ -1,0 +1,95 @@
+.p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.p::before,
+.p::after {
+  content: '';
+  width: 7rem;
+  height: 0.3rem;
+  background-color: #E25C00;
+}
+
+.p::before {
+  margin-right: 20px;
+}
+.p::after {
+  margin-left: 20px;
+}
+
+.itemList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+.item {
+  display: flex;
+  justify-content: center; 
+  width: 20%;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+  .item{
+    width: 50%;
+  }
+}
+
+.item:hover {
+  opacity: 0.5;
+}
+
+.artist {
+  font-size: 1.2rem;
+}
+
+.chatbotButton {
+  font-size: 1.6rem;
+  font-weight: bold;
+  justify-content: center; 
+  padding: 1rem 4rem;
+  margin: 1rem;
+  color: #415DE2;
+  background-color: white;
+  border-radius: 10rem;
+  border: 0.2rem solid #415DE2;
+  margin-bottom: 3rem;
+}
+
+.chatbotButton:hover {
+  color: white;
+  background-color: #415DE2;
+}
+
+.btnWrapper{
+  display: flex;
+  justify-content: center; 
+  margin-top: 2rem;
+}
+
+.chatbotButtonBefore {
+  font-size: 2rem;
+  font-weight: 720;
+  line-height: 1.5;
+  justify-content: center; 
+  padding: 2.5rem 4rem;
+  margin: 1rem;
+  color: #415DE2;
+  background-color: white;
+  border-radius: 10rem;
+  border: 0.2rem solid #415DE2;
+  margin-bottom: 3rem;
+}
+
+.chatbotButtonBefore:hover {
+  color: white;
+  background-color: #415DE2;
+}
