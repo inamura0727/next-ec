@@ -82,11 +82,9 @@ export default function LoginScreen() {
       });
 
       setFormErrors({
-        ...formValues,
+        ...formErros,
         zipcode: '',
-        prefectures: '',
-        city: '',
-        houseNumber: '',
+
       });
     } else {
       setFormErrors({
@@ -252,7 +250,7 @@ export default function LoginScreen() {
     if (!formValues.passwordTest) {
       errors.passwordTest = '確認用パスワードを入力してください';
     } else if (formValues.password !== formValues.passwordTest) {
-      errors.passwordTest = '確認用パスワードを入力してください';
+      errors.passwordTest = 'パスワードと確認用パスワードが異なります';
     }
     return errors;
   };
