@@ -90,16 +90,14 @@ export default function Payment({
             時間を置いて再度お試しください。
           </p>
         )}
-        <h2>決済画面</h2>
         <section className={styles.orderWrapper}>
-          <h3>注文内容</h3>
-          <h4>ご利用明細</h4>
+          <h1>ご注文内容</h1>
           {user.userCarts?.map((item: UserCart) => (
             <div className={styles.itemWrapper} key={item.id}>
               <Image
                 src={item.itemImage}
                 width={200}
-                height={150}
+                height={112.5}
                 alt={'商品画像のURL'}
               />
               <div className={styles.title}>{item.itemName}</div>
@@ -109,13 +107,17 @@ export default function Payment({
               <div className={styles.price}>{item.price}円</div>
             </div>
           ))}
-          <div>合計:{user.userCarts?.length}点</div>
+          <div className={styles.count}>合計:{user.userCarts?.length}点</div>
         </section>
 
         <form action="/api/checkout_stripe" method="POST">
           <div className={styles.sumPrice}>ご請求金額：{sum}円</div>
           <input type="hidden" name="price" value={sum} />
-          <button type="submit">決済する</button>
+          <div className={styles.btnWrapper}>
+            <button type="submit" className={styles.paymentBtn}>
+            決済する
+            </button>
+          </div>
         </form>
       </main>
     </>

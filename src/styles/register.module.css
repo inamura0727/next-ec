@@ -1,0 +1,80 @@
+.registMain {
+    height: 100vh;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.form {
+    background-color: #111111;
+    color: #fff;
+    border-radius: 1rem;
+    padding: 3rem 10rem;
+}
+
+.form ul {
+    padding: 0;
+    margin: 4rem auto;
+    width: fit-content;
+}
+
+.form ul li {
+    list-style: none;
+    margin: 2rem 0;
+}
+
+.form ul li .label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.form ul .listWrapper {
+    display: flex;
+}
+
+.form ul .listWrapper .listInfo{
+    display: block;
+    margin-right: 2rem;
+}
+
+.error {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ef4949;
+}
+
+.btnWrapper,.linkWrapper {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.btnWrapper .registBtn {
+    width: 60%;
+    max-width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, #3490DE 0%, #A1DE93 100%);
+    border: 0.2rem solid transparent;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+    color: #111111;
+    font-size: 1.75rem;
+    transition: 0.25s;
+    border-radius: 3rem;
+}
+
+.btnWrapper .registBtn:hover {
+    background-color: #fff;
+    border-color: currentColor;
+    color: #e25c00;
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
+}
+
+.linkWrapper {
+    margin-top: 2rem;
+}
+.topLink{
+    font-size: 1.6rem;
+}
+.topLink:hover {
+    text-decoration: revert;
+}

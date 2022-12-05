@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from 'styles/register.module.css';
+import styleHeader from 'styles/header.module.css';
 import Link from 'next/link';
+import Head from 'next/head';
+import Image from 'next/image';
 
 type Errors = {
   userName: string;
@@ -257,193 +260,282 @@ export default function LoginScreen() {
 
   return (
     <>
-      <h1>お客様の情報登録</h1>
-      <form onSubmit={handleSubmit}>
-        <span id="alertMessage"></span>
-        <ul>
-          <li>
-            <label>ユーザー名</label>
-            <input
-              type="text"
-              name="userName"
-              id="userName"
-              value={formValues.userName}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.userName}</p>
-          </li>
-          <li>
-            <label>住所</label>
-            <table>
-              <tbody>
-                <tr>
-                  <th>郵便番号</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="zipcode"
-                      id="zipcode"
-                      value={formValues.zipcode}
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <button
-                      onClick={submitAddress}
-                      type="button"
-                      id="btn-search"
-                    >
-                      住所検索
-                    </button>
-                    <p className={styles.error}>
-                      {formErros.zipcode}
-                    </p>
-                  </td>
-                </tr>
-                <tr>
-                  <th>都道府県</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="prefectures"
-                      id="prefectures"
-                      value={formValues.prefectures}
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <p className={styles.error}>
-                      {formErros.prefectures}
-                    </p>
-                  </td>
-                  <th>市区町村</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      value={formValues.city}
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <p className={styles.error}>{formErros.city}</p>
-                  </td>
-                  <th>番地</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="houseNumber"
-                      id="houseNumber"
-                      value={formValues.houseNumber}
-                      onChange={(e) => handleChange(e)}
-                    />
-                    <p className={styles.error}>
-                      {formErros.houseNumber}
-                    </p>
-                  </td>
-                  <th>建物名・部屋番号</th>
-                  <td>
-                    <input
-                      type="text"
-                      name="buildingName"
-                      id="buildingName"
-                      value={formValues.buildingName}
-                      onChange={(e) => handleChange(e)}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </li>
-          <li>
-            <label>姓名</label>
-            <input
-              type="text"
-              name="familyName"
-              id="familyName"
-              value={formValues.familyName}
-              onChange={(e) => handleChange(e)}
-            />
-            <input
-              type="text"
-              name="firstName"
-              id="firstName"
-              value={formValues.firstName}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.familyName}</p>
-            <p className={styles.error}>{formErros.firstName}</p>
-          </li>
+      <Head>
+        <title>Festal - 会員登録</title>
+      </Head>
+      <header className={styleHeader.header}>
+        <div className={styleHeader.info}>
+          <Image
+            src={'/images/logo.png'}
+            width={199}
+            height={60}
+            alt={'タイトルロゴ'}
+          />
+        </div>
+      </header>
+      <main className={styles.registMain}>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <ul>
+            <li>
+              <label className={styles.label} htmlFor={'userName'}>
+                ユーザー名
+              </label>
+              <input
+                type="text"
+                name="userName"
+                id="userName"
+                value={formValues.userName}
+                onChange={(e) => handleChange(e)}
+              />
+              <p className={styles.error}>{formErros.userName}</p>
+            </li>
+            <li>
+              <label className={styles.label} htmlFor={'zipcode'}>
+                郵便番号
+              </label>
+              <input
+                type="text"
+                name="zipcode"
+                id="zipcode"
+                value={formValues.zipcode}
+                onChange={(e) => handleChange(e)}
+              />
+              <button
+                onClick={submitAddress}
+                type="button"
+                id="btn-search"
+              >
+                住所検索
+              </button>
+              <p className={styles.error}>{formErros.zipcode}</p>
+            </li>
 
-          <li>
-            <label>セイメイ</label>
-            <input
-              type="text"
-              name="familyNameKana"
-              id="familyNameKana"
-              value={formValues.familyNameKana}
-              onChange={(e) => handleChange(e)}
-            />
+            <li className={styles.listWrapper}>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'prefectures'}
+                >
+                  都道府県
+                </label>
+                <input
+                  type="text"
+                  name="prefectures"
+                  id="prefectures"
+                  value={formValues.prefectures}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.prefectures}
+                </p>
+              </div>
 
-            <input
-              type="text"
-              name="firstNameKana"
-              id="firstNameKana"
-              value={formValues.firstNameKana}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.familyNameKana}</p>
-            <p className={styles.error}>{formErros.firstNameKana}</p>
-          </li>
-          <li>
-            <label>電話番号</label>
-            <input
-              type="tel"
-              name="phoneNumbe"
-              id="phoneNumbe"
-              value={formValues.phoneNumbe}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.phoneNumbe}</p>
-          </li>
+              <div className={styles.listInfo}>
+                <label className={styles.label} htmlFor={'city'}>
+                  市区町村
+                </label>
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  value={formValues.city}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>{formErros.city}</p>
+              </div>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'houseNumber'}
+                >
+                  番地
+                </label>
+                <input
+                  type="text"
+                  name="houseNumber"
+                  id="houseNumber"
+                  value={formValues.houseNumber}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.houseNumber}
+                </p>
+              </div>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'buildingName'}
+                >
+                  建物名・部屋番号
+                </label>
+                <input
+                  type="text"
+                  name="buildingName"
+                  id="buildingName"
+                  value={formValues.buildingName}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+            </li>
 
-          <li>
-            <label>メールアドレス</label>
-            <input
-              type="email"
-              name="mailAddress"
-              id="mailAddress"
-              value={formValues.mailAddress}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.mailAddress}</p>
-          </li>
+            <li className={styles.listWrapper}>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'familyName'}
+                >
+                  姓
+                </label>
+                <input
+                  type="text"
+                  name="familyName"
+                  id="familyName"
+                  value={formValues.familyName}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>{formErros.familyName}</p>
+              </div>
 
-          <li>
-            <label>パスワード</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formValues.password}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.password}</p>
-          </li>
+              <div className={styles.listInfo}>
+                <label className={styles.label} htmlFor={'firstName'}>
+                  名
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={formValues.firstName}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>{formErros.firstName}</p>
+              </div>
+            </li>
 
-          <li>
-            <label>確認用パスワード</label>
-            <input
-              type="password"
-              id="passwordTest"
-              name="passwordTest"
-              value={formValues.passwordTest}
-              onChange={(e) => handleChange(e)}
-            />
-            <p className={styles.error}>{formErros.passwordTest}</p>
-          </li>
+            <li className={styles.listWrapper}>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'familyNameKana'}
+                >
+                  セイ
+                </label>
+                <input
+                  type="text"
+                  name="familyNameKana"
+                  id="familyNameKana"
+                  value={formValues.familyNameKana}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.familyNameKana}
+                </p>
+              </div>
 
-          <li>
-            <button type="submit">会員登録</button>
-          </li>
-        </ul>
-      </form>
-      <Link href={`/`}>トップページへ</Link>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'firstNameKana'}
+                >
+                  メイ
+                </label>
+                <input
+                  type="text"
+                  name="firstNameKana"
+                  id="firstNameKana"
+                  value={formValues.firstNameKana}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.firstNameKana}
+                </p>
+              </div>
+            </li>
+
+            <li className={styles.listWrapper}>
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'phoneNumbe'}
+                >
+                  電話番号
+                </label>
+                <input
+                  type="tel"
+                  name="phoneNumbe"
+                  id="phoneNumbe"
+                  value={formValues.phoneNumbe}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>{formErros.phoneNumbe}</p>
+              </div>
+
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'mailAddress'}
+                >
+                  メールアドレス
+                </label>
+                <input
+                  type="email"
+                  name="mailAddress"
+                  id="mailAddress"
+                  value={formValues.mailAddress}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.mailAddress}
+                </p>
+              </div>
+            </li>
+
+            <li className={styles.listWrapper}>
+              <div className={styles.listInfo}>
+                <label className={styles.label} htmlFor={'password'}>
+                  パスワード
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formValues.password}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>{formErros.password}</p>
+              </div>
+
+              <div className={styles.listInfo}>
+                <label
+                  className={styles.label}
+                  htmlFor={'passwordTest'}
+                >
+                  確認用パスワード
+                </label>
+                <input
+                  type="password"
+                  id="passwordTest"
+                  name="passwordTest"
+                  value={formValues.passwordTest}
+                  onChange={(e) => handleChange(e)}
+                />
+                <p className={styles.error}>
+                  {formErros.passwordTest}
+                </p>
+              </div>
+            </li>
+          </ul>
+          <div className={styles.btnWrapper}>
+            <button type="submit" className={styles.registBtn}>
+              登録する
+            </button>
+          </div>
+          <div className={styles.linkWrapper}>
+            <Link href={`/`} className={styles.topLink}>
+              会員登録せずトップページへ
+            </Link>
+          </div>
+        </form>
+      </main>
     </>
   );
 }
