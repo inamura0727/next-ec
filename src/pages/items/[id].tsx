@@ -253,8 +253,6 @@ export default function ItemDetail({ item }: { item: Item }) {
         });
       }
 
-      console.log(newFil);
-
       const body = { userCarts: newFil };
 
       await fetch(`http://localhost:3000/api/users/${id}`, {
