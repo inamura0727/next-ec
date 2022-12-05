@@ -81,6 +81,7 @@ export default function Home() {
             <p className={styles.erroMessage}>{errorMessage}</p>
             <button type="submit" className={styles.loginBtn}>ログイン</button>
           </form>
+          <Link href={`/register`}>新規登録へ</Link>
         </section>
       </main>
     </>
