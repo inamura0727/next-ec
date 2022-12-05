@@ -21,7 +21,7 @@ export default function Header({
     // ログイン・ユーザ登録以外の画面の場合
     <header className={styles.header}>
       <div className={styles.info}>
-        <Link href="/login">
+        <Link href="/">
           <Image
             src={'/images/logo.png'}
             width={232}
@@ -55,7 +55,7 @@ export default function Header({
                   src={'/images/icon-cart.png'}
                   width={32}
                   height={32}
-                  alt={'タイトルロゴ'}
+                  alt={'カートアイコン'}
                 />
               </Link>
             </li>
@@ -106,7 +106,7 @@ export default function Header({
               </Link>
             </li>
             <li>
-              <Link href="/search">
+              <Link href="/search?categories_like=&q=">
                 <Image
                   src={'/images/icon-search.png'}
                   width={32}
@@ -176,7 +176,7 @@ export default function Header({
     // ログイン画面の場合
     <header className={styles.header}>
       <div className={styles.info}>
-        <Link href="/login">
+        <Link href="/">
           <Image
             src={'/images/logo.png'}
             width={232}
