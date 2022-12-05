@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from 'styles/login.module.css';
+import Image from 'next/image';
+import Header from '../components/Header';
 
 export default function Home() {
   const [mailAddress, setMailAddress] = useState(''); //名前の情報を更新して保存
@@ -15,7 +17,7 @@ export default function Home() {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault(); //既定の動作を止める
-    const response = await fetch('/api/login', {
+    await fetch('/api/login', {
       //Jsonファイルに送る
       method: 'POST',
       body: JSON.stringify({
@@ -27,9 +29,11 @@ export default function Home() {
       },
     }).then((res) => {
       if (res.status === 200) {
-        router.push('/api/addLogedinCart')
+        router.push('/api/addLogedinCart');
       } else {
-        setErrorMessage('メールアドレスまたはパスワードが間違っています');
+        setErrorMessage(
+          '※メールアドレスまたはパスワードが間違っています'
+        );
       }
     });
   };
@@ -39,10 +43,18 @@ export default function Home() {
       <Head>
         <title>ログイン</title>
       </Head>
-      <main className={styles.itemList}>
-        <div>
-          <h1>フェスタ</h1>
-          <form onSubmit={submitHandler}>
+      <Header isLoggedIn={false} dologout={() => false } login={true}/>
+      <main className={styles.loginMain}>
+        <section className={styles.formWrapper}>
+          <h1>
+            <Image
+              src={'/images/logo.png'}
+              width={190}
+              height={60}
+              alt={'タイトルロゴ'}
+            />
+          </h1>
+          <form onSubmit={submitHandler} className={styles.loginForm}>
             <span id="Message"></span>
             <ul>
               <li>
@@ -66,12 +78,11 @@ export default function Home() {
                 />
               </li>
             </ul>
-            <p>{errorMessage}</p>
-            <button type="submit">ログイン</button>
+            <p className={styles.erroMessage}>{errorMessage}</p>
+            <button type="submit" className={styles.loginBtn}>ログイン</button>
           </form>
           <Link href={`/register`}>新規登録へ</Link>
-          <Link href={`/`}>トップページへ</Link>
-        </div>
+        </section>
       </main>
     </>
   );
