@@ -21,15 +21,13 @@ export default function DeleteBtn({
       const data = await req.json();
       const res = data.userCarts;
 
-      console.log(`${res}`);
       const fil = res.filter((cartItem: Item) => {
         return cartItem.id !== cartId;
       });
 
-      console.log(fil);
       const body = { userCarts: fil };
 
-      fetch(`http://localhost:3000/api/users/${id}`, {
+      await fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +46,7 @@ export default function DeleteBtn({
       // ログイン前の場合
       const body = { id: cartId };
 
-      fetch(`/api/itemDelete`, {
+      await fetch(`/api/itemDelete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
