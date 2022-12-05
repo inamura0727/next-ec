@@ -80,17 +80,14 @@ export default function ItemDetail({ item }: { item: Item }) {
   } else if (rentaledItems.length) {
     // 同じ商品をレンタルした場合、最新のものを取得する
     let lastItem = rentaledItems.slice(-1)[0];
-    console.log(lastItem);
     if (!lastItem.rentalEnd) {
       rentalFlg = true;
       rentalCartId = lastItem.id;
       rentalPeriod = '未再生';
-      console.log(rentalPeriod);
     } else if (lastItem.rentalStart && lastItem.rentalEnd) {
       const rentalStart = new Date(lastItem.rentalStart);
       const rentalEnd = new Date(lastItem.rentalEnd);
       if (rentalEnd > nowDate) {
-        console.log('ifきた');
         rentalFlg = true;
         rentalCartId = lastItem.id;
         const startYear = rentalStart.getFullYear();
@@ -104,7 +101,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   }
 
-  console.log(rentalPeriod);
 
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
@@ -194,7 +190,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       } else {
         cartId = data.userCarts.length;
       }
-      console.log('elseきた');
 
       let userCarts: UserCart = {
         id: cartId,
