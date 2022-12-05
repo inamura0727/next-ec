@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import { useState } from 'react';
 import Player from '../components/Player';
 import Link from 'next/link';
+import styles from 'styles/mypage.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -70,9 +71,6 @@ export default function Mypage() {
     return addRentalHistories;
   });
 
-  console.log(typeof rentalNows);
-  console.log(typeof rentalHistories);
-
   return (
     <>
       <Head>
@@ -83,65 +81,79 @@ export default function Mypage() {
         dologout={() => mutate('/api/getUser')}
       />
       <main>
-        <h1>マイページ</h1>
-        <div>
-          <h2>レンタル中</h2>
-          <div>
-            {(() => {
-              if (rentalNows?.length) {
-                return rentalNows?.map((rentalNow: RentalHistory) => (
-                  <li key={rentalNow.id}>
-                    <Image
-                      priority
-                      src={rentalNow.itemImage}
-                      height={144}
-                      width={144}
-                      alt="画像"
-                    />
-                    <h2>{`${rentalNow.itemName}`}</h2>
-                    <button onClick={() => startPlayer(rentalNow.id)}>
-                      再生
-                    </button>
-                  </li>
-                ));
-              } else {
-                return <p>レンタル中作品はありません</p>;
-              }
-            })()}
+        <section className={styles.mypageSection}>
+          <div className={styles.leftWrapper}>
+            <h1 className={styles.wrapperTitle}>レンタル中</h1>
+            <ul>
+              {(() => {
+                if (rentalNows?.length) {
+                  return rentalNows?.map(
+                    (rentalNow: RentalHistory) => (
+                      <li key={rentalNow.id}>
+                        <Image
+                          priority
+                          src={rentalNow.itemImage}
+                          height={144}
+                          width={144}
+                          alt="画像"
+                        />
+                        <h2>{`${rentalNow.itemName}`}</h2>
+                        <button
+                          onClick={() => startPlayer(rentalNow.id)}
+                        >
+                          再生
+                        </button>
+                      </li>
+                    )
+                  );
+                } else {
+                  return <p>レンタル中作品はありません</p>;
+                }
+              })()}
+            </ul>
           </div>
-        </div>
-        <div>
-          <h2>レンタル履歴</h2>
-          <div>
-            {(() => {
-              if (rentalHistories?.length) {
-                return rentalHistories?.map((rentalHistory) => (
-                  <li key={rentalHistory.id}>
-                    <Image
-                      priority
-                      src={rentalHistory.itemImage}
-                      height={144}
-                      width={144}
-                      alt="画像"
-                    />
-                    <h2>{`${rentalHistory.itemName}`}</h2>
-                    <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
-                    <p>{`視聴期間：${rentalHistory.period}`}</p>
-                    <p>{`金額：${rentalHistory.price}円`}</p>
-                    <Link
-                      href={`/items/${rentalHistory.itemId}`}
-                      legacyBehavior
-                    >
-                      <a>詳細ページへ</a>
-                    </Link>
-                  </li>
-                ));
-              } else {
-                return <p>レンタル履歴はありません</p>;
-              }
-            })()}
+
+          <div className={styles.rightWrapper}>
+            <h1 className={styles.wrapperTitle}>レンタル履歴</h1>
+            <ul>
+              {(() => {
+                if (rentalHistories?.length) {
+                  return rentalHistories?.map((rentalHistory) => (
+                    <li key={rentalHistory.id}>
+                      <h2
+                        className={styles.itemName}
+                      >{`${rentalHistory.itemName}`}</h2>
+                      <div className={styles.itemInfo}>
+                        <Image
+                          priority
+                          src={rentalHistory.itemImage}
+                          height={168}
+                          width={300}
+                          alt="画像"
+                        />
+
+                        <div className={styles.rentalInfo}>
+                          <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
+                          <p>{`視聴期間：${rentalHistory.period}`}</p>
+                          <p>{`金額：${rentalHistory.price}円`}</p>
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/items/${rentalHistory.itemId}`}
+                        legacyBehavior
+                      >
+                        <a>詳細ページへ</a>
+                      </Link>
+                    </li>
+                  ));
+                } else {
+                  return <p>レンタル履歴はありません</p>;
+                }
+              })()}
+            </ul>
           </div>
-        </div>
+        </section>
 
         {start && (
           <Player closePlayer={() => setStart(!start)} id={startId} />
