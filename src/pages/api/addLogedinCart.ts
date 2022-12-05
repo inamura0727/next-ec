@@ -15,7 +15,7 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
             
             let sessionCart = req.session.cart;
             for(let item of sessionCart){
-                userCart.push({id: userCart.length , itemId: item.itemId, itemName: item.itemName, rentalPeriod: item.rentalPeriod, price: item.price, itemImage: item.itemImage});
+                userCart.push({id: (userCart.length + 1) , itemId: item.itemId, itemName: item.itemName, rentalPeriod: item.rentalPeriod, price: item.price, itemImage: item.itemImage});
             }
             
             // sessionのカートを空にする
