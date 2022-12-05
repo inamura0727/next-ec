@@ -84,11 +84,13 @@ export default function Payment({
       />
       <main className={styles.paymentMain}>
         {stripeError && (
-          <p className={styles.errorMessage}>
-            決済処理中にエラーが発生しました。
-            <br />
-            時間を置いて再度お試しください。
-          </p>
+          <div className={styles.errorWrapper}>
+            <p className={styles.errorMessage}>
+              決済処理中にエラーが発生しました。
+              <br />
+              時間を置いて再度お試しください。
+            </p>
+          </div>
         )}
         <section className={styles.orderWrapper}>
           <h1>ご注文内容</h1>
@@ -107,7 +109,9 @@ export default function Payment({
               <div className={styles.price}>{item.price}円</div>
             </div>
           ))}
-          <div className={styles.count}>合計:{user.userCarts?.length}点</div>
+          <div className={styles.count}>
+            合計:{user.userCarts?.length}点
+          </div>
         </section>
 
         <form action="/api/checkout_stripe" method="POST">
@@ -115,7 +119,7 @@ export default function Payment({
           <input type="hidden" name="price" value={sum} />
           <div className={styles.btnWrapper}>
             <button type="submit" className={styles.paymentBtn}>
-            決済する
+              決済する
             </button>
           </div>
         </form>

@@ -1,0 +1,58 @@
+.mypageSection{
+    width: 90%;
+    margin: 5rem auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mypageSection .rightWrapper,.leftWrapper{
+    width: 48%;
+}
+
+.wrapperTitle{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.mypageSection ul{
+    border: 1px solid #fff;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 2rem;
+}
+
+.mypageSection ul li {
+    list-style: none;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.1rem solid #111111;
+}
+.mypageSection ul li .itemInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mypageSection ul li .itemName{
+    font-size: 2rem;
+}
+
+.mypageSection ul li .itemInfo .rentalInfo{
+    font-size: 1.4rem;
+}
+
+.mypageSection ul li a{
+    text-decoration: revert;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 800px){
+    .mypageSection{
+        flex-direction: column;
+    }
+
+    .mypageSection .rightWrapper,.leftWrapper{
+        width: 100%;
+        margin-top: 2rem;
+    }
+}
