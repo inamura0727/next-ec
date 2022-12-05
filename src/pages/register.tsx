@@ -276,8 +276,8 @@ export default function LoginScreen() {
         <div className={styleHeader.info}>
           <Image
             src={'/images/logo.png'}
-            width={199}
-            height={60}
+            width={232}
+            height={70}
             alt={'タイトルロゴ'}
           />
         </div>
