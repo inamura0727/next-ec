@@ -96,7 +96,6 @@ export default function Search({
                         {item.artist}
                       </div>
                       <div>{item.fesName}</div>
-                      {/* <div>{item.releaseDate.toString()}</div> */}
                     </Link>
                   </div>
                 );

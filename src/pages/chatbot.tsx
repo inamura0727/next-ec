@@ -74,28 +74,18 @@ export default function Chatbot({items}: {items: Array<Item>}) {
         }
     }, [count]);
 
-    console.log(`useEffect内: ${count}`);
-    console.log(`output: ${output}`);
-
     if (!data) return <div>Loading</div>
 
     const submit = async (e: any) => {
         e.preventDefault();
         setButton(false);
         const info = { favoriteGenre: genre }
-        console.log(e.target.value)
         await fetch(`http://localhost:3000/api/users/${data.userId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify(info)
         })
             .then((res) => res.json())
-            .then((info) => {
-                console.log('Success:', info);
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
     }
 
     const route = () => {

@@ -26,7 +26,6 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                      <br />
                      <div className={styles.artist}>{item.artist}</div>
                      <div>{item.fesName}</div>
-                     {/* <div>{item.releaseDate}</div> */}
                      </Link>
                      </div>
                  )
@@ -52,7 +51,6 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                     <br />
                     <div className={styles.artist}>{item.artist}</div>
                     <div>{item.fesName}</div>
-                    {/* <div>{item.releaseDate}</div> */}
                     </Link>
                     </div>
                 )

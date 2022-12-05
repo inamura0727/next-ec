@@ -16,7 +16,6 @@ export default function ItemList ({items}: {items: Array<Item>}) {
                 <br />
                 <div className={styles.artist}>{item.artist}</div>
                 <div>{item.fesName}</div>
-                {/* <div>{item.releaseDate}</div> */}
                 </Link>
                 </div>
             )
