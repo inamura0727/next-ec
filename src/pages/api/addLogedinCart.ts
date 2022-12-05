@@ -12,8 +12,12 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
         const userCart: UserCart[] = userData.userCarts;
         if(req.session.cart){
             // userのカートにsessionのカートをマージ
+            
             let sessionCart = req.session.cart;
-            userCart.push(...sessionCart);
+            for(let item of sessionCart){
+                userCart.push({id: userCart.length , itemId: item.itemId, itemName: item.itemName, rentalPeriod: item.rentalPeriod, price: item.price, itemImage: item.itemImage});
+            }
+            
             // sessionのカートを空にする
             sessionCart = []
         }
