@@ -246,9 +246,9 @@ export default function ItemDetail({ item }: { item: Item }) {
         newFil.push({
           id: newFil.length + 1,
           itemId: item.itemId,
-          iteName: item.itemName,
+          itemName: item.itemName,
           itemImage: item.itemImage,
-          itemPrice: item.price,
+          price: item.price,
           rentalPeriod: item.rentalPeriod,
         });
       }

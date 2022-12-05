@@ -80,20 +80,18 @@ export default function LoginScreen() {
       setFormValues({
         ...formValues,
         prefectures: Address.results[0].address1,
-        city: Address.results[0].address2 + Address.results[0].address3,
-
+        city:
+          Address.results[0].address2 + Address.results[0].address3,
       });
 
       setFormErrors({
         ...formErros,
         zipcode: '',
-
       });
     } else {
       setFormErrors({
         ...formErros,
         zipcode: '正しい郵便番号を入力してください',
-
       });
     }
   };
@@ -102,7 +100,6 @@ export default function LoginScreen() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    // console.log(formValues);
   };
 
   //会員登録ボタンを押した時
@@ -121,10 +118,10 @@ export default function LoginScreen() {
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
-    })
+    });
     const data = await res.json();
-    if(!data.result){
-      error.mailAddress = data.message ;
+    if (!data.result) {
+      error.mailAddress = data.message;
     }
     setFormErrors(error);
 
@@ -143,10 +140,21 @@ export default function LoginScreen() {
         formValues.mailAddress === '' ||
         formValues.password === '' ||
         formValues.passwordTest === ''
-      )
+      ) &&
+      error.userName === '' &&
+      error.zipcode === '' &&
+      error.prefectures === '' &&
+      error.city === '' &&
+      error.houseNumber === '' &&
+      error.familyName === '' &&
+      error.firstName === '' &&
+      error.familyNameKana === '' &&
+      error.firstNameKana === '' &&
+      error.phoneNumbe === '' &&
+      error.mailAddress === '' &&
+      error.password === '' &&
+      error.passwordTest === ''
     ) {
-
-      
       // 登録内容を登録する
       const response = await fetch(
         'http://localhost:3000/api/users',
@@ -178,6 +186,8 @@ export default function LoginScreen() {
       ).then(() => {
         router.push('http://localhost:3000/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
       });
+    } else {
+      router.push('http://localhost:3000/register');
     }
   };
 
@@ -203,8 +213,6 @@ export default function LoginScreen() {
       /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,16}$/;
 
     const tellRegex = /^0\d{9,10}$/;
-
-    
 
     if (!formValues.userName) {
       errors.userName = 'ユーザー名を入力してください';
@@ -253,7 +261,8 @@ export default function LoginScreen() {
     if (!formValues.passwordTest) {
       errors.passwordTest = '確認用パスワードを入力してください';
     } else if (formValues.password !== formValues.passwordTest) {
-      errors.passwordTest = 'パスワードと確認用パスワードが異なります';
+      errors.passwordTest =
+        'パスワードと確認用パスワードが異なります';
     }
     return errors;
   };
