@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -64,13 +64,9 @@ export default function ItemDetail({ item }: { item: Item }) {
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
-  console.log(rentalHistory);
-
-  // //ユーザーか否かを調べる型ガード
-  // function isUser(data: SessionUser): data is loginUser {
-  //   return data.isLoggedIn === true;
-  // }
   let rentalFlg = false;
+  let cartflg = false;
+  let rentalPeriod;
   let rentalCartId: number;
   let nowDate = new Date();
 
@@ -82,22 +78,34 @@ export default function ItemDetail({ item }: { item: Item }) {
   if (!rentaledItems?.length) {
     rentalFlg = false;
   } else if (rentaledItems.length) {
+    // 同じ商品をレンタルした場合、最新のものを取得する
     let lastItem = rentaledItems.slice(-1)[0];
     console.log(lastItem);
     if (!lastItem.rentalEnd) {
       rentalFlg = true;
       rentalCartId = lastItem.id;
-    } else if (lastItem.rentalEnd) {
+      rentalPeriod = '未再生';
+      console.log(rentalPeriod);
+    } else if (lastItem.rentalStart && lastItem.rentalEnd) {
+      const rentalStart = new Date(lastItem.rentalStart);
       const rentalEnd = new Date(lastItem.rentalEnd);
       if (rentalEnd > nowDate) {
         console.log('ifきた');
         rentalFlg = true;
         rentalCartId = lastItem.id;
+        const startYear = rentalStart.getFullYear();
+        const startMonth = rentalStart.getMonth() + 1;
+        const startDate = rentalStart.getDate();
+        const endYear = rentalEnd.getFullYear();
+        const endMonth = rentalEnd.getMonth() + 1;
+        const endDate = rentalEnd.getDate();
+        rentalPeriod = `${startYear}年${startMonth}月${startDate}日〜${endYear}年${endMonth}月${endDate}日`;
       }
     }
   }
 
-  let cartflg = false;
+  console.log(rentalPeriod);
+
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
     const check = carts.filter((cart) => {
@@ -318,8 +326,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                   </div>
                   {rentalFlg ? (
                     <div className={styles.btnWrapper}>
+                      <p>視聴期間：{rentalPeriod}</p>
                       <button
-                        className={`${styles.btn}`}
+                        className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
                       >
                         再生

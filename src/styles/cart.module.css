@@ -1,11 +1,11 @@
 .cartContent {
-  max-width: 1230px;
-  padding: 15px;
+  max-width: 123rem;
+  padding: 1.5rem;
   margin: 0 auto;
 }
 .cartMedia {
   border: 1px solid #fff;
-  padding: 10px;
+  padding: 1rem;
   background-color: #fff;
 }
 .cartBodyWrapper {
@@ -22,14 +22,14 @@
   text-align: right;
 }
 .cartBeforeBtn {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   border: 1px solid #333;
-  border-radius: 10px;
+  border-radius: 1rem;
 }
 
 .btnWrapper {
   text-align: center;
-  padding: 30px;
+  padding: 3rem;
 }
 .cartBeforeBtnWrapper {
   text-align: right;
@@ -39,9 +39,9 @@
   display: inline-block;
   position: relative;
   overflow: hidden;
-  width: 400px;
+  width: 40rem;
   max-width: 100%;
-  padding: 20px 10px;
+  padding: 2rem 1rem;
   background: linear-gradient(45deg, #3490de 0%, #a1de93 100%);
   border: 2px solid #3490de;
   border-image: linear-gradient(to right, #3490de 0%, #a1de93 100%);
@@ -93,7 +93,7 @@
 
 .cartBeforeBtn {
   position: relative;
-  padding: 5px 10px 5px 30px;
+  padding: 0.5rem 1rem 0.5rem 3rem;
   cursor: pointer;
 }
 
@@ -103,8 +103,8 @@
   position: absolute;
   top: 50%;
   left: 30%;
-  width: 2px;
-  height: 16px;
+  width: 0.3rem;
+  height: 1.6rem;
   background: #333;
 }
 
@@ -132,11 +132,11 @@
 .isCartFlg {
   font-size: 2rem;
   text-align: center;
-  padding: 20px;
+  padding: 2rem;
 }
 
 .totalPrice {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .totalPrice p {
@@ -152,10 +152,10 @@
   }
 
   .cartBody {
-    margin-bottom: 15px;
+    margin-bottom: 1.5rem;
   }
   .cartBody p {
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
   }
 
   /* .cartBodyWrapper{
