@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import styles from 'styles/search.module.css'
 
 export default function SearchForm () {
     const [data, setData] = useState('');
@@ -8,26 +9,35 @@ export default function SearchForm () {
     function search (e: { preventDefault: () => void; }){
         e.preventDefault();
         router.push({
-            pathname: '/searchResult',
+            pathname: '/search',
             query: {categories_like: genre, q: data}
         })
     }
     return (
         <>
-        <form method="get" id="form" onSubmit={search}>
-        <div>キーワード検索</div>
+        <form className={styles.searchForm} method="get" id="form" onSubmit={search}>
+        <div className={styles.headline}>キーワード検索</div>
         <input placeholder="キーワードを入力" value={data} onChange={(e) => setData(e.target.value)}/>
-        <div>ジャンルで絞り込み</div>
-        <input name="genre" id="1" type="radio" value={1} onChange={(e) => setGenre(e.target.value)} />
-        <label htmlFor='1' >アイドル</label>
-        <input name="genre" id="2" type="radio" value={2} onChange={(e) => setGenre(e.target.value)} />
-        <label htmlFor="2">女性アーティスト</label>
-        <input name="genre" id="3" type="radio" value={3} onChange={(e) => setGenre(e.target.value)} />
-        <label htmlFor="3" >バンド</label>
-        <input name="genre" id="4" type="radio" value={4} onChange={(e) => setGenre(e.target.value)} />
-        <label htmlFor="4">男性アーティスト</label>
-        <br />
-        <button type="submit">検索</button>
+        <div className={styles.headline}>ジャンルで絞り込み</div>
+        <ul className={styles.radioUl}>
+            <li key={1} className={styles.radioLi}>
+                <input name="genre" id="1" type="radio" value={1} onChange={(e) => setGenre(e.target.value)} />
+                <label htmlFor='1' >アイドル</label>
+            </li>
+            <li key={2} className={styles.radioLi}>
+                <input name="genre" id="2" type="radio" value={2} onChange={(e) => setGenre(e.target.value)} />
+                <label htmlFor="2">女性アーティスト</label>
+            </li>
+            <li key={3} className={styles.radioLi}>
+                <input name="genre" id="3" type="radio" value={3} onChange={(e) => setGenre(e.target.value)} />
+                <label htmlFor="3" >バンド</label>
+            </li>
+            <li key={4} className={styles.radioLi}>
+                <input name="genre" id="4" type="radio" value={4} onChange={(e) => setGenre(e.target.value)} />
+                <label htmlFor="4">男性アーティスト</label>
+            </li>
+        </ul>
+        <button className={styles.searchBtn} type="submit">検索</button>
         </form>
         </>
     )
