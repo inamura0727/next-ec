@@ -21,12 +21,14 @@ export default function Header({
     // ログイン・ユーザ登録以外の画面の場合
     <header className={styles.header}>
       <div className={styles.info}>
-        <Image
-          src={'/images/logo.png'}
-          width={199}
-          height={60}
-          alt={'タイトルロゴ'}
-        />
+        <Link href="/login">
+          <Image
+            src={'/images/logo.png'}
+            width={232}
+            height={70}
+            alt={'タイトルロゴ'}
+          />
+        </Link>
         {/* ハンバーガーメニュー */}
         <div
           className={
@@ -92,7 +94,7 @@ export default function Header({
         <nav className={styles.pc_nav}>
           <ul>
             <li>
-            <Link href="/">
+              <Link href="/">
                 <Image
                   src={'/images/icon-top.png'}
                   width={32}
@@ -104,7 +106,7 @@ export default function Header({
               </Link>
             </li>
             <li>
-            <Link href="/search">
+              <Link href="/search">
                 <Image
                   src={'/images/icon-search.png'}
                   width={32}
@@ -130,17 +132,18 @@ export default function Header({
             {isLoggedIn ? (
               <>
                 <li>
-                <Link href="/mypage">
-                <Image
-                  src={'/images/icon-mypage.png'}
-                  width={32}
-                  height={32}
-                  alt={'マイページのアイコン'}
-                  className={styles.icon}
-                  
-                />
-                <span className={styles.iconText}>マイページ</span>
-              </Link>
+                  <Link href="/mypage">
+                    <Image
+                      src={'/images/icon-mypage.png'}
+                      width={32}
+                      height={32}
+                      alt={'マイページのアイコン'}
+                      className={styles.icon}
+                    />
+                    <span className={styles.iconText}>
+                      マイページ
+                    </span>
+                  </Link>
                 </li>
                 <li>
                   <Link
@@ -173,12 +176,14 @@ export default function Header({
     // ログイン画面の場合
     <header className={styles.header}>
       <div className={styles.info}>
-        <Image
-          src={'/images/logo.png'}
-          width={199}
-          height={60}
-          alt={'タイトルロゴ'}
-        />
+        <Link href="/login">
+          <Image
+            src={'/images/logo.png'}
+            width={232}
+            height={70}
+            alt={'タイトルロゴ'}
+          />
+        </Link>
         {/* ハンバーガーメニュー */}
         <div
           className={
@@ -193,7 +198,16 @@ export default function Header({
         <nav className={styles.pc_nav}>
           <ul>
             <li>
-              <Link href="/">トップページ</Link>
+            <Link href="/">
+                <Image
+                  src={'/images/icon-top.png'}
+                  width={32}
+                  height={32}
+                  alt={'トップページのアイコン'}
+                  className={styles.icon}
+                />
+                <span className={styles.iconText}>トップページ</span>
+              </Link>
             </li>
 
             <li>
