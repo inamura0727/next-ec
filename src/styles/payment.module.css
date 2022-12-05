@@ -1,7 +1,7 @@
-.paymentMain{
+/* .paymentMain{
     width: 70%;
     margin: 0 auto;
-}
+} */
 
 .paymentMain .errorMessage{
     color: red;
@@ -12,19 +12,83 @@
 }
 
 .paymentMain .orderWrapper{
-    border: 0.1rem solid black;
-    padding: 2rem;
-    border-radius: 5%;
+    border: 0.1rem solid fff;
+    padding: 5rem;
+    margin: 2rem auto;
+    width: 70%;
+    background-color: #111111;
+    color: #fff;
+    border-radius: 1rem;
 }
 .paymentMain .orderWrapper .itemWrapper{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 2rem 0;
-    border-bottom: 0.1rem solid black;
+    border-bottom: 0.1rem solid #fff;
     padding-bottom: 2rem;
+    font-size: 1.8rem;
 }
+
+.paymentMain .orderWrapper .itemWrapper img{
+    border: 0.1rem solid #fff;
+}
+
+.paymentMain .orderWrapper .itemWrapper .title{
+    width: 40%;
+    text-align: center;
+}
+
+.paymentMain .orderWrapper .itemWrapper .rentalPeriod,.proice{
+    width: 15%;
+    text-align: center;
+}
+
+.paymentMain .orderWrapper .count{
+    font-size: 2.5rem;
+    margin-top: 3rem;
+    text-align: end;
+}
+
 .paymentMain form{
     margin: 2rem 0;
     text-align: center;
+}
+
+.btnWrapper{
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.btnWrapper .paymentBtn {
+    width: 20rem;
+    padding: 1rem;
+    background: linear-gradient(45deg, #3490DE 0%, #A1DE93 100%);
+    border: 0.2rem solid transparent;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+    color: #111111;
+    font-size: 1.75rem;
+    transition: 0.25s;
+    border-radius: 3rem;
+}
+
+.btnWrapper .paymentBtn:hover {
+    background-color: #fff;
+    border-color: currentColor;
+    color: #e25c00;
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
+}
+
+.sumPrice{
+    font-size: 2.5rem;
+    margin: 2rem 0;
+}
+
+
+/* レスポンシブスマホサイズ */
+@media screen and (max-width: 800px) {
+    .paymentMain .orderWrapper .itemWrapper img{
+        display: none;
+    }
 }

@@ -92,7 +92,7 @@ export default function Header({
         <nav className={styles.pc_nav}>
           <ul>
             <li>
-            <Link href="/cart">
+            <Link href="/">
                 <Image
                   src={'/images/icon-top.png'}
                   width={32}
@@ -104,7 +104,7 @@ export default function Header({
               </Link>
             </li>
             <li>
-            <Link href="/cart">
+            <Link href="/search">
                 <Image
                   src={'/images/icon-search.png'}
                   width={32}
@@ -130,7 +130,7 @@ export default function Header({
             {isLoggedIn ? (
               <>
                 <li>
-                <Link href="/cart">
+                <Link href="/mypage">
                 <Image
                   src={'/images/icon-mypage.png'}
                   width={32}

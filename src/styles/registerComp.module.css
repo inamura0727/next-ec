@@ -1,4 +1,4 @@
-.payCompMain{
+.registerCompMain{
     width: 80%;
     margin: 5rem auto;
     background-color: #111111;
@@ -10,7 +10,7 @@
     font-size: 2rem;
     border-radius: 2rem;
 }
-.payCompMain .contents{
+.registerCompMain .contents{
     text-align: center;
     height: 50%;
     display: flex;
@@ -18,18 +18,18 @@
     justify-content: space-between;
 }
 
-.payCompMain .contents p{
+.registerCompMain .contents p{
     font-size: 2.4rem;
 }
 
-.maypageLink:hover {
+.loginLink:hover {
     text-decoration: revert;
 }
 
 
 @media screen and (max-width: 800px) {
 
-    .payCompMain{
+    .registerCompMain{
         width: 80%;
         margin: 5rem auto;
         background-color: #111111;
@@ -42,7 +42,7 @@
         border-radius: 2rem;
     }
     
-    .payCompMain .contents p{
+    .registerCompMain .contents p{
         font-size: 1.8rem;
     }
 }
