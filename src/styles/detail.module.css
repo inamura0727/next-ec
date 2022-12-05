@@ -1,6 +1,6 @@
 .detailImgWrapper {
   max-width: 100%;
-  height: 350px;
+  height: 35rem;
   position: relative;
 }
 .detailTitle {
@@ -8,18 +8,18 @@
   font-weight: bold;
   color: #333;
   background-color: #fff;
-  padding: 15px;
+  padding: 1.5rem;
 }
 .detailContainer {
-  max-width: 1330px;
+  max-width: 133rem;
 }
 .detailBodyWrapper {
-  padding: 30px 15px;
+  padding: 3rem 1.5rem;
 }
 .detailBody {
   display: flex;
   background-color: #fff;
-  padding: 40px;
+  padding: 4rem;
 }
 .detailBodyInner {
   width: 55%;
@@ -28,7 +28,7 @@
 }
 
 .detailBodyWrapper {
-  max-width: 1030px;
+  max-width: 103rem;
   margin: 0 auto;
 }
 .detailImgWrapper::after {
@@ -41,17 +41,13 @@
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.detailBtn {
-  padding: 5px 10px;
-  border: 1px solid #333;
-  border-radius: 10px;
-}
+
 .detailRadioWrapper {
   width: 40%;
   border: 1px solid #333;
-  padding: 30px;
+  padding: 3rem;
   text-align: center;
-  border-radius: 30px;
+  border-radius: 3rem;
   font-size: 1.75rem;
 }
 
@@ -66,27 +62,123 @@
 }
 
 .detailBtnWrapper {
-  margin: 10px 0;
+  margin: 1rem 0;
 }
 
 .detailBtn {
   display: inline-block;
-  width: 200px;
+  position: relative;
+  overflow: hidden;
+  width: 15rem;
   max-width: 100%;
-  padding: 10px 10px;
-  background-color: #e25c00;
-  border: 2px solid transparent;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-  color: #fff;
+  padding: 1rem 1rem;
+  background: linear-gradient(45deg, #3490de 0%, #a1de93 100%);
+  border: 2px solid #3490de;
+  border-image: linear-gradient(to right, #3490de 0%, #a1de93 100%);
+  border-image-slice: 1;
+  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
   font-size: 1.75rem;
   text-align: center;
   text-decoration: none;
-  transition: 0.25s;
-  border-radius: 50px;
+  transition: ease 2s;
+  cursor: pointer;
 }
 
 .detailBtn:hover {
-  background-color: #fff;
-  border-color: currentColor;
-  color: #e25c00;
+  border: 0.2rem solid #222;
+}
+
+.detailBtn span {
+  position: relative;
+  z-index: 3;
+  color: #111;
+}
+
+.detailBtn:hover span {
+  color: #fff;
+  transition: ease 1s;
+}
+
+.bgleft::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: #222;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0s;
+  transform: scale(0, 1);
+  transform-origin: left top;
+}
+.bgleft:hover::before {
+  transform: right top;
+  transform: scale(1, 1);
+}
+
+.btnWrapper {
+  width: 40%;
+  text-align: center;
+}
+.btn {
+  position: relative;
+  display: inline-block;
+  width: 25rem;
+  height: 7rem;
+  background-color: #111;
+  border: 0.1rem solid #111;
+  color: #fff;
+  font-size: 2rem;
+  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn::after {
+  content: url(/images/再生ボタン.png);
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  top: 40%;
+  right: 20%;
+  transform: translateY(-50%);
+}
+
+.btn:hover {
+  border-color: transparent;
+}
+
+.pushdown::before {
+  position: relative;
+  top: 0.5rem;
+}
+
+.pushdown:hover {
+  transform: translateY(5px);
+}
+
+@media screen and (max-width: 800px) {
+  .detailTitle {
+    font-size: 4rem;
+  }
+
+  .detailBody {
+    padding: 1.5rem;
+    display: block;
+  }
+
+  .detailBodyInner {
+    width: 100%;
+  }
+
+  .detailRadioWrapper {
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .btnWrapper {
+    width: 100%;
+    margin-top: 2rem;
+  }
 }

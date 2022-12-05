@@ -1,0 +1,102 @@
+.container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchForm{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+  border-right: 0.1rem solid #111111;
+}
+
+.headline{
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+.radioUl{
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.radioLi{
+  list-style: none;
+}
+
+.components{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.searchResult{
+  width:90%;
+}
+
+.searchCount{
+  font-size: 1.3rem;
+}
+
+.itemList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  width: 25%;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+.item{
+  width: 50%;
+}
+}
+
+.item:hover {
+  opacity: 0.5;
+}
+
+.artist {
+  font-size: 1.2rem;
+}
+
+.paging{
+  display: flex;
+  justify-content: center;
+}
+
+.pagingBtn{
+  border-radius: 25rem;
+  color: white;
+  background-color: #e25c00;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: 0.2rem solid #e25c00;
+}
+
+.pagingBtn:hover{
+  opacity: 0.5;
+}
+
+.searchBtn{
+  color: white;
+  font-weight: bold;
+  border-radius: 10rem;
+  background-color: #e25c00;
+  border: 0.1rem solid #e25c00;
+}
+
+.searchBtn:hover{
+  opacity: 0.5;
+}

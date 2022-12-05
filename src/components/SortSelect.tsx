@@ -1,3 +1,4 @@
+import styles from 'styles/search.module.css'
 
 export default function SortSelect ({onSortChange}: {onSortChange: (value: string)=>void}) {
     const sortChange = (value: string) => {
@@ -5,7 +6,7 @@ export default function SortSelect ({onSortChange}: {onSortChange: (value: strin
     }
     return(
         <>
-        <form action="GET" >
+        <form className={styles.sortSelect} action="GET" >
         <select onChange={(e)=>sortChange(e.target.value)}>
             <option  value="id&_order=desc">新着順</option>
             <option value="twoDaysPrice&_order=desc">価格が高い順</option>

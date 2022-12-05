@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -64,67 +64,44 @@ export default function ItemDetail({ item }: { item: Item }) {
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
-
-  //ユーザーか否かを調べる型ガード
-  function isUser(data: SessionUser): data is loginUser {
-    return data.isLoggedIn === true;
-  }
-
-  // レンタルエンドがあるか否か
-  let isRentalEnd = false;
-  if (isUser(data)) {
-    let rentalItem = data.userRentalHistories;
-    if ('rentalEnd' in rentalItem) {
-      isRentalEnd = false;
-    } else {
-      isRentalEnd = true;
-    }
-  }
-
-  //レンタル中（既に再生ボタンが押されている）
+  let rentalFlg = false;
+  let cartflg = false;
+  let rentalPeriod;
+  let rentalCartId: number;
   let nowDate = new Date();
-  const rentalNows = rentalHistory?.filter((rental) => {
-    if (rental.rentalEnd) {
-      const rentalEnd = new Date(rental.rentalEnd);
-      return rentalEnd > nowDate;
-    }
-    return false;
+
+  let rentaledItems = rentalHistory?.filter((rentaledItem) => {
+    return rentaledItem.itemId === item.id;
   });
 
-  // // レンタル中あるいはレンタルエンドがないもの
-  let rentalFlg = false;
-  // レンタル商品のIDを格納するため
-  let rentalCartId: number;
-
-  if (rentalNows || isRentalEnd === true) {
-    if (rentalHistory) {
-      const isRentaled: RentalHistory[] = rentalHistory.filter(
-        (rental) => {
-          return rental.itemId === item.id;
-        }
-      );
-      console.log(isRentaled);
-      if (isRentaled.length) {
+  // 再生ボタンの出しわけ
+  if (!rentaledItems?.length) {
+    rentalFlg = false;
+  } else if (rentaledItems.length) {
+    // 同じ商品をレンタルした場合、最新のものを取得する
+    let lastItem = rentaledItems.slice(-1)[0];
+    if (!lastItem.rentalEnd) {
+      rentalFlg = true;
+      rentalCartId = lastItem.id;
+      rentalPeriod = '未再生';
+    } else if (lastItem.rentalStart && lastItem.rentalEnd) {
+      const rentalStart = new Date(lastItem.rentalStart);
+      const rentalEnd = new Date(lastItem.rentalEnd);
+      if (rentalEnd > nowDate) {
         rentalFlg = true;
-        rentalCartId = isRentaled[0].id;
-        console.log(rentalCartId);
+        rentalCartId = lastItem.id;
+        const startYear = rentalStart.getFullYear();
+        const startMonth = rentalStart.getMonth() + 1;
+        const startDate = rentalStart.getDate();
+        const endYear = rentalEnd.getFullYear();
+        const endMonth = rentalEnd.getMonth() + 1;
+        const endDate = rentalEnd.getDate();
+        rentalPeriod = `${startYear}年${startMonth}月${startDate}日〜${endYear}年${endMonth}月${endDate}日`;
       }
     }
   }
 
-  // 詳細画面で選択されている作品がレンタル中か否か調べる
 
-  if (rentalNows) {
-    const isRental = rentalNows.filter((rental) => {
-      rental.itemId === item.id;
-    });
-    console.log(isRental);
-    if (isRental.length) {
-      rentalFlg = true;
-    }
-  }
-
-  let cartflg = false;
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
     const check = carts.filter((cart) => {
@@ -137,7 +114,6 @@ export default function ItemDetail({ item }: { item: Item }) {
   }
 
   // レンタル中の作品情報を取得
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let num = Number(e.target.value);
     chengeRentalPeriod(num);
@@ -214,7 +190,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       } else {
         cartId = data.userCarts.length;
       }
-      console.log('elseきた');
 
       let userCarts: UserCart = {
         id: cartId,
@@ -345,8 +320,10 @@ export default function ItemDetail({ item }: { item: Item }) {
                     <p>{item.playTime}分</p>
                   </div>
                   {rentalFlg ? (
-                    <div>
+                    <div className={styles.btnWrapper}>
+                      <p>視聴期間：{rentalPeriod}</p>
                       <button
+                        className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
                       >
                         再生
@@ -359,9 +336,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                           <div className={styles.detailBtnWrapper}>
                             <button
                               type="submit"
-                              className={styles.detailBtn}
+                              className={`${styles.detailBtn} ${styles.bgleft}`}
                             >
-                              カートから削除
+                              <span>カートから削除</span>
                             </button>
                           </div>
                         </div>
@@ -398,9 +375,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                           <div className={styles.detailBtnWrapper}>
                             <button
                               type="submit"
-                              className={styles.detailBtn}
+                              className={`${styles.detailBtn} ${styles.bgleft}`}
                             >
-                              カートに追加
+                              <span>カートに追加</span>
                             </button>
                           </div>
                         </div>

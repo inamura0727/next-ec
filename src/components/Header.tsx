@@ -47,7 +47,7 @@ export default function Header({
               <Link href="/">トップページ</Link>
             </li>
             <li>
-              <Link href="/search">検索</Link>
+              <Link href="/search?categories_like=&q=">検索</Link>
             </li>
             <li>
               <Link href="/cart">

@@ -1,6 +1,170 @@
-.left{
-    text-align: left;
+.chatbotBody{
+  width: 100%;
+  height: 80rem;
+  margin: 0;
+  padding: 0;
+  background-color: #7CA3CF;
+}
+
+.chatArea{
+  margin: 0 2rem 0 1rem;
+}
+
+.header{
+  width: 100%;
+  height: 5rem;
+  background-color: #293146;
+  display: flex;
+  align-items: center;
+}
+
+.title{
+  margin-left: 1rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.bot{
+  display: flex;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.icon{
+  border-radius: 3rem;
+  padding : 0.3rem;
+  background-color: white;
+}
+
+.botSays {
+  display: inline-block;
+  position: relative; 
+  margin-left: 1.5rem;
+  padding: 1rem;
+  max-width: fit-content;
+  border-radius: 1.2rem;
+  background: white;
+}
+
+.botSays::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: 0.3rem; 
+  left: -1.9rem;
+  border: 0.8rem solid transparent;
+  border-right: 1.8rem solid white;
+  -webkit-transform: rotate(35deg);
+  transform: rotate(35deg);
+}
+
+.answer{
+  text-align: right;
+}
+
+.rightChat {
+  display: inline-block;
+  position: relative; 
+  padding: 1rem;
+  max-width: fit-content;
+  border-radius: 1.2rem;
+  background: #9BE061;
+}
+
+.rightChat::after {
+  content: "";
+  position: absolute;
+  top: 0.3rem; 
+  right: -1.8rem;
+  border: 0.8rem solid transparent;
+  border-left: 1.8rem solid #9BE061;
+  -webkit-transform: rotate(-35deg);
+  transform: rotate(-35deg);
+}
+
+.choice{
+  margin-right: 2rem;
+  margin-left: auto;
+  padding: 1rem;
+  background-color: #E2E2E2;
+  width: fit-content;
+  border-radius: 1.2rem;
+}
+
+.choiceTitle{
+  font-size: 1.2rem;
+}
+
+.submitBtn{
+  margin-left: 1rem;
+  border-radius: 18rem;
+  border: 0.2rem solid #e25c00;
+  color: #e25c00;
+  background-color: white;
+  font-weight: bold;
+}
+
+.submitBtn:hover{
+  background-color: #e25c00;
+  color: white;
+}
+
+.itemList {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+  background-color: white;
+  border-radius: 1.2rem;
+  margin-left: 6rem;
+}
+
+.item {
+  width: 20rem;
+  margin: 2rem;
+}
+
+@media (max-width: 80rem) {
+  .itemList{
+    width: 35%;
   }
-.right{
-    text-align: right;
+  .item{
+    width: 100%;
+    display: flex;
+    margin: 2rem 1rem;
+    justify-content: center;
   }
+}
+
+.item:hover {
+  opacity: 0.5;
+}
+
+.artist {
+  font-size: 1.2rem;
+}
+
+.returnBtnWrapper{
+  display: flex;
+  justify-content: center;
+}
+
+.returnBtn{
+  font-size: 1.6rem;
+  font-weight: bold;
+  justify-content: center; 
+  padding: 1rem 4rem;
+  margin: 1rem;
+  color: #415DE2;
+  background-color: white;
+  border-radius: 10rem;
+  border: 0.2rem solid #415DE2;
+  margin-bottom: 3rem;
+}
+
+.returnBtn:hover{
+  background-color: #415DE2;
+  color: white;
+}

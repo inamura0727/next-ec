@@ -5,6 +5,10 @@ import Header from "components/Header";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "styles/chatbot.module.css";
+import { Item } from "types/item";
+import Image from "next/image";
+import Router from "next/router";
+
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -12,17 +16,22 @@ type ChatList = { id: number, text: string, continue: boolean, option: string,}
 
 const chatList: Array<ChatList> = [
     { id: 1, text: 'こんにちは、Nameさん！', continue: true, option: 'normal'},
-    { id: 2, text: 'ようこそ「Chatbot」へ！', continue: true, option: 'normal'},
+    { id: 2, text: 'ようこそ「チャットボット」へ！', continue: true, option: 'normal'},
     { id: 3, text: '興味のあるジャンルを教えてください！',  continue: false, option: 'normal'},
     { id: 4, text: '選択してください。',  continue: true, option: 'choices'},
-    { id: 5, text: 'ふむふむ。わかりました！', continue: true, option: 'normal'},
-    { id: 6, text: 'Nameさんにおすすめの作品をトップページにご用意しました！', continue: true, option: 'normal'},
-    { id: 7, text: 'トップページへ戻る', continue: false, option: 'return'}
+    { id: 5, text: 'answer',  continue: false, option: 'answer'},
+    { id: 6, text: 'ふむふむ。わかりました！', continue: true, option: 'normal'},
+    { id: 7, text: 'Nameさんにおすすめの作品はこちらです！', continue: true, option: 'normal'},
+    { id: 8, text: '作品表示', continue: true, option: 'recommend'},
+    { id: 9, text: 'さらにたくさんのおすすめ作品をトップページにご用意しました！', continue: true, option: 'normal'},
+    { id: 10, text: 'トップページへ戻る', continue: false, option: 'return'}
 ]
 
-export default function Chatbot() {
+export default function Chatbot({items}: {items: Array<Item>}) {
     const [count, setCount] = useState(1);
     const [output, setOutput] = useState([chatList[0]]);
+    const [genre, setGenre] = useState(0)
+    const [button, setButton] = useState(true);
 
     const { data } = useSWR<SessionUser>('/api/getUser', fetcher);
 
@@ -36,6 +45,19 @@ export default function Chatbot() {
         }, 2000);
         return () => clearTimeout(id)
     }, [count]);
+
+    useEffect(() =>{
+        if(!button){
+            if(count >= 5){
+                return
+            }
+            const id = setTimeout(() => {
+                setCount((prev) => prev + 1);
+                setOutput((prev) => [...prev, chatList[count]])
+            }, 300);
+            return () => clearTimeout(id)
+        }
+    }, [button, count])
 
     useEffect(() => {
         if(count >= 5){
@@ -52,74 +74,144 @@ export default function Chatbot() {
         }
     }, [count]);
 
-    console.log(`useEffect内: ${count}`);
-    console.log(`output: ${output}`);
-
     if (!data) return <div>Loading</div>
 
     const submit = async (e: any) => {
         e.preventDefault();
-        const id = setTimeout(() => {
-            setCount((prev) => prev + 1);
-            setOutput((prev) => [...prev, chatList[count]])
-        }, 1000);
-        
-        const info = { favoriteGenre: Number(e.target.value) }
+        setButton(false);
+        const info = { favoriteGenre: genre }
         await fetch(`http://localhost:3000/api/users/${data.userId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify(info)
         })
             .then((res) => res.json())
-            .then((info) => {
-                console.log('Success:', info);
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
-        return () => clearTimeout(id)
+    }
+
+    const route = () => {
+        Router.push('/')
     }
 
     return (
         <>
             <Head>
-                <section>
+                <title>
                     チャットボット
-                </section>
+                </title>
             </Head>
             <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')} />
-            <div id="chatbot-body">
-                <h1>チャットボット</h1>
-                <div id="chatbot" className={styles.chatbotBody}>
+            <body id="chatbot-body" className={styles.chatbotBody}>
+                <div className={styles.header}>
+                <h1 className={styles.title}>チャットボット</h1>
+                </div>
+                <div id="chatbot" className={styles.chatArea}>
                     {output.map((obj) => {
                         if (obj.option === 'choices') {
                             return (
                                 <>
-                                    <div key={`cl${obj.id}`} className={styles.right}>{obj.text}</div>
-                                    <form method="get" id="form" onChange={(e) => submit(e)} className={styles.right}>
-                                        <input name="favoriteGenre" key="1" type="radio" value={1} />
+                                    {button ? (
+                                        <>
+                                         <div className={styles.choice}>
+                                        <div key={`cl${obj.id}`} className={styles.choiceTitle}>{obj.text}</div>
+                                        <form method="get" id="form" onSubmit={submit} className={styles.form}>
+                                        <input name="favoriteGenre" key="1" type="radio" value={1} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label1" htmlFor='1' >アイドル</label>
-                                        <input name="favoriteGenre" key="2" type="radio" value={2} />
+                                        <input name="favoriteGenre" key="2" type="radio" value={2} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label2" htmlFor="2">女性アーティスト</label>
-                                        <input name="favoriteGenre" key="3" type="radio" value={3} />
+                                        <input name="favoriteGenre" key="3" type="radio" value={3} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label3" htmlFor="3" >バンド</label>
-                                        <input name="favoriteGenre" key="4" type="radio" value={4} />
+                                        <input name="favoriteGenre" key="4" type="radio" value={4} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label4" htmlFor="4">男性アーティスト</label>
-                                    </form>
+                                        <button className={styles.submitBtn} key={'button'} type="submit">決定</button>
+                                        </form>
+                                        </div>
+                                        </>
+                                            ) : (
+                                                <div key={'none'}></div>
+                                            )
+                                        }
                                 </>
                             )
-                        } else if(obj.option === 'return'){
+                        } else if(obj.option === 'answer'){
+                            if(genre === 1){
+                                return(
+                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `アイドル`)}</div>
+                                    </div>
+                                    
+                                )
+                            } else  if(genre === 2){
+                                return(
+                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `女性アーティスト`)}</div>
+                                    </div>
+                                )
+                            } else  if(genre === 3){
+                                return(
+                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `バンド`)}</div>
+                                    </div>
+                                )
+                            } else  if(genre === 4){
+                                return(
+                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `男性アーティスト`)}</div>
+                                    </div>
+                                )
+                            }
+                        }else if(obj.option === 'return'){
                             return (
-                                <Link href={"/"}>{obj.text}</Link>
+                                <div key='returnButton' className={styles.returnBtnWrapper}>
+                                    <button className={styles.returnBtn} key={obj.id} onClick={route}>{obj.text}</button>
+                                </div>
+                            )
+                        } else if(obj.option === 'recommend') {
+                            return (
+                                <>
+                                <section className={styles.itemList}>
+                                {items.filter((item)=>{if(item.categories.includes(Number(genre))) return item})
+                                .slice(0, 3)
+                                .map((item)=>{
+                                    return(
+                                        <div key={item.id} className={styles.item}>
+                                        <Link href={`/items/${item.id}`}>
+                                        <Image key={item.id} src={item.itemImage} width={200} height={112.5} alt={item.artist} />
+                                        <br />
+                                        <div className={styles.artist}>{item.artist}</div>
+                                        <div>{item.fesName}</div>
+                                        {/* <div>{item.releaseDate}</div> */}
+                                        </Link>
+                                        </div>
+                                    )
+                                }).reverse()}
+                                </section>
+                                </>
                             )
                         } else {
                             return (
-                                <div key={`cl${obj.id}`} className={styles.left}>{obj.text.replace('Name', `${data.userName}`)}</div>
+                                <>
+                                <div className={styles.bot}>
+                                <Image key='icon' className={styles.icon} src={"/images/chatIcon.jpeg"} width={30} height={30} alt={"アイコン"} />
+                                <div>
+                                <div className={styles.botSays} key={`cl${obj.id}`}>{obj.text.replace('Name', `${data.userName}`)}</div>
+                                </div>
+                                </div>
+                                </>
                             )
                         }
                     })}
                 </div>
-            </div>
+            </body>
         </>
     )
+}
+
+export async function getServerSideProps() {
+    const res = await fetch('http://localhost:3000/api/items')
+    const items = await res.json()
+    return {
+        props: {
+            items
+        }
+    }
 }

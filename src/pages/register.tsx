@@ -67,7 +67,6 @@ export default function LoginScreen() {
     ///住所API
     //住所情報のURLを作成
     let api = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=';
-
     let url = api + formValues.zipcode;
     //住所情報を取得
     const response = await fetch(url, {
@@ -75,13 +74,28 @@ export default function LoginScreen() {
     });
     const Address = await response.json();
 
-    // prefectures,city,houseNumberの値を変更
-    setFormValues({
-      ...formValues,
-      prefectures: Address.results[0].address1,
-      city: Address.results[0].address2,
-      houseNumber: Address.results[0].address3,
-    });
+    //郵便番号が正しく取得できているか
+    if (Address.results !== null) {
+      // prefectures,city,houseNumberの値を変更
+      setFormValues({
+        ...formValues,
+        prefectures: Address.results[0].address1,
+        city: Address.results[0].address2 + Address.results[0].address3,
+
+      });
+
+      setFormErrors({
+        ...formErros,
+        zipcode: '',
+
+      });
+    } else {
+      setFormErrors({
+        ...formErros,
+        zipcode: '正しい郵便番号を入力してください',
+
+      });
+    }
   };
 
   //文字を打った時
@@ -97,6 +111,21 @@ export default function LoginScreen() {
   ) => {
     e.preventDefault();
     const error: Errors = validate(formValues);
+    // 登録済みのメールアドレスを確認する
+    const res = await fetch('/api/mailConditions', {
+      //Jsonファイルに送る
+      method: 'POST',
+      body: JSON.stringify({
+        formValues,
+      }),
+      headers: {
+        'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
+      },
+    })
+    const data = await res.json();
+    if(!data.result){
+      error.mailAddress = data.message ;
+    }
     setFormErrors(error);
 
     if (
@@ -116,6 +145,8 @@ export default function LoginScreen() {
         formValues.passwordTest === ''
       )
     ) {
+
+      
       // 登録内容を登録する
       const response = await fetch(
         'http://localhost:3000/api/users',
@@ -171,11 +202,17 @@ export default function LoginScreen() {
     const regex =
       /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[a-z])(?=.*[A-Z])(?=.*[!@;:])|(?=.*[A-Z])(?=.*[0-9])(?=.*[!@;:])|(?=.*[a-z])(?=.*[0-9])(?=.*[!@;:]))([a-zA-Z0-9!@;:]){8,16}$/;
 
+    const tellRegex = /^0\d{9,10}$/;
+
+    
+
     if (!formValues.userName) {
       errors.userName = 'ユーザー名を入力してください';
     }
     if (!formValues.zipcode) {
       errors.zipcode = '郵便番号を入力してください';
+    } else if (!(formValues.zipcode.length === 7)) {
+      errors.zipcode = '正しい郵便番号を入力してください';
     }
     if (!formValues.prefectures) {
       errors.prefectures = '都道府県を入力してください';
@@ -200,6 +237,9 @@ export default function LoginScreen() {
     }
     if (!formValues.phoneNumbe) {
       errors.phoneNumbe = '電話番号を入力してください';
+    } else if (!tellRegex.test(formValues.phoneNumbe)) {
+      errors.phoneNumbe =
+        '正しい電話番号を入力してください(ハイフンなし)';
     }
     if (!formValues.mailAddress) {
       errors.mailAddress = 'メールアドレスを入力してください';
@@ -212,6 +252,8 @@ export default function LoginScreen() {
     }
     if (!formValues.passwordTest) {
       errors.passwordTest = '確認用パスワードを入力してください';
+    } else if (formValues.password !== formValues.passwordTest) {
+      errors.passwordTest = 'パスワードと確認用パスワードが異なります';
     }
     return errors;
   };
