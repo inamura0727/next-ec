@@ -34,7 +34,7 @@
 }
 
 .icon{
-  border-radius: 30px;
+  border-radius: 3rem;
   padding : 0.3rem;
   background-color: white;
 }
@@ -43,9 +43,9 @@
   display: inline-block;
   position: relative; 
   margin-left: 1.5rem;
-  padding: 10px;
+  padding: 1rem;
   max-width: fit-content;
-  border-radius: 12px;
+  border-radius: 1.2rem;
   background: white;
 }
 
@@ -53,10 +53,10 @@
   content: "";
   display: inline-block;
   position: absolute;
-  top: 3px; 
-  left: -19px;
-  border: 8px solid transparent;
-  border-right: 18px solid white;
+  top: 0.3rem; 
+  left: -1.9rem;
+  border: 0.8rem solid transparent;
+  border-right: 1.8rem solid white;
   -webkit-transform: rotate(35deg);
   transform: rotate(35deg);
 }
@@ -68,19 +68,19 @@
 .rightChat {
   display: inline-block;
   position: relative; 
-  padding: 10px;
+  padding: 1rem;
   max-width: fit-content;
-  border-radius: 12px;
+  border-radius: 1.2rem;
   background: #9BE061;
 }
 
 .rightChat::after {
   content: "";
   position: absolute;
-  top: 3px; 
-  right: -18px;
-  border: 8px solid transparent;
-  border-left: 18px solid #9BE061;
+  top: 0.3rem; 
+  right: -1.8rem;
+  border: 0.8rem solid transparent;
+  border-left: 1.8rem solid #9BE061;
   -webkit-transform: rotate(-35deg);
   transform: rotate(-35deg);
 }
@@ -88,10 +88,10 @@
 .choice{
   margin-right: 2rem;
   margin-left: auto;
-  padding: 10px;
+  padding: 1rem;
   background-color: #E2E2E2;
   width: fit-content;
-  border-radius: 12px;
+  border-radius: 1.2rem;
 }
 
 .choiceTitle{
@@ -117,7 +117,7 @@
   flex-wrap: wrap;
   width: fit-content;
   background-color: white;
-  border-radius: 12px;
+  border-radius: 1.2rem;
   margin-left: 6rem;
 }
 
@@ -126,7 +126,7 @@
   margin: 2rem;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 80rem) {
   .itemList{
     width: 35%;
   }
