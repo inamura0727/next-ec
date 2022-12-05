@@ -44,6 +44,7 @@ export default function Mypage() {
 
     let addRentalHistories = {
       id: rentalHistories.id,
+      itemId: rentalHistories.itemId,
       itemImage: rentalHistories.itemImage,
       itemName: rentalHistories.itemName,
       payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
@@ -127,8 +128,11 @@ export default function Mypage() {
                     <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
                     <p>{`視聴期間：${rentalHistory.period}`}</p>
                     <p>{`金額：${rentalHistory.price}円`}</p>
-                    <Link href={`/items/${rentalHistory.id}`} legacyBehavior>
-                        <a>詳細ページへ</a>
+                    <Link
+                      href={`/items/${rentalHistory.itemId}`}
+                      legacyBehavior
+                    >
+                      <a>詳細ページへ</a>
                     </Link>
                   </li>
                 ));

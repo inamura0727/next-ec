@@ -60,10 +60,14 @@ export default function CartList() {
                       <p className={styles.cartTitle}>
                         {item.itemName}
                       </p>
-                      <p className={styles.cartPeriod}>
-                        レンタル期間 {item.rentalPeriod}泊
+                      <p>
+                        レンタル期間：
+                        {item.rentalPeriod === 2 ? '48時間' : '7泊'}
                       </p>
-                      <Link href={`/items/${item.itemId}`} legacyBehavior>
+                      <Link
+                        href={`/items/${item.itemId}`}
+                        legacyBehavior
+                      >
                         <a>詳細ページへ</a>
                       </Link>
                     </div>
@@ -83,23 +87,27 @@ export default function CartList() {
           );
         })}
         {!isCartflg && (
-          <p className={styles.isCartFlg}>
-            カートには何も追加されていません。
-          </p>
+          <p className={styles.isCartFlg}>カートの中身はありません</p>
         )}
         <div className={styles.btnWrapper}>
-          <div>
+          <div className={styles.totalPrice}>
             <p>合計金額{sum}円</p>
           </div>
           {data.isLoggedIn ? (
             <Link href="/payment">
-              <button className={styles.cartBtn}>決済へ進む</button>
+              <button
+                className={`${styles.cartBtn} ${styles.bgleft}`}
+              >
+                <span>決済へ進む</span>
+              </button>
             </Link>
           ) : (
             <Link href="/login">
               <p>※決済に進むにはログインが必要です</p>
-              <button className={styles.cartBtn}>
-                ログインしてください
+              <button
+                className={`${styles.cartBtn} ${styles.bgleft}`}
+              >
+                <span>ログインしてください</span>
               </button>
             </Link>
           )}
