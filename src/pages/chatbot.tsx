@@ -100,7 +100,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 </title>
             </Head>
             <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')} />
-            <body id="chatbot-body" className={styles.chatbotBody}>
+            <main id="chatbot-body" className={styles.chatbotBody}>
                 <div className={styles.header}>
                 <h1 className={styles.title}>チャットボット</h1>
                 </div>
@@ -201,7 +201,12 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                         }
                     })}
                 </div>
-            </body>
+            </main>
+            <style jsx>{`
+              body {
+                background-color: #7CA3CF;
+              }
+            `}</style>
         </>
     )
 }

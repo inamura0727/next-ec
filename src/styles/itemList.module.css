@@ -14,7 +14,7 @@
   content: '';
   width: 7rem;
   height: 0.3rem;
-  background-color: #E25C00;
+  background-color: #26a4ca;
 }
 
 .p::before {
@@ -53,7 +53,7 @@
 
 .chatbotButton {
   font-size: 1.6rem;
-  font-weight: bold;
+  font-weight: 700;
   justify-content: center; 
   padding: 1rem 4rem;
   margin: 1rem;
