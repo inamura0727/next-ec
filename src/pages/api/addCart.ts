@@ -12,7 +12,7 @@ export default withIronSessionApiRoute(async (req, res) => {
     }
     await req.session.save();
   } catch {
-    console.log('エラー');
+    return res.json('error');
   }
   // res.status(200).end();
   res.json({

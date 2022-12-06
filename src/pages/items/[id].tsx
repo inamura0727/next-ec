@@ -201,8 +201,6 @@ export default function ItemDetail({ item }: { item: Item }) {
 
       const body = { cart: userCarts };
 
-      console.log(body);
-
       // cookieに保存するために/api/cartに飛ばす
       fetch(`/api/addCart`, {
         method: 'POST',

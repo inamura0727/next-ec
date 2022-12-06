@@ -44,7 +44,6 @@ export default withIronSessionApiRoute(async (req, res) => {
           });
         }
         req.session.cart = newFil;
-        console.log(newFil);
       }
     }
     await req.session.save();
