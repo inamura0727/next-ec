@@ -121,16 +121,26 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         <div className={styles.choice}>
                                         <div key={`cl${obj.id}`} className={styles.choiceTitle}>{obj.text}</div>
                                         <form method="get" id="form" onSubmit={submit} className={styles.form} >
+                                        <div>
                                         <input name="favoriteGenre" key="1" type="radio" value={1} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label1" htmlFor='1' >J-POP</label>
+                                        </div>
+                                        <div>
                                         <input name="favoriteGenre" key="2" type="radio" value={2} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label2" htmlFor="2">アイドル</label>
+                                        </div>
+                                        <div>
                                         <input name="favoriteGenre" key="3" type="radio" value={3} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label3" htmlFor="3" >邦楽ロック</label>
+                                        </div>
+                                        <div>
                                         <input name="favoriteGenre" key="4" type="radio" value={4} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label4" htmlFor="4">洋楽ロック</label>
+                                        </div>
+                                        <div>
                                         <input name="favoriteGenre" key="5" type="radio" value={5} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label5" htmlFor="5">アニソン</label>
+                                        </div>
                                         <button className={styles.submitBtn} key={'button'} type="submit">決定</button>
                                         </form>
                                         </div>
@@ -196,7 +206,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         <Image key={item.id} src={item.itemImage} width={150} height={97.95} alt={item.artist} />
                                         <br />
                                         <div className={styles.artist}>{item.artist}</div>
-                                        <div>{item.fesName}</div>
+                                        <div className={styles.fesName}>{item.fesName}</div>
                                         {/* <div>{item.releaseDate}</div> */}
                                         </Link>
                                         </div>

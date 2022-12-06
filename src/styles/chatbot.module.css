@@ -10,10 +10,10 @@
 
 .chatbotBody{
   position: absolute;
-  top: 5%;
+  top: 3%;
   left: 30%;
   padding: 0;
-  height: 90%;
+  height: 94%;
   width: 40%;
   background-color: #7897BF;
   box-shadow: 0 1rem 2rem 0 rgba(146, 146, 146, 0.5);
@@ -34,7 +34,7 @@
 .title{
   margin-left: 1rem;
   color: white;
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
@@ -43,6 +43,7 @@
   margin: 5rem 0 0 1rem;
   padding-right: 2rem;
   width: 100%;
+  font-size: 1.5rem;
 }
 
 .bot{
@@ -113,8 +114,13 @@
   accent-color: #415DE2;
 }
 
+.form{
+  display: flex;
+  flex-flow: column;
+}
+
 .choiceTitle{
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .submitBtn{
@@ -155,6 +161,10 @@
 
 .artist {
   font-size: 1.2rem;
+}
+
+.fesName{
+  font-size: 1rem;
 }
 
 .returnBtnWrapper{
