@@ -101,7 +101,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     }
   }
 
-
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
     const check = carts.filter((cart) => {
@@ -150,7 +149,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       const res = data.userCarts;
 
       let userCarts: UserCart = {
-        id: res.length,
+        id: res.length + 1,
         itemName: `${item.artist}  ${item.fesName}`,
         rentalPeriod: period,
         price: price,
@@ -188,7 +187,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       if (!data.userCarts) {
         cartId = 1;
       } else {
-        cartId = data.userCarts.length;
+        cartId = data.userCarts.length + 1;
       }
 
       let userCarts: UserCart = {
@@ -240,9 +239,21 @@ export default function ItemDetail({ item }: { item: Item }) {
         return cartItem.itemId !== item.id;
       });
 
-      const body = { userCarts: fil };
+      const newFil = [];
+      for (let item of fil) {
+        newFil.push({
+          id: newFil.length + 1,
+          itemId: item.itemId,
+          itemName: item.itemName,
+          itemImage: item.itemImage,
+          price: item.price,
+          rentalPeriod: item.rentalPeriod,
+        });
+      }
 
-      fetch(`http://localhost:3000/api/users/${id}`, {
+      const body = { userCarts: newFil };
+
+      await fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -262,7 +273,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       // ログイン前の場合
       const body = { id: item.id, detail: true };
 
-      fetch(`/api/itemDelete`, {
+      await fetch(`/api/itemDelete`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

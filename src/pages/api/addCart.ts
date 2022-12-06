@@ -11,9 +11,8 @@ export default withIronSessionApiRoute(async (req, res) => {
       req.session.cart = [cart];
     }
     await req.session.save();
-    // console.log(req.session.cart);
   } catch {
-    console.log('エラー');
+    return res.json('error');
   }
   // res.status(200).end();
   res.json({

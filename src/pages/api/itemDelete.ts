@@ -12,12 +12,37 @@ export default withIronSessionApiRoute(async (req, res) => {
         const fil = carts.filter((cartItem) => {
           return cartItem.itemId !== id;
         });
-        req.session.cart = fil;
+
+        const newFil = [];
+        for (let item of fil) {
+          newFil.push({
+            id: newFil.length + 1,
+            itemId: item.itemId,
+            itemName: item.itemName,
+            itemImage: item.itemImage,
+            price: item.price,
+            rentalPeriod: item.rentalPeriod,
+          });
+        }
+
+        req.session.cart = newFil;
       } else {
         const fil = carts.filter((cartItem) => {
           return cartItem.id !== id;
         });
-        req.session.cart = fil;
+
+        const newFil = [];
+        for (let item of fil) {
+          newFil.push({
+            id: newFil.length + 1,
+            itemId: item.itemId,
+            itemName: item.itemName,
+            itemImage: item.itemImage,
+            price: item.price,
+            rentalPeriod: item.rentalPeriod,
+          });
+        }
+        req.session.cart = newFil;
       }
     }
     await req.session.save();

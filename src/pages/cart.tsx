@@ -93,23 +93,35 @@ export default function CartList() {
           <div className={styles.totalPrice}>
             <p>合計金額{sum}円</p>
           </div>
-          {data.isLoggedIn ? (
-            <Link href="/payment">
+          {!isCartflg ? (
+            <Link href="/search?categories_like=&q=">
               <button
                 className={`${styles.cartBtn} ${styles.bgleft}`}
               >
-                <span>決済へ進む</span>
+                <span>商品を探す</span>
               </button>
             </Link>
           ) : (
-            <Link href="/login">
-              <p>※決済に進むにはログインが必要です</p>
-              <button
-                className={`${styles.cartBtn} ${styles.bgleft}`}
-              >
-                <span>ログインしてください</span>
-              </button>
-            </Link>
+            <>
+              {data.isLoggedIn ? (
+                <Link href="/payment">
+                  <button
+                    className={`${styles.cartBtn} ${styles.bgleft}`}
+                  >
+                    <span>決済へ進む</span>
+                  </button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <p>※決済に進むにはログインが必要です</p>
+                  <button
+                    className={`${styles.cartBtn} ${styles.bgleft}`}
+                  >
+                    <span>ログインしてください</span>
+                  </button>
+                </Link>
+              )}
+            </>
           )}
         </div>
         <style jsx>
