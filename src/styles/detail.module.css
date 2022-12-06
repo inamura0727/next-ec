@@ -1,6 +1,6 @@
 .detailImgWrapper {
-  width: 90%;
-  aspect-ratio: auto 400/225;
+  width: 100%;
+  height: 40rem;
   position: relative;
   margin: 0 auto;
 }
@@ -8,9 +8,12 @@
 .detailTitle {
   font-size: 7rem;
   font-weight: bold;
-  color: #333;
-  background-color: #fff;
+  color: #fff;
   padding: 1.5rem;
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  transform: translateY(-50%);
 }
 
 .detailContainer {
@@ -52,7 +55,7 @@
 .detailRadioWrapper {
   width: 40%;
   border: 1px solid #333;
-  padding: 3rem;
+  padding: 1.5rem;
   text-align: center;
   border-radius: 3rem;
   font-size: 1.75rem;
@@ -166,9 +169,15 @@
   transform: translateY(5px);
 }
 
+@media screen and (max-width: 1000px){
+  .detailTitle{
+    font-size: 5.5rem;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .detailTitle {
-    font-size: 4rem;
+    font-size: 5.5rem;
   }
 
   .detailBody {
