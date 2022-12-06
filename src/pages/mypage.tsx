@@ -58,10 +58,14 @@ export default function Mypage() {
         const StartYear = StartDay.getFullYear();
         const StartMonth = StartDay.getMonth() + 1;
         const StartDate = StartDay.getDate();
+        const StartHours = StartDay.getHours();
+        const StartMinutes = StartDay.getMinutes();
         const EndYear = EndDay.getFullYear();
         const EndMonth = EndDay.getMonth() + 1;
         const EndDate = EndDay.getDate();
-        rentalItem.displayPeriod = `${StartYear}年${StartMonth}月${StartDate}日〜${EndYear}年${EndMonth}月${EndDate}日`;
+        const EndHours = StartDay.getHours();
+        const EndMinutes = StartDay.getMinutes();
+        rentalItem.displayPeriod = `${StartYear}/${StartMonth}/${StartDate} ${StartHours}:${StartMinutes} 〜 ${EndYear}/${EndMonth}/${EndDate} ${EndHours}:${EndMinutes}`;
       }
       return rentalItem;
     });
@@ -90,10 +94,14 @@ export default function Mypage() {
       const StartYear = StartDay.getFullYear();
       const StartMonth = StartDay.getMonth() + 1;
       const StartDate = StartDay.getDate();
+      const StartHours = StartDay.getHours();
+      const StartMinutes = StartDay.getMinutes();
       const EndYear = EndDay.getFullYear();
       const EndMonth = EndDay.getMonth() + 1;
       const EndDate = EndDay.getDate();
-      addRentalHistories.period = `${StartYear}年${StartMonth}月${StartDate}日〜${EndYear}年${EndMonth}月${EndDate}日`;
+      const EndHours = StartDay.getHours();
+      const EndMinutes = StartDay.getMinutes();
+      addRentalHistories.period = `${StartYear}/${StartMonth}/${StartDate} ${StartHours}:${StartMinutes} 〜 ${EndYear}/${EndMonth}/${EndDate} ${EndHours}:${EndMinutes}`;
     } else {
       addRentalHistories.period = '未再生';
     }
