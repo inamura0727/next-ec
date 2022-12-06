@@ -110,7 +110,7 @@ export default function Payment({
               </div>
               <div className={styles.price}>
                 <p>価格</p>
-                <b>{item.price}</b>円
+                <div>{item.price}円</div>
               </div>
             </div>
           ))}
@@ -123,8 +123,8 @@ export default function Payment({
           <div className={styles.sumPrice}>ご請求金額：{sum}円</div>
           <input type="hidden" name="price" value={sum} />
           <div className={styles.btnWrapper}>
-            <button type="submit" className={styles.paymentBtn}>
-              決済する
+            <button type="submit" className={`${styles.paymentBtn} ${styles.bgleft}`} >
+              <span>決済する</span>
             </button>
           </div>
         </form>

@@ -18,7 +18,7 @@ export default function Player({ closePlayer, id }: playerProps) {
   return (
     <div className={styles.playerArea}>
       <ReactPlayer
-        url={'https://youtu.be/UK5xSs9jBlk'}
+        url={'https://www.youtube.com/watch?v=Gqoby4CeA3Y'}
         className={styles.reactPlayer}
         width="70%"
         height="70%"
