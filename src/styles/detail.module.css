@@ -169,8 +169,12 @@
   transform: translateY(5px);
 }
 
-@media screen and (max-width: 1000px){
-  .detailTitle{
+.btnWrapper p {
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .detailTitle {
     font-size: 5.5rem;
   }
 }
