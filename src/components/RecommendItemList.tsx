@@ -13,10 +13,10 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
         <main>
         {typeof(data.favoriteGenre) !== 'number' ? (
             <>
-             <div className={styles.p}>ジャンル:バンド</div>
+             <div className={styles.p}>邦楽ロック</div>
              <section className={styles.itemList}>
-             {/* if文で表示したいカテゴリにフィルター(仮でバンド) */}
-             {items.filter((item)=>{if(item.categories.includes(4)) return item})
+             {/* if文で表示したいカテゴリにフィルター(仮で邦楽ロック) */}
+             {items.filter((item)=>{if(item.categories.includes(3)) return item})
              .slice(0, 10)
              .map((item)=>{
                  return(
