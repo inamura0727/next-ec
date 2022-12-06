@@ -80,6 +80,7 @@
     font-size: 1.75rem;
     transition: 0.25s;
     border-radius: 3rem;
+    font-weight: bold;
 }
 
 .btnWrapper .paymentBtn:hover {

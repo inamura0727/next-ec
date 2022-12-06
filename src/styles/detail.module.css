@@ -1,8 +1,10 @@
 .detailImgWrapper {
-  max-width: 100%;
-  height: 35rem;
+  width: 90%;
+  aspect-ratio: auto 400/225;
   position: relative;
+  margin: 0 auto;
 }
+
 .detailTitle {
   font-size: 7rem;
   font-weight: bold;
@@ -10,17 +12,21 @@
   background-color: #fff;
   padding: 1.5rem;
 }
+
 .detailContainer {
   max-width: 133rem;
 }
+
 .detailBodyWrapper {
   padding: 3rem 1.5rem;
 }
+
 .detailBody {
   display: flex;
   background-color: #fff;
   padding: 4rem;
 }
+
 .detailBodyInner {
   width: 55%;
   font-size: 1.5rem;
@@ -31,6 +37,7 @@
   max-width: 103rem;
   margin: 0 auto;
 }
+
 .detailImgWrapper::after {
   content: '';
   width: 100%;
@@ -72,30 +79,28 @@
   width: 15rem;
   max-width: 100%;
   padding: 1rem 1rem;
-  background: linear-gradient(45deg, #3490de 0%, #a1de93 100%);
-  border: 2px solid #3490de;
-  border-image: linear-gradient(to right, #3490de 0%, #a1de93 100%);
-  border-image-slice: 1;
-  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+  background-color: #26a4ca;
+  border: 0.2rem solid #26a4ca;
   font-size: 1.75rem;
   text-align: center;
   text-decoration: none;
   transition: ease 2s;
   cursor: pointer;
+  border-radius: 30px;
 }
 
 .detailBtn:hover {
-  border: 0.2rem solid #222;
+  border: 0.2rem solid #26a4ca;
 }
 
 .detailBtn span {
   position: relative;
   z-index: 3;
-  color: #111;
+  color: #fff;
 }
 
 .detailBtn:hover span {
-  color: #fff;
+  color: #26a4ca;
   transition: ease 1s;
 }
 
@@ -105,13 +110,14 @@
   top: 0;
   left: 0;
   z-index: 2;
-  background-color: #222;
+  background-color: #fff;
   width: 100%;
   height: 100%;
   transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1) 0s;
   transform: scale(0, 1);
   transform-origin: left top;
 }
+
 .bgleft:hover::before {
   transform: right top;
   transform: scale(1, 1);
@@ -121,6 +127,7 @@
   width: 40%;
   text-align: center;
 }
+
 .btn {
   position: relative;
   display: inline-block;
@@ -133,6 +140,7 @@
   box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: 20rem;
 }
 
 .btn::after {
