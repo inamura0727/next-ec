@@ -334,7 +334,7 @@
       "id": 20,
       "fesName": "SUMMER SONIC 2022 TOKYO",
       "artist": "MÅNESKIN",
-      "itemDetail": "昨年ヨーロッパ最大の音楽の祭典“ユーロヴィジョン・ソング・コンテスト2021”で優勝し、瞬く間に全世界でブレイクしたマネスキン（デンマーク語で「月光」の意）。ダミアーノ・デイヴィッド(vo)、ヴィクトリア・デ・アンジェリス(b)、トーマス・ラッジ(g)、イーサン・トルキオ(ds) から成るイタリア・ローマ出身のZ世代４人組バンド。",
+      "itemDetail": "昨年ヨーロッパ最大の音楽の祭典“ユーロヴィジョン・ソング・コンテスト2021”で優勝。",
       "itemImage": "/images/fes-image/fes-image05.jpg",
       "releaseDate": "2022-11-29",
       "playTime": 50,
@@ -466,7 +466,7 @@
       "firstName": "健",
       "familyNameKana": "サトウ",
       "firstNameKana": "タケル",
-      "mailAddress": "Satou@example.con",
+      "mailAddress": "Satou@example.com",
       "password": "qwer1234@",
       "rentalHistories": [],
       "userCarts": [
