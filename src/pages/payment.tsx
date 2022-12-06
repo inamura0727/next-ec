@@ -61,9 +61,9 @@ export default function Payment({
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(user.isLoggedIn);
 
-  // ログインしていない場合は、ログイン画面へ
+  // ログインしていない場合は、トップ画面へ
   if (!isLoggedIn) {
-    router.push(`/login`);
+    router.push(`/`);
   }
   // 合計金額
   const sum = user.userCarts
@@ -96,17 +96,22 @@ export default function Payment({
           <h1>ご注文内容</h1>
           {user.userCarts?.map((item: UserCart) => (
             <div className={styles.itemWrapper} key={item.id}>
-              <Image
-                src={item.itemImage}
-                width={200}
-                height={112.5}
-                alt={'商品画像のURL'}
-              />
-              <div className={styles.title}>{item.itemName}</div>
-              <div className={styles.rentalPeriod}>
-                {item.rentalPeriod}日
+              <div className={styles.ItemInfo}>
+                <Image
+                  src={item.itemImage}
+                  width={200}
+                  height={112.5}
+                  alt={'商品画像のURL'}
+                />
+                <div className={styles.itemName}>
+                  <p>{item.itemName}</p>
+                  <p>レンタル期間：{item.rentalPeriod}泊</p>
+                </div>
               </div>
-              <div className={styles.price}>{item.price}円</div>
+              <div className={styles.price}>
+                <p>価格</p>
+                <b>{item.price}</b>円
+              </div>
             </div>
           ))}
           <div className={styles.count}>

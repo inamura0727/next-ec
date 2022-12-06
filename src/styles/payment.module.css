@@ -1,9 +1,9 @@
-.paymentMain .errorWrapper{
+.paymentMain .errorWrapper {
     width: fit-content;
     margin: 3rem auto 0;
 }
 
-.paymentMain .errorWrapper .errorMessage{
+.paymentMain .errorWrapper .errorMessage {
     color: red;
     border: 0.1rem solid;
     border-radius: 1rem;
@@ -12,51 +12,59 @@
     font-size: 2rem;
 }
 
-.paymentMain .orderWrapper{
-    border: 0.1rem solid fff;
+.paymentMain .orderWrapper {
     padding: 5rem;
-    margin: 2rem auto;
+    margin: 0 auto;
     width: 70%;
-    background-color: #111111;
-    color: #fff;
-    border-radius: 1rem;
 }
-.paymentMain .orderWrapper .itemWrapper{
+
+.paymentMain .orderWrapper h1{
+    font-size: 2.5rem;
+}
+
+.paymentMain .orderWrapper .itemWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 2rem 0;
-    border-bottom: 0.1rem solid #fff;
-    padding-bottom: 2rem;
+    /* border-bottom: 0.1rem solid #fff; */
+    padding: 3rem;
     font-size: 1.8rem;
+    color: #111111;
+    border: 1px solid #fff;
+    background-color: #fff;
 }
 
-.paymentMain .orderWrapper .itemWrapper img{
+.paymentMain .orderWrapper .itemWrapper img {
     border: 0.1rem solid #fff;
 }
 
-.paymentMain .orderWrapper .itemWrapper .title{
-    width: 40%;
-    text-align: center;
+.paymentMain .orderWrapper .itemWrapper .ItemInfo {
+    width:fit-content;
+    display: flex;
 }
 
-.paymentMain .orderWrapper .itemWrapper .rentalPeriod,.proice{
-    width: 15%;
-    text-align: center;
+.paymentMain .orderWrapper .itemWrapper .ItemInfo .itemName{
+    width:fit-content;
+    margin-left: 2rem;
 }
 
-.paymentMain .orderWrapper .count{
+.paymentMain .orderWrapper .itemWrapper .price p{
+    margin: 0;
+}
+
+.paymentMain .orderWrapper .count {
     font-size: 2.5rem;
     margin-top: 3rem;
     text-align: end;
 }
 
-.paymentMain form{
+.paymentMain form {
     margin: 2rem 0;
     text-align: center;
 }
 
-.btnWrapper{
+.btnWrapper {
     width: 100%;
     margin: 0 auto;
     text-align: center;
@@ -81,7 +89,7 @@
     box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
 }
 
-.sumPrice{
+.sumPrice {
     font-size: 2.5rem;
     margin: 2rem 0;
 }
@@ -89,7 +97,7 @@
 
 /* レスポンシブスマホサイズ */
 @media screen and (max-width: 800px) {
-    .paymentMain .orderWrapper .itemWrapper img{
+    .paymentMain .orderWrapper .itemWrapper img {
         display: none;
     }
 }
