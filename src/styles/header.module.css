@@ -56,20 +56,25 @@
 
 .header .pc_nav ul {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     padding: 0;
+    margin-left: 5rem;
 }
 
 .header .pc_nav ul li {
     list-style: none;
     text-align: center;
-    transition: 0.25s;
+    transition: 0.3s;
+}
+.header .pc_nav ul li:hover{
+    transform: scale(1.2);
 }
 .header .pc_nav ul li .icon{
     display: block;
     margin: 0 auto 0.5rem;
 }
+
 
 
 

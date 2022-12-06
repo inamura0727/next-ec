@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Player from '../components/Player';
 import Link from 'next/link';
 import styles from 'styles/mypage.module.css';
+import loadStyles from 'styles/loading.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -22,7 +23,17 @@ export default function Mypage() {
 
   //ログインしたアカウント情報を取得
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
-  if (!data) return <div>Loading</div>;
+  if (!data) return <div className={loadStyles.loadingArea}>
+  <div className={loadStyles.bound}>
+      <span>L</span>
+      <span>o</span>
+      <span>a</span>
+      <span>d</span>
+      <span>i</span>
+      <span>g</span>
+      <span>...</span>
+  </div>
+</div>;
   const rentalHistory = data.userRentalHistories; //レンタル履歴を取得
 
   //レンタル中作品情報を取得

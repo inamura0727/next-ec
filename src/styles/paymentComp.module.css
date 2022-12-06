@@ -1,12 +1,12 @@
 .payCompMain{
     width: 80%;
     margin: 5rem auto;
-    background-color: #111111;
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 80%;
-    color: white;
+    color: #111111;
     font-size: 2rem;
     border-radius: 2rem;
 }
@@ -32,12 +32,12 @@
     .payCompMain{
         width: 80%;
         margin: 5rem auto;
-        background-color: #111111;
+        background-color: #fff;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 80%;
-        color: white;
+        color: #111111;
         font-size: 1.4rem;
         border-radius: 2rem;
     }

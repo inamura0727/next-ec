@@ -7,12 +7,23 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
 import Head from 'next/head';
+import loadStyles from 'styles/loading.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function CartList() {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
-  if (!data) return <div>Loading</div>;
+  if (!data) return <div className={loadStyles.loadingArea}>
+  <div className={loadStyles.bound}>
+      <span>L</span>
+      <span>o</span>
+      <span>a</span>
+      <span>d</span>
+      <span>i</span>
+      <span>g</span>
+      <span>...</span>
+  </div>
+</div>;
   // ユーザーのidを取得予定
   const id = data.userId;
   // ユーザーのカート情報を取得

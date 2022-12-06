@@ -4,13 +4,24 @@ import Link from 'next/link';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
+import loadStyles from 'styles/loading.module.css';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function PaymentComp() {
 
   const { data } = UseSWR<SessionUser>('/api/getUser',fetcher);
-  if(!data) return <div>Loading</div>
+  <div className={loadStyles.loadingArea}>
+        <div className={loadStyles.bound}>
+            <span>L</span>
+            <span>o</span>
+            <span>a</span>
+            <span>d</span>
+            <span>i</span>
+            <span>g</span>
+            <span>...</span>
+        </div>
+    </div>
 
   return (
     <>
