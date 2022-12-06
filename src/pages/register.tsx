@@ -286,9 +286,12 @@ export default function LoginScreen() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <ul>
             <li>
-              <label className={styles.label} htmlFor={'userName'}>
-                ユーザー名
-              </label>
+              <div className={styles.labelWrapper}>
+                <label className={styles.label} htmlFor={'userName'}>
+                  ユーザー名
+                </label>
+                <span className={styles.required}>必須</span>
+              </div>
               <input
                 type="text"
                 name="userName"
@@ -296,12 +299,17 @@ export default function LoginScreen() {
                 value={formValues.userName}
                 onChange={(e) => handleChange(e)}
               />
-              <p className={styles.error}>{formErros.userName}</p>
+              {formErros.userName && (
+                <p className={styles.error}>{formErros.userName}</p>
+              )}
             </li>
             <li>
-              <label className={styles.label} htmlFor={'zipcode'}>
-                郵便番号
-              </label>
+              <div className={styles.labelWrapper}>
+                <label className={styles.label} htmlFor={'zipcode'}>
+                  郵便番号
+                </label>
+                <span className={styles.required}>必須</span>
+              </div>
               <input
                 type="text"
                 name="zipcode"
@@ -316,17 +324,22 @@ export default function LoginScreen() {
               >
                 住所検索
               </button>
-              <p className={styles.error}>{formErros.zipcode}</p>
+              {formErros.zipcode && (
+                <p className={styles.error}>{formErros.zipcode}</p>
+              )}
             </li>
 
             <li className={styles.listWrapper}>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'prefectures'}
-                >
-                  都道府県
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'prefectures'}
+                  >
+                    都道府県
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="prefectures"
@@ -334,15 +347,20 @@ export default function LoginScreen() {
                   value={formValues.prefectures}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.prefectures}
-                </p>
+                {formErros.prefectures && (
+                  <p className={styles.error}>
+                    {formErros.prefectures}
+                  </p>
+                )}
               </div>
 
               <div className={styles.listInfo}>
-                <label className={styles.label} htmlFor={'city'}>
-                  市区町村
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label className={styles.label} htmlFor={'city'}>
+                    市区町村
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="city"
@@ -350,15 +368,20 @@ export default function LoginScreen() {
                   value={formValues.city}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>{formErros.city}</p>
+                {formErros.city && (
+                  <p className={styles.error}>{formErros.city}</p>
+                )}
               </div>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'houseNumber'}
-                >
-                  番地
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'houseNumber'}
+                  >
+                    番地
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="houseNumber"
@@ -366,17 +389,21 @@ export default function LoginScreen() {
                   value={formValues.houseNumber}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.houseNumber}
-                </p>
+                {formErros.houseNumber && (
+                  <p className={styles.error}>
+                    {formErros.houseNumber}
+                  </p>
+                )}
               </div>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'buildingName'}
-                >
-                  建物名・部屋番号
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'buildingName'}
+                  >
+                    建物名・部屋番号
+                  </label>
+                </div>
                 <input
                   type="text"
                   name="buildingName"
@@ -389,12 +416,15 @@ export default function LoginScreen() {
 
             <li className={styles.listWrapper}>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'familyName'}
-                >
-                  姓
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'familyName'}
+                  >
+                    姓
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="familyName"
@@ -402,13 +432,23 @@ export default function LoginScreen() {
                   value={formValues.familyName}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>{formErros.familyName}</p>
+                {formErros.familyName && (
+                  <p className={styles.error}>
+                    {formErros.familyName}
+                  </p>
+                )}
               </div>
 
               <div className={styles.listInfo}>
-                <label className={styles.label} htmlFor={'firstName'}>
-                  名
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'firstName'}
+                  >
+                    名
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="firstName"
@@ -416,18 +456,25 @@ export default function LoginScreen() {
                   value={formValues.firstName}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>{formErros.firstName}</p>
+                {formErros.firstName && (
+                  <p className={styles.error}>
+                    {formErros.firstName}
+                  </p>
+                )}
               </div>
             </li>
 
             <li className={styles.listWrapper}>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'familyNameKana'}
-                >
-                  セイ
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'familyNameKana'}
+                  >
+                    セイ
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="familyNameKana"
@@ -435,18 +482,23 @@ export default function LoginScreen() {
                   value={formValues.familyNameKana}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.familyNameKana}
-                </p>
+                {formErros.familyNameKana && (
+                  <p className={styles.error}>
+                    {formErros.familyNameKana}
+                  </p>
+                )}
               </div>
 
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'firstNameKana'}
-                >
-                  メイ
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'firstNameKana'}
+                  >
+                    メイ
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="text"
                   name="firstNameKana"
@@ -454,20 +506,25 @@ export default function LoginScreen() {
                   value={formValues.firstNameKana}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.firstNameKana}
-                </p>
+                {formErros.firstNameKana && (
+                  <p className={styles.error}>
+                    {formErros.firstNameKana}
+                  </p>
+                )}
               </div>
             </li>
 
             <li className={styles.listWrapper}>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'phoneNumbe'}
-                >
-                  電話番号
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'phoneNumbe'}
+                  >
+                    電話番号
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="tel"
                   name="phoneNumbe"
@@ -475,16 +532,25 @@ export default function LoginScreen() {
                   value={formValues.phoneNumbe}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>{formErros.phoneNumbe}</p>
+                {formErros.phoneNumbe && (
+                  <p className={styles.error}>
+                    {formErros.phoneNumbe}
+                  </p>
+                )}
               </div>
+            </li>
 
+            <li>
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'mailAddress'}
-                >
-                  メールアドレス
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'mailAddress'}
+                  >
+                    メールアドレス
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="email"
                   name="mailAddress"
@@ -492,17 +558,25 @@ export default function LoginScreen() {
                   value={formValues.mailAddress}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.mailAddress}
-                </p>
+                {formErros.mailAddress && (
+                  <p className={styles.error}>
+                    {formErros.mailAddress}
+                  </p>
+                )}
               </div>
             </li>
 
             <li className={styles.listWrapper}>
               <div className={styles.listInfo}>
-                <label className={styles.label} htmlFor={'password'}>
-                  パスワード
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'password'}
+                  >
+                    パスワード
+                  </label>
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="password"
                   id="password"
@@ -510,16 +584,21 @@ export default function LoginScreen() {
                   value={formValues.password}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>{formErros.password}</p>
+                {formErros.password && (
+                  <p className={styles.error}>{formErros.password}</p>
+                )}
               </div>
 
               <div className={styles.listInfo}>
-                <label
-                  className={styles.label}
-                  htmlFor={'passwordTest'}
-                >
-                  確認用パスワード
-                </label>
+                <div className={styles.labelWrapper}>
+                  <label
+                    className={styles.label}
+                    htmlFor={'passwordTest'}
+                  >
+                    確認用パスワード
+                  </label>  
+                  <span className={styles.required}>必須</span>
+                </div>
                 <input
                   type="password"
                   id="passwordTest"
@@ -527,9 +606,11 @@ export default function LoginScreen() {
                   value={formValues.passwordTest}
                   onChange={(e) => handleChange(e)}
                 />
-                <p className={styles.error}>
-                  {formErros.passwordTest}
-                </p>
+                {formErros.passwordTest && (
+                  <p className={styles.error}>
+                    {formErros.passwordTest}
+                  </p>
+                )}
               </div>
             </li>
           </ul>

@@ -5,10 +5,12 @@
 }
 
 .form {
-    background-color: #111111;
-    color: #fff;
+    border: 1px solid #fff;
+    background-color: #fff;
+    color: #111111;
     border-radius: 1rem;
     padding: 3rem 10rem;
+    margin: 5rem 0;
 }
 
 .form ul {
@@ -22,28 +24,50 @@
     margin: 2rem 0;
 }
 
-.form ul li .label {
-    display: block;
-    margin-bottom: 0.5rem;
+.form ul li .labelWrapper {
+    margin-bottom: 0.3rem;
+}
+
+.form ul li .labelWrapper .label {
     font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.form ul li .labelWrapper .required {
+    width: fit-content;
+    border-radius: 1rem;
+    color: #ef4949;
+    margin-left: 0.5rem;
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .form ul .listWrapper {
     display: flex;
 }
 
-.form ul .listWrapper .listInfo{
+.form ul .listWrapper .listInfo {
     display: block;
     margin-right: 2rem;
 }
 
-.error {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #ef4949;
+.form ul li input {
+    border-color: #ececec;
+    border-radius: 0.5rem;
+
 }
 
-.btnWrapper,.linkWrapper {
+.error {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ef4949;
+    margin: 1rem 0 0 0;
+}
+
+.btnWrapper,
+.linkWrapper {
     width: 100%;
     margin: 0 auto;
     text-align: center;
@@ -72,9 +96,11 @@
 .linkWrapper {
     margin-top: 2rem;
 }
-.topLink{
+
+.topLink {
     font-size: 1.6rem;
 }
+
 .topLink:hover {
     text-decoration: revert;
 }
