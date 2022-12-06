@@ -187,7 +187,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       if (!data.userCarts) {
         cartId = 1;
       } else {
-        cartId = data.userCarts.length;
+        cartId = data.userCarts.length + 1;
       }
 
       let userCarts: UserCart = {
@@ -200,6 +200,8 @@ export default function ItemDetail({ item }: { item: Item }) {
       };
 
       const body = { cart: userCarts };
+
+      console.log(body);
 
       // cookieに保存するために/api/cartに飛ばす
       fetch(`/api/addCart`, {
