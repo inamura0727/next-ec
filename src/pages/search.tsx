@@ -12,6 +12,7 @@ import SortSelect from 'components/SortSelect';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import { useState } from 'react';
+import loadStyles from 'styles/loading.module.css';
 
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
 const PAGE_SIZE = 12;
@@ -54,7 +55,20 @@ export default function Search({
     });
   };
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
-  if (!data) return <div>Loading</div>;
+  if (!data)
+    return (
+      <div className={loadStyles.loadingArea}>
+        <div className={loadStyles.bound}>
+          <span>L</span>
+          <span>o</span>
+          <span>a</span>
+          <span>d</span>
+          <span>i</span>
+          <span>g</span>
+          <span>...</span>
+        </div>
+      </div>
+    );
   return (
     <>
       <Head>
@@ -95,7 +109,9 @@ export default function Search({
                       <div className={styles.artist}>
                         {item.artist}
                       </div>
-                      <div className={styles.fesName}>{item.fesName}</div>
+                      <div className={styles.fesName}>
+                        {item.fesName}
+                      </div>
                     </Link>
                   </div>
                 );

@@ -8,6 +8,7 @@ import { SessionUser } from '../api/getUser';
 import Header from '../../components/Header';
 import Head from 'next/head';
 import Player from '../../components/Player';
+import loadStyles from 'styles/loading.module.css';
 
 export type loginUser = {
   userId: number;
@@ -59,7 +60,20 @@ export default function ItemDetail({ item }: { item: Item }) {
   };
 
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
-  if (!data) return <div>Loading</div>;
+  if (!data)
+    return (
+      <div className={loadStyles.loadingArea}>
+        <div className={loadStyles.bound}>
+          <span>L</span>
+          <span>o</span>
+          <span>a</span>
+          <span>d</span>
+          <span>i</span>
+          <span>g</span>
+          <span>...</span>
+        </div>
+      </div>
+    );
 
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
@@ -100,7 +114,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       }
     }
   }
-
 
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
@@ -291,7 +304,7 @@ export default function ItemDetail({ item }: { item: Item }) {
   const closePlayer = () => {
     setStart(!start);
     mutate('/api/getUser');
-  }
+  };
 
   return (
     <>
