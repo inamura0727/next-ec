@@ -187,7 +187,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                         }else if(obj.option === 'return'){
                             return (
                                 <>
-                                <div key='returnButton' className={styles.returnBtnWrapper}>
+                                <div ref={chatArea} key='returnButton' className={styles.returnBtnWrapper}>
                                     <button className={styles.returnBtn} key={obj.id} onClick={route}>{obj.text}</button>
                                 </div>
                                 <div key={'none'} ref={chatArea}></div>
@@ -196,17 +196,17 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                         } else if(obj.option === 'recommend') {
                             return (
                                 <>
-                                <section className={styles.itemList}>
+                                <section className={styles.itemList} ref={chatArea}>
                                 {items.filter((item)=>{if(item.categories.includes(Number(genre))) return item})
                                 .slice(0, 4)
                                 .map((item)=>{
                                     return(
-                                        <div key={item.id} className={styles.item}>
+                                        <div key={item.id} className={styles.item} ref={chatArea}>
                                         <Link href={`/items/${item.id}`}>
                                         <Image key={item.id} src={item.itemImage} width={150} height={97.95} alt={item.artist} />
                                         <br />
-                                        <div className={styles.artist}>{item.artist}</div>
-                                        <div className={styles.fesName}>{item.fesName}</div>
+                                        <div ref={chatArea} className={styles.artist}>{item.artist}</div>
+                                        <div ref={chatArea} className={styles.fesName}>{item.fesName}</div>
                                         {/* <div>{item.releaseDate}</div> */}
                                         </Link>
                                         </div>

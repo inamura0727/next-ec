@@ -117,7 +117,9 @@
 .form{
   display: flex;
   flex-flow: column;
-  margin: 1rem
+  margin-top: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .choiceTitle{
@@ -125,13 +127,14 @@
 }
 
 .submitBtn{
-  margin-left: 1rem;
+  margin-left: 20%;
   margin-top: 1rem;
   border-radius: 18rem;
   border: 0.2rem solid #26a4ca;
   background-color: #26a4ca;
   color: white;
   font-weight: bold;
+  width: 60%;
 }
 
 .submitBtn:hover{
