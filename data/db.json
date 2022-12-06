@@ -372,189 +372,11 @@
   ],
   "users": [
     {
-      "userName": "ユーザー",
-      "zipcode": "7310111",
-      "prefectures": "広島県",
-      "city": "広島市安佐南区",
-      "houseNumber": "東野",
-      "buildingName": "011",
-      "familyName": "田中",
-      "firstName": "涼",
-      "familyNameKana": "タナカ",
-      "firstNameKana": "リョウ",
-      "mailAddress": "safas@eref",
-      "password": "qwe123qwe@",
-      "rentalHistories": [
-        {
-          "id": 1,
-          "fesName": "TokyoIdolFestival 2022",
-          "artist": "=LOVE",
-          "itemDetail": "「TIF」6年目で2日目トリ 貫禄の8曲パフォーマンス",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 60,
-          "twoDaysPrice": 100,
-          "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
-          "keywords": [
-            "イコールラブ",
-            "いこーるらぶ",
-            "イコラブ",
-            "いこらぶ",
-            "TIF",
-            "ティフ"
-          ]
-        },
-        {
-          "id": 2,
-          "fesName": "TokyoIdolFestival 2022",
-          "artist": "≠ME",
-          "itemDetail": "最新曲「す、好きじゃない！」を熱唱",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 80,
-          "twoDaysPrice": 100,
-          "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
-          "keywords": [
-            "ノットイコールミー",
-            "のっといこーるみー",
-            "ノイミー",
-            "のいみー",
-            "TIF",
-            "ティフ"
-          ]
-        },
-        {
-          "id": 3,
-          "fesName": "JAPAN JAM2022",
-          "artist": "sumika",
-          "itemDetail": "sumikaです",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 90,
-          "twoDaysPrice": 100,
-          "sevenDaysPrice": 200,
-          "categories": [
-            3,
-            4
-          ],
-          "keywords": [
-            "スミカ",
-            "すみか",
-            "Sumika",
-            "ジャパンジャム"
-          ]
-        },
-        {
-          "id": 4,
-          "fesName": "JAPAN JAM2022",
-          "artist": "ポルカドットスティングレイ",
-          "itemDetail": "ポルカです",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 1000,
-          "twoDaysPrice": 100,
-          "sevenDaysPrice": 200,
-          "categories": [
-            2,
-            3,
-            4
-          ],
-          "keywords": [
-            "ジャパンジャム"
-          ]
-        },
-        {
-          "id": 5,
-          "fesName": "TokyoIdolFestival 2022",
-          "artist": "≒JOY",
-          "itemDetail": "ニアジョイです",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 60,
-          "twoDaysPrice": 10,
-          "sevenDaysPrice": 200,
-          "categories": [
-            1,
-            2
-          ],
-          "keywords": [
-            "ニアリーイコールジョイ",
-            "にありーいこーるじょい",
-            "ニアジョイ",
-            "にあじょい",
-            "TIF",
-            "ティフ"
-          ]
-        },
-        {
-          "id": 6,
-          "fesName": "TokyoIdolFestival 2022",
-          "artist": "FRUITS ZIPPER",
-          "itemDetail": "FRUITS ZIPPERです",
-          "itemImage": "/images/仮サムネ.jpg",
-          "releaseDate": "2022-11-24",
-          "playTime": 60,
-          "twoDaysPrice": 2,
-          "sevenDaysPrice": 400,
-          "categories": [
-            1,
-            2
-          ],
-          "keywords": [
-            "フルーツジッパー",
-            "ふるーつじっぱー",
-            "FZ",
-            "fz",
-            "TIF",
-            "ティフ"
-          ]
-        }
-      ],
-      "userCarts": [
-        {
-          "id": 0,
-          "itemName": "MEGAN THEE STALLION  SUMMER SONIC 2022 TOKYO",
-          "rentalPeriod": 2,
-          "price": 200,
-          "itemImage": "/images/仮サムネ.jpg",
-          "itemId": 19
-        }
-      ],
-      "favoriteGenre": 3,
-      "id": 1
-    },
-    {
-      "userName": "ユ",
-      "zipcode": "6666",
-      "prefectures": "広島県",
-      "city": "広",
-      "houseNumber": "東",
-      "buildingName": "222",
-      "familyName": "田",
-      "firstName": "涼",
-      "familyNameKana": "タ",
-      "firstNameKana": "リョ",
-      "mailAddress": "saa",
-      "password": "qwe123qwe@",
-      "rentalHistories": [],
-      "userCarts": [],
-      "favoriteGenre": 1,
-      "id": 3
-    },
-    {
       "userName": "マイハマ",
       "zipcode": "2790031",
       "prefectures": "千葉県",
-      "city": "浦安市",
-      "houseNumber": "舞浜",
+      "city": "浦安市舞浜",
+      "houseNumber": "2丁目",
       "buildingName": "",
       "familyName": "舞浜",
       "firstName": "太郎",
@@ -564,8 +386,94 @@
       "password": "qwe123qwe@",
       "rentalHistories": [],
       "userCarts": [],
-      "favoriteGenre": 3,
-      "id": 4
+      "favoriteGenre": 0,
+      "id": 1
+    },
+    {
+      "userName": "Ryo",
+      "zipcode": "7310111",
+      "prefectures": "広島県",
+      "city": "広島市安佐南区東野",
+      "houseNumber": "2丁目",
+      "buildingName": "",
+      "familyName": "山田",
+      "firstName": "涼",
+      "familyNameKana": "ヤマモト",
+      "firstNameKana": "リョウ",
+      "mailAddress": "Ryo@example.com",
+      "password": "qwer1234@",
+      "rentalHistories": [
+        {
+          "id": 1,
+          "itemId": 20,
+          "itemName": "MÅNESKIN  SUMMER SONIC 2022 TOKYO",
+          "price": 250,
+          "itemImage": "/images/fes-image/fes-image05.jpg",
+          "rentalPeriod": 2,
+          "payDate": "2022-11-06T05:28:41.416Z",
+          "rentalStart": "2022-11-06T05:28:49.570Z",
+          "rentalEnd": "2022-11-08T05:28:49.570Z"
+        },
+        {
+          "id": 2,
+          "itemId": 19,
+          "itemName": "MEGAN THEE STALLION  SUMMER SONIC 2022 TOKYO",
+          "price": 200,
+          "itemImage": "/images/fes-image/fes-image04.jpg",
+          "rentalPeriod": 2,
+          "payDate": "2022-12-06T05:28:41.416Z",
+          "rentalStart": "2022-12-06T05:28:59.598Z",
+          "rentalEnd": "2022-12-08T05:28:59.598Z"
+        },
+        {
+          "id": 3,
+          "itemId": 18,
+          "itemName": "ORANGE RANGE  ROCK IN JAPAN FES.2018 2018-8-12",
+          "price": 200,
+          "itemImage": "/images/fes-image/fes-image03.jpg",
+          "rentalPeriod": 2,
+          "payDate": "2022-12-06T05:28:41.416Z"
+        },
+        {
+          "id": 4,
+          "itemId": 17,
+          "itemName": "きのこ帝国  ROCK IN JAPAN FES.2018 2018-8-11",
+          "price": 150,
+          "itemImage": "/images/fes-image/fes-image02.jpg",
+          "rentalPeriod": 2,
+          "payDate": "2022-12-06T05:28:41.416Z"
+        }
+      ],
+      "userCarts": [],
+      "favoriteGenre": 0,
+      "id": 2
+    },
+    {
+      "userName": "satou",
+      "zipcode": "7310111",
+      "prefectures": "広島県",
+      "city": "広島市安佐南区東野",
+      "houseNumber": "1丁目",
+      "buildingName": "",
+      "familyName": "佐藤",
+      "firstName": "健",
+      "familyNameKana": "サトウ",
+      "firstNameKana": "タケル",
+      "mailAddress": "Satou@example.con",
+      "password": "asdf1234@",
+      "rentalHistories": [],
+      "userCarts": [
+        {
+          "id": 1,
+          "itemName": "Two Door Cinema Club  SUMMER SONIC 2019",
+          "rentalPeriod": 2,
+          "price": 250,
+          "itemImage": "/images/fes-image/fes-image10.jpg",
+          "itemId": 10
+        }
+      ],
+      "favoriteGenre": 0,
+      "id": 3
     }
   ]
 }
