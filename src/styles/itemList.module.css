@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 15px;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
   margin-top: 2rem;
@@ -27,7 +27,8 @@
 .itemList {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
 }
 
 .item {
@@ -56,7 +57,7 @@
 }
 
 .chatbotButton {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: bold;
   justify-content: center; 
   padding: 1rem 4rem;
