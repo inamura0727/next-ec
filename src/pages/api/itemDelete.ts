@@ -25,7 +25,6 @@ export default withIronSessionApiRoute(async (req, res) => {
           });
         }
 
-        console.log(newFil);
         req.session.cart = newFil;
       } else {
         const fil = carts.filter((cartItem) => {
