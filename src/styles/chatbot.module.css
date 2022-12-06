@@ -132,6 +132,8 @@
 }
 
 .itemList {
+  display: flex;
+  justify-content: center;
   background-color: white;
   border-radius: 1.2rem;
   margin-left: 5rem;
