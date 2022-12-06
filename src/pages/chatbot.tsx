@@ -2,12 +2,13 @@ import Head from "next/head";
 import useSWR, { mutate } from 'swr';
 import { SessionUser } from "./api/getUser";
 import Header from "components/Header";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import styles from "styles/chatbot.module.css";
 import { Item } from "types/item";
 import Image from "next/image";
 import Router from "next/router";
+import React from "react";
 
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -35,6 +36,8 @@ export default function Chatbot({items}: {items: Array<Item>}) {
 
     const { data } = useSWR<SessionUser>('/api/getUser', fetcher);
 
+    const chatArea = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if(count >= 4){
             return
@@ -57,6 +60,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             }, 300);
             return () => clearTimeout(id)
         }
+        
     }, [button, count])
 
     useEffect(() => {
@@ -88,6 +92,8 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             .then((res) => res.json())
     }
 
+    chatArea?.current?.scrollIntoView(false);
+
     const route = () => {
         Router.push('/')
     }
@@ -100,7 +106,8 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 </title>
             </Head>
             <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')} />
-            <main id="chatbot-body" className={styles.chatbotBody}>
+            <div className={styles.chatbotPage}>
+            <div id="chatbot-body" className={styles.chatbotBody}>
                 <div className={styles.header}>
                 <h1 className={styles.title}>チャットボット</h1>
                 </div>
@@ -111,9 +118,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                 <>
                                     {button ? (
                                         <>
-                                         <div className={styles.choice}>
+                                        <div className={styles.choice}>
                                         <div key={`cl${obj.id}`} className={styles.choiceTitle}>{obj.text}</div>
-                                        <form method="get" id="form" onSubmit={submit} className={styles.form}>
+                                        <form method="get" id="form" onSubmit={submit} className={styles.form} >
                                         <input name="favoriteGenre" key="1" type="radio" value={1} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label1" htmlFor='1' >アイドル</label>
                                         <input name="favoriteGenre" key="2" type="radio" value={2} onChange={(e) => setGenre(Number(e.target.value))} />
@@ -170,7 +177,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                 <>
                                 <section className={styles.itemList}>
                                 {items.filter((item)=>{if(item.categories.includes(Number(genre))) return item})
-                                .slice(0, 3)
+                                .slice(0, 1)
                                 .map((item)=>{
                                     return(
                                         <div key={item.id} className={styles.item}>
@@ -190,7 +197,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                         } else {
                             return (
                                 <>
-                                <div className={styles.bot}>
+                                <div className={styles.bot} ref={chatArea}>
                                 <Image key='icon' className={styles.icon} src={"/images/chatIcon.jpeg"} width={30} height={30} alt={"アイコン"} />
                                 <div>
                                 <div className={styles.botSays} key={`cl${obj.id}`}>{obj.text.replace('Name', `${data.userName}`)}</div>
@@ -201,12 +208,11 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                         }
                     })}
                 </div>
-            </main>
-            <style jsx>{`
-              body {
-                background-color: #7CA3CF;
-              }
-            `}</style>
+            </div>
+                <div className={styles.closeChatbot} onClick={() => route()}>
+                        ×
+                </div>
+            </div>
         </>
     )
 }
