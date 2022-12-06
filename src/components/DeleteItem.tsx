@@ -25,7 +25,20 @@ export default function DeleteBtn({
         return cartItem.id !== cartId;
       });
 
-      const body = { userCarts: fil };
+      const newFil = [];
+      for (let item of fil) {
+        newFil.push({
+          id: newFil.length + 1,
+          itemId: item.itemId,
+          itemName: item.itemName,
+          itemImage: item.itemImage,
+          price: item.price,
+          rentalPeriod: item.rentalPeriod,
+        });
+      }
+
+      console.log(newFil)
+      const body = { userCarts: newFil };
 
       await fetch(`http://localhost:3000/api/users/${id}`, {
         method: 'PATCH',
