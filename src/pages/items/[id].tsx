@@ -288,6 +288,10 @@ export default function ItemDetail({ item }: { item: Item }) {
     e.preventDefault();
     cartflg ? handleDelte(item) : handleAddItem(item);
   };
+  const closePlayer = () => {
+    setStart(!start);
+    mutate('/api/getUser');
+  }
 
   return (
     <>
@@ -396,7 +400,7 @@ export default function ItemDetail({ item }: { item: Item }) {
           </div>
         </form>
         {start && (
-          <Player closePlayer={() => setStart(!start)} id={startId} />
+          <Player closePlayer={() => closePlayer()} id={startId} />
         )}
       </section>
     </>

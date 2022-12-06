@@ -28,14 +28,29 @@ export default function Mypage() {
   //レンタル中作品情報を取得
   let nowDate = new Date(); //今の時間
   //レンタル中商品のデータ取得
-  const rentalNows = rentalHistory?.filter((rental) => {
-    if (rental.rentalEnd) {
-      const rentalEnd = new Date(rental.rentalEnd);
-      return rentalEnd >= nowDate;
-    }
-    return false;
-  });
 
+  const rentalNows = rentalHistory?.filter((item) => {
+    if (item.rentalStart && item.rentalEnd) {
+      const StartDay = new Date(item.rentalStart);
+      const EndDay = new Date(item.rentalEnd);
+      return EndDay >= nowDate;
+    }
+  }).map((rentalItem) => {
+    if (rentalItem.rentalStart && rentalItem.rentalEnd) {
+      const StartDay = new Date(rentalItem.rentalStart);
+      const EndDay = new Date(rentalItem.rentalEnd);
+      const StartYear = StartDay.getFullYear();
+      const StartMonth = StartDay.getMonth() + 1;
+      const StartDate = StartDay.getDate();
+      const EndYear = EndDay.getFullYear();
+      const EndMonth = EndDay.getMonth() + 1;
+      const EndDate = EndDay.getDate();
+      rentalItem.displayPeriod = `${StartYear}年${StartMonth}月${StartDate}日〜${EndYear}年${EndMonth}月${EndDate}日`;
+    }
+    return rentalItem;
+
+  });
+  
   //レンタル履歴に表示する情報取得
   const rentalHistories = rentalHistory?.map((rentalHistories) => {
     const PayDay = new Date(rentalHistories.payDate);
@@ -87,6 +102,7 @@ export default function Mypage() {
             <ul>
               {(() => {
                 if (rentalNows?.length) {
+
                   return rentalNows?.map(
                     (rentalNow: RentalHistory) => (
                       <li key={rentalNow.id}>
@@ -98,6 +114,7 @@ export default function Mypage() {
                           alt="画像"
                         />
                         <h2>{`${rentalNow.itemName}`}</h2>
+                        <p>{`視聴期間：${rentalNow.displayPeriod}`}</p>
                         <button
                           onClick={() => startPlayer(rentalNow.id)}
                         >
