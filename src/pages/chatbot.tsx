@@ -122,13 +122,15 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         <div key={`cl${obj.id}`} className={styles.choiceTitle}>{obj.text}</div>
                                         <form method="get" id="form" onSubmit={submit} className={styles.form} >
                                         <input name="favoriteGenre" key="1" type="radio" value={1} onChange={(e) => setGenre(Number(e.target.value))} />
-                                        <label key="label1" htmlFor='1' >アイドル</label>
+                                        <label key="label1" htmlFor='1' >J-POP</label>
                                         <input name="favoriteGenre" key="2" type="radio" value={2} onChange={(e) => setGenre(Number(e.target.value))} />
-                                        <label key="label2" htmlFor="2">女性アーティスト</label>
+                                        <label key="label2" htmlFor="2">アイドル</label>
                                         <input name="favoriteGenre" key="3" type="radio" value={3} onChange={(e) => setGenre(Number(e.target.value))} />
-                                        <label key="label3" htmlFor="3" >バンド</label>
+                                        <label key="label3" htmlFor="3" >邦楽ロック</label>
                                         <input name="favoriteGenre" key="4" type="radio" value={4} onChange={(e) => setGenre(Number(e.target.value))} />
-                                        <label key="label4" htmlFor="4">男性アーティスト</label>
+                                        <label key="label4" htmlFor="4">洋楽ロック</label>
+                                        <input name="favoriteGenre" key="5" type="radio" value={5} onChange={(e) => setGenre(Number(e.target.value))} />
+                                        <label key="label5" htmlFor="5">アニソン</label>
                                         <button className={styles.submitBtn} key={'button'} type="submit">決定</button>
                                         </form>
                                         </div>
@@ -143,26 +145,32 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                             if(genre === 1){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `アイドル`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `J-POP`)}</div>
                                     </div>
                                     
                                 )
                             } else  if(genre === 2){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `女性アーティスト`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `アイドル`)}</div>
                                     </div>
                                 )
                             } else  if(genre === 3){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `バンド`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `洋楽ロック`)}</div>
                                     </div>
                                 )
                             } else  if(genre === 4){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `男性アーティスト`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `邦楽ロック`)}</div>
+                                    </div>
+                                )
+                            } else  if(genre === 5){
+                                return(
+                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `アニソン`)}</div>
                                     </div>
                                 )
                             }
