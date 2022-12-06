@@ -2,7 +2,7 @@ import Head from "next/head";
 import useSWR, { mutate } from 'swr';
 import { SessionUser } from "./api/getUser";
 import Header from "components/Header";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import styles from "styles/chatbot.module.css";
 import { Item } from "types/item";
