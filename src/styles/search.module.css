@@ -9,11 +9,12 @@
   height: 100vh;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
-  border-right: 0.1rem solid #111111;
+  border-right: 0.1rem solid #1111;
+  font-size: 1.2rem;
 }
 
 .headline{
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: bold;
   padding-top: 1rem;
 }
@@ -41,7 +42,11 @@
 }
 
 .searchCount{
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+}
+
+.sortSelect{
+  font-size: 1.5rem;
 }
 
 .itemList {
@@ -68,6 +73,10 @@
 }
 
 .artist {
+  font-size: 1.5rem;
+}
+
+.fesName{
   font-size: 1.2rem;
 }
 
@@ -79,24 +88,26 @@
 .pagingBtn{
   border-radius: 25rem;
   color: white;
-  background-color: #e25c00;
+  background-color: #26a4ca;
   margin-right: 0.5rem;
   margin-left: 0.5rem;
-  border: 0.2rem solid #e25c00;
+  border: 0.2rem solid #26a4ca;
 }
 
 .pagingBtn:hover{
-  opacity: 0.5;
+  background-color: white;
+  color: #26a4ca;
 }
 
 .searchBtn{
   color: white;
   font-weight: bold;
   border-radius: 10rem;
-  background-color: #e25c00;
-  border: 0.1rem solid #e25c00;
+  background-color: #26a4ca;
+  border: 0.2rem solid #26a4ca;
 }
 
 .searchBtn:hover{
-  opacity: 0.5;
+  background-color: white;
+  color: #26a4ca;
 }

@@ -95,7 +95,7 @@ export default function Search({
                       <div className={styles.artist}>
                         {item.artist}
                       </div>
-                      <div>{item.fesName}</div>
+                      <div className={styles.fesName}>{item.fesName}</div>
                     </Link>
                   </div>
                 );
