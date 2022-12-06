@@ -8,7 +8,6 @@ import { useState } from 'react';
 import Player from '../components/Player';
 import Link from 'next/link';
 import styles from 'styles/mypage.module.css';
-import ItemDetail from './items/[id]';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
