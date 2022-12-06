@@ -46,6 +46,20 @@
   font-size: 1.5rem;
 }
 
+.chatArea::-webkit-scrollbar{
+  width: 1rem;
+  height: 50%
+}
+
+.chatArea::-webkit-scrollbar-track{
+  background-color:transparent;
+}
+
+.chatArea::-webkit-scrollbar-thumb{
+  background-color: #6576a1;
+  border-radius: 10rem;
+}
+
 .bot{
   display: flex;
   width: 100%;
