@@ -168,13 +168,13 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                             } else  if(genre === 3){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `洋楽ロック`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `邦楽ロック`)}</div>
                                     </div>
                                 )
                             } else  if(genre === 4){
                                 return(
                                     <div key={`ans${obj.id}`} className={styles.answer}>
-                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `邦楽ロック`)}</div>
+                                        <div key={`cl${obj.id}`} className={styles.rightChat}>{obj.text.replace('answer', `洋楽ロック`)}</div>
                                     </div>
                                 )
                             } else  if(genre === 5){
