@@ -107,10 +107,14 @@ export default function ItemDetail({ item }: { item: Item }) {
         const startYear = rentalStart.getFullYear();
         const startMonth = rentalStart.getMonth() + 1;
         const startDate = rentalStart.getDate();
+        const startHours = rentalStart.getHours();
+        const startMinutes = rentalStart.getMinutes();
         const endYear = rentalEnd.getFullYear();
         const endMonth = rentalEnd.getMonth() + 1;
         const endDate = rentalEnd.getDate();
-        rentalPeriod = `${startYear}年${startMonth}月${startDate}日〜${endYear}年${endMonth}月${endDate}日`;
+        const endHours = rentalEnd.getHours();
+        const endMinutes = rentalEnd.getMinutes();
+        rentalPeriod = `${startYear}/${startMonth}/${startDate} ${startHours}:${startMinutes} 〜 ${endYear}/${endMonth}/${endDate} ${endHours}:${endMinutes}`;
       }
     }
   }
