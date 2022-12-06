@@ -4,16 +4,17 @@ import styles from '../styles/player.module.css';
 type playerProps = {
   id: number;
   closePlayer: () => void;
+  startPlayer: () => void;
 };
 
-export default function Player({ closePlayer, id }: playerProps) {
+export default function Player({ closePlayer, id ,startPlayer}: playerProps) {
   const sample = (id: number) => {
     const data = { id: id };
     fetch('/api/startRental', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    });
+    }).then(() => startPlayer());
   };
   return (
     <div className={styles.playerArea}>
