@@ -12,7 +12,8 @@
       "sevenDaysPrice": 200,
       "categories": [
         1,
-        2
+        2,
+        7
       ],
       "keywords": [
         "イコールラブ",
@@ -34,7 +35,9 @@
       "sevenDaysPrice": 200,
       "categories": [
         1,
-        2
+        2,
+        5,
+        7
       ],
       "keywords": [
         "ノットイコールミー",
@@ -55,8 +58,9 @@
       "twoDaysPrice": 100,
       "sevenDaysPrice": 200,
       "categories": [
+        1,
         3,
-        4
+        6
       ],
       "keywords": [
         "スミカ",
@@ -75,9 +79,10 @@
       "twoDaysPrice": 1000,
       "sevenDaysPrice": 200,
       "categories": [
+        1,
         3,
-        2,
-        4
+        6,
+        7
       ],
       "keywords": [
         "ぽるかどっとすてぃんぐれい",
@@ -96,7 +101,8 @@
       "sevenDaysPrice": 200,
       "categories": [
         1,
-        2
+        2,
+        7
       ],
       "keywords": [
         "にありーいこーるじょい",
@@ -121,7 +127,8 @@
       ],
       "categories": [
         1,
-        2
+        2,
+        7
       ]
     },
     {
@@ -398,7 +405,7 @@
       "buildingName": "",
       "familyName": "山田",
       "firstName": "涼",
-      "familyNameKana": "ヤマモト",
+      "familyNameKana": "ヤマダ",
       "firstNameKana": "リョウ",
       "mailAddress": "Ryo@example.com",
       "password": "qwer1234@",
