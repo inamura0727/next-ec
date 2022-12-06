@@ -15,7 +15,7 @@ export default function ItemList ({items}: {items: Array<Item>}) {
                 <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
                 <br />
                 <div className={styles.artist}>{item.artist}</div>
-                <div>{item.fesName}</div>
+                <div className={styles.fesName}>{item.fesName}</div>
                 </Link>
                 </div>
             )

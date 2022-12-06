@@ -10,10 +10,11 @@
   padding-left: 0.8rem;
   padding-right: 0.8rem;
   border-right: 0.1rem solid #1111;
+  font-size: 1.2rem;
 }
 
 .headline{
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: bold;
   padding-top: 1rem;
 }
@@ -41,7 +42,11 @@
 }
 
 .searchCount{
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+}
+
+.sortSelect{
+  font-size: 1.5rem;
 }
 
 .itemList {
@@ -68,6 +73,10 @@
 }
 
 .artist {
+  font-size: 1.5rem;
+}
+
+.fesName{
   font-size: 1.2rem;
 }
 
