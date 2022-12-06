@@ -239,8 +239,6 @@ export default function ItemDetail({ item }: { item: Item }) {
         return cartItem.itemId !== item.id;
       });
 
-      console.log(fil);
-
       const newFil = [];
       for (let item of fil) {
         newFil.push({
