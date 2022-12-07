@@ -429,7 +429,7 @@ export default function ItemDetail({ item }: { item: Item }) {
           </div>
         </form>
         {start && (
-          <Player closePlayer={() => closePlayer()} id={startId} />
+          <Player closePlayer={() => closePlayer()} id={startId} startPlayer={() => mutate('/api/getUser')}/>
         )}
       </section>
     </>

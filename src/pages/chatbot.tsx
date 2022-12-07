@@ -78,6 +78,16 @@ export default function Chatbot({items}: {items: Array<Item>}) {
         }
     }, [count]);
 
+    useEffect(() => {
+        chatArea?.current?.scrollIntoView(
+            {
+                behavior: "smooth" ,
+                block: "end" ,
+                inline: "nearest"
+            }
+        );
+    })
+
     if (!data) return <div>Loading</div>
 
     const submit = async (e: any) => {
@@ -92,7 +102,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             .then((res) => res.json())
     }
 
-    chatArea?.current?.scrollIntoView(false);
+    
 
     const route = () => {
         Router.push('/')
@@ -186,12 +196,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                             }
                         }else if(obj.option === 'return'){
                             return (
-                                <>
-                                <div ref={chatArea} key='returnButton' className={styles.returnBtnWrapper}>
+                                <div key='returnButton' className={styles.returnBtnWrapper} ref={chatArea}>
                                     <button className={styles.returnBtn} key={obj.id} onClick={route}>{obj.text}</button>
                                 </div>
-                                <div key={'none'} ref={chatArea}></div>
-                                </>
                             )
                         } else if(obj.option === 'recommend') {
                             return (
@@ -201,19 +208,19 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                 .slice(0, 4)
                                 .map((item)=>{
                                     return(
-                                        <div key={item.id} className={styles.item} ref={chatArea}>
+                                        <div key={item.id} className={styles.item}>
                                         <Link href={`/items/${item.id}`}>
                                         <Image key={item.id} src={item.itemImage} width={150} height={97.95} alt={item.artist} />
                                         <br />
-                                        <div ref={chatArea} className={styles.artist}>{item.artist}</div>
-                                        <div ref={chatArea} className={styles.fesName}>{item.fesName}</div>
+                                        <div className={styles.artist}>{item.artist}</div>
+                                        <div className={styles.fesName}>{item.fesName}</div>
                                         {/* <div>{item.releaseDate}</div> */}
                                         </Link>
                                         </div>
                                     )
                                 }).reverse()}
                                 </section>
-                                <div key={'none'} ref={chatArea}></div>
+                                <div key={'none'}></div>
                                 </>
                             )
                         } else {

@@ -204,7 +204,7 @@ export default function Mypage() {
         </section>
 
         {start && (
-          <Player closePlayer={() => setStart(!start)} id={startId} />
+          <Player closePlayer={() => setStart(!start)} id={startId} startPlayer={() => mutate('/api/getUser')}/>
         )}
       </main>
     </>
