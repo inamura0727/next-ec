@@ -142,7 +142,8 @@
       "twoDaysPrice": 150,
       "sevenDaysPrice": 20,
       "keywords": [
-        "イギリス"
+        "イギリス",
+        "ナインティ―セブンティーファイブ"
       ],
       "categories": [
         4,
@@ -159,6 +160,11 @@
       "playTime": 30,
       "twoDaysPrice": 100,
       "sevenDaysPrice": 150,
+      "keywords": [
+        "サバイブセットザプロフェット",
+        "サバプロ",
+        "鯖"
+      ],
       "categories": [
         1,
         3,
@@ -175,6 +181,11 @@
       "playTime": 60,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
+      "keywords": [
+        "イギリス",
+        "レッチリ",
+        "レッドホットチリペッパーズ"
+      ],
       "categories": [
         4,
         6
@@ -190,6 +201,10 @@
       "playTime": 50,
       "twoDaysPrice": 250,
       "sevenDaysPrice": 350,
+      "keywords": [
+        "トゥードアシネマクラブ",
+        "イギリス"
+      ],
       "categories": [
         4,
         6
@@ -205,6 +220,10 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
+      "keywords": [
+        "アジカン",
+        "アジアンカンフージェネレーション"
+      ],
       "categories": [
         1,
         3,
@@ -221,6 +240,10 @@
       "playTime": 40,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 250,
+      "keywords": [
+        "オカモトズ",
+        "岡本"
+      ],
       "categories": [
         1,
         3,
@@ -237,6 +260,9 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
+      "keywords": [
+        "ヘイスミス"
+      ],
       "categories": [
         1,
         3,
@@ -247,12 +273,17 @@
       "id": 14,
       "fesName": "ROCK IN JAPAN FES.2018 2018-8-4",
       "artist": "エレファントカシマシ",
-      "itemDetail": "ヘイスミ",
+      "itemDetail": "カシマシ",
       "itemImage": "/images/fes-image/fes-image14.jpg",
       "releaseDate": "2020-1-1",
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
+      "keywords": [
+        "エレカシ",
+        "宮本浩次",
+        "みやもとこうじ"
+      ],
       "categories": [
         1,
         3,
@@ -269,6 +300,10 @@
       "playTime": 21,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
+      "keywords": [
+        "イギリス",
+        "クイーン"
+      ],
       "categories": [
         4,
         6
@@ -284,6 +319,11 @@
       "playTime": 50,
       "twoDaysPrice": 300,
       "sevenDaysPrice": 400,
+      "keywords": [
+        "欅",
+        "坂道",
+        "けやきざか"
+      ],
       "categories": [
         1,
         2,
@@ -300,6 +340,9 @@
       "playTime": 30,
       "twoDaysPrice": 150,
       "sevenDaysPrice": 250,
+      "keywords": [
+        "きのこていこく"
+      ],
       "categories": [
         1,
         3,
@@ -317,6 +360,9 @@
       "playTime": 50,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
+      "keywords": [
+        "オレンジレンジ"
+      ],
       "categories": [
         1,
         3,
@@ -333,6 +379,11 @@
       "playTime": 60,
       "twoDaysPrice": 200,
       "sevenDaysPrice": 300,
+      "keywords": [
+        "ミーガンジースタリオン",
+        "ミーカンザスタリオン",
+        "メーガン"
+      ],
       "categories": [
         2,
         5
@@ -348,6 +399,11 @@
       "playTime": 50,
       "twoDaysPrice": 250,
       "sevenDaysPrice": 350,
+      "keywords": [
+        "イタリア",
+        "マネスキン",
+        "MANESKIN"
+      ],
       "categories": [
         4,
         6,
