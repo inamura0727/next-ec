@@ -158,7 +158,6 @@ export default function LoginScreen() {
     ) {
       // 登録内容を登録する
       const response = await fetch(
-        // 'http://localhost:3000/api/users',
         config.users,
         {
           //Jsonファイルに送る
