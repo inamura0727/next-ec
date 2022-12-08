@@ -23,14 +23,13 @@ async function getUserRoute(
       `http://localhost:3000/api/users/${req.session.user.id}`
     );
     const userData: User = await result.json();
-    const cart: UserCart[] = userData.userCarts;
     res.json({
       userId: userData.id,
       userName: userData.userName,
       userCarts: userData.userCarts,
       userRentalHistories: userData.rentalHistories,
       favoriteGenre: userData.favoriteGenre,
-      isLoggedIn: true
+      isLoggedIn: true,
     });
   } else {
     const sessionCart = req.session.cart;
@@ -38,10 +37,11 @@ async function getUserRoute(
       res.json({
         isLoggedIn: false,
       });
+    } else {
+      res.json({
+        userCarts: sessionCart,
+        isLoggedIn: false,
+      });
     }
-    res.json({
-      userCarts: sessionCart,
-      isLoggedIn: false,
-    });
   }
 }

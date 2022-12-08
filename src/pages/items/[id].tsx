@@ -20,7 +20,7 @@ export type loginUser = {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export async function getStaticPaths() {
-  const req = await fetch('http://localhost:3000/api/items');
+  const req = await fetch('http://localhost:8000/items');
   const data = await req.json();
 
   const paths = data.map((item: { id: number }) => {
@@ -38,7 +38,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: any }) {
   const id = params.id;
-  const req = await fetch(`http://localhost:3000/api/items/${id}`);
+  const req = await fetch(`http://localhost:8000/items/${id}`);
   const data = await req.json();
 
   return {
@@ -340,8 +340,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                   className={styles.detailImg}
                   src={item.itemImage}
                   alt="画像"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes="100vw"
+                  fill
+                  priority
                 />
               </div>
               <div className={styles.detailBodyWrapper}>
@@ -429,7 +430,11 @@ export default function ItemDetail({ item }: { item: Item }) {
           </div>
         </form>
         {start && (
-          <Player closePlayer={() => closePlayer()} id={startId} startPlayer={() => mutate('/api/getUser')}/>
+          <Player
+            closePlayer={() => closePlayer()}
+            id={startId}
+            startPlayer={() => mutate('/api/getUser')}
+          />
         )}
       </section>
     </>
