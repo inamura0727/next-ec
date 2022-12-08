@@ -19,8 +19,10 @@ export default function ItemList ({items}: {items: Array<Item>}) {
                         alt={item.artist} 
                         className={styles.itemImage}
                         />
+                <div className={styles.detail}>
                 <div className={styles.artist}>{item.artist}</div>
                 <div className={styles.fesName}>{item.fesName}</div>
+                </div>
                 </Link>
        
             )
