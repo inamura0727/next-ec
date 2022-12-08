@@ -116,21 +116,20 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 </title>
             </Head>
             <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')} />
-            <div className={styles.chatbotPage}>
-            <div id="chatbot-body" className={styles.chatbotBody}>
-                <div className={styles.header}>
-                <h1 className={styles.title}>チャットボット</h1>
+            <div className={styles.chatbotPage} key='chatbotPage'>
+            <div id="chatbot-body" className={styles.chatbotBody} key='chatboy-body'>
+                <div className={styles.header} key='header'>
+                <h1 className={styles.title} key='chath1'>チャットボット</h1>
                 </div>
-                <div id="chatbot" className={styles.chatArea}>
+                <div id="chatbot" className={styles.chatArea} key='chatArea'>
                     {output.map((obj) => {
                         if (obj.option === 'choices') {
                             return (
-                                <>
+                                <div key='question'>
                                     {button ? (
-                                        <>
-                                        <div className={styles.choice}>
+                                        <div className={styles.choice} key='choice'>
                                         <div key={`cl${obj.id}`} className={styles.choiceTitle}>{obj.text}</div>
-                                        <form method="get" id="form" onSubmit={submit} className={styles.form} >
+                                        <form method="get" id="form" onSubmit={submit} className={styles.form} key='form'>
                                         <div>
                                         <input name="favoriteGenre" key="1" type="radio" value={1} onChange={(e) => setGenre(Number(e.target.value))} />
                                         <label key="label1" htmlFor='1' >J-POP</label>
@@ -154,12 +153,11 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         <button className={styles.submitBtn} key={'button'} type="submit">決定</button>
                                         </form>
                                         </div>
-                                        </>
                                             ) : (
                                                 <div key={'none'}></div>
                                             )
                                         }
-                                </>
+                                </div>
                             )
                         } else if(obj.option === 'answer'){
                             if(genre === 1){
@@ -202,43 +200,35 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                             )
                         } else if(obj.option === 'recommend') {
                             return (
-                                <>
-                                <section className={styles.itemList} ref={chatArea}>
+                                <section className={styles.itemList} ref={chatArea} key='recommend'>
                                 {items.filter((item)=>{if(item.categories.includes(Number(genre))) return item})
                                 .slice(0, 4)
                                 .map((item)=>{
                                     return(
-                                        <div key={item.id} className={styles.item}>
-                                        <Link href={`/items/${item.id}`}>
-                                        <Image key={item.id} src={item.itemImage} width={150} height={97.95} alt={item.artist} />
+                                        <div key={`item${item.id}`} className={styles.item}>
+                                        <Link key={`itemLink${item.id}`} href={`/items/${item.id}`}>
+                                        <Image key={`itemImage${item.id}`} src={item.itemImage} width={400} height={225} alt={item.artist} className={styles.itemImage}/>
                                         <br />
-                                        <div className={styles.artist}>{item.artist}</div>
-                                        <div className={styles.fesName}>{item.fesName}</div>
-                                        {/* <div>{item.releaseDate}</div> */}
+                                        <div key={`${item.artist}`} className={styles.artist}>{item.artist}</div>
+                                        <div key={`${item.fesName}`} className={styles.fesName}>{item.fesName}</div>
                                         </Link>
                                         </div>
                                     )
                                 }).reverse()}
                                 </section>
-                                <div key={'none'}></div>
-                                </>
                             )
                         } else {
                             return (
-                                <>
-                                <div className={styles.bot} ref={chatArea}>
-                                <Image key='icon' className={styles.icon} src={"/images/chatIcon.jpeg"} width={30} height={30} alt={"アイコン"} />
-                                <div>
+                                <div key={`bot${obj.id}`} className={styles.bot} ref={chatArea}>
+                                <Image key={`icon${obj.id}`} className={styles.icon} src={"/images/chatIcon.jpeg"} width={30} height={30} alt={"アイコン"} />
                                 <div className={styles.botSays} key={`cl${obj.id}`}>{obj.text.replace('Name', `${data.userName}`)}</div>
                                 </div>
-                                </div>
-                                </>
                             )
                         }
                     })}
                 </div>
             </div>
-                <div className={styles.closeChatbot} onClick={() => route()}>
+                <div key='closeChatbot' className={styles.closeChatbot} onClick={() => route()}>
                         ×
                 </div>
             </div>
