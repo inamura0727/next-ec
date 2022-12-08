@@ -2,6 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart, RentalHistory } from '../../types/user';
+import {config} from '../../config/index'
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
@@ -20,7 +21,7 @@ async function getUserRoute(
 ) {
   if (req.session.user) {
     const result = await fetch(
-      `http://localhost:3000/api/users/${req.session.user.id}`
+      `http://localhost:8000/users/${req.session.user.id}`
     );
     const userData: User = await result.json();
     res.json({

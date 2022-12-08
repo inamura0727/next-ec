@@ -10,6 +10,7 @@ import Header from '../components/Header';
 import { SessionUser } from 'pages/api/getUser';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import {config} from '../config/index'
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -24,7 +25,7 @@ export const getServerSideProps: GetServerSideProps =
     // ログインしている場合、カート情報を取得する
     if (req.session.user) {
       const result = await fetch(
-        `http://localhost:3000/api/users/${req.session.user.id}`
+        `${config.users}/${req.session.user.id}`
       );
       const userData = await result.json();
       const cart: UserCart[] = userData.userCarts;
