@@ -1,7 +1,7 @@
 import { Item } from 'types/item';
 import { useState } from 'react';
 import styles from 'styles/cart.module.css';
-import { useSWRConfig } from 'swr';
+import { config } from '../config/index';
 
 export default function DeleteBtn({
   id,
@@ -15,9 +15,7 @@ export default function DeleteBtn({
   const handleDelte = async () => {
     if (id !== undefined) {
       // ログイン後の場合
-      const req = await fetch(
-        `http://localhost:3000/api/users/${id}`
-      );
+      const req = await fetch(`${config.users}/${id}`);
       const data = await req.json();
       const res = data.userCarts;
 
@@ -39,7 +37,7 @@ export default function DeleteBtn({
 
       const body = { userCarts: newFil };
 
-      await fetch(`http://localhost:3000/api/users/${id}`, {
+      await fetch(`${config.users}/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +46,6 @@ export default function DeleteBtn({
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           rebuild();
         })
         .catch((error) => {
@@ -67,7 +64,6 @@ export default function DeleteBtn({
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           rebuild();
         })
         .catch((error) => {
