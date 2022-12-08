@@ -9,18 +9,12 @@ import Header from '../../components/Header';
 import Head from 'next/head';
 import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
-
-export type loginUser = {
-  userId: number;
-  userCarts: UserCart[];
-  userRentalHistories: RentalHistory[];
-  isLoggedIn: boolean;
-};
+import { config } from '../../config/index';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export async function getStaticPaths() {
-  const req = await fetch('http://localhost:8000/items');
+  const req = await fetch(`http://localhost:8000/items`);
   const data = await req.json();
 
   const paths = data.map((item: { id: number }) => {
@@ -160,9 +154,7 @@ export default function ItemDetail({ item }: { item: Item }) {
 
     // ログイン後
     if (id !== undefined) {
-      const req = await fetch(
-        `http://localhost:3000/api/users/${id}`
-      );
+      const req = await fetch(`${config.users}/${id}`);
       const data = await req.json();
       const res = data.userCarts;
 
@@ -179,7 +171,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       const body = { userCarts: res };
 
       // ログイン後　userCartsに追加
-      fetch(`http://localhost:3000/api/users/${id}`, {
+      fetch(`${config.users}/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -188,7 +180,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
@@ -247,9 +238,7 @@ export default function ItemDetail({ item }: { item: Item }) {
     const id = data.userId;
     if (id !== undefined) {
       // ログイン後の場合
-      const req = await fetch(
-        `http://localhost:3000/api/users/${id}`
-      );
+      const req = await fetch(`${config.users}/${id}`);
       const data = await req.json();
       const res = data.userCarts;
 
@@ -271,7 +260,7 @@ export default function ItemDetail({ item }: { item: Item }) {
 
       const body = { userCarts: newFil };
 
-      await fetch(`http://localhost:3000/api/users/${id}`, {
+      await fetch(`${config.users}/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -280,7 +269,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           cartflg = false;
           mutate('/api/getUser');
         })
