@@ -7,7 +7,7 @@ export default withIronSessionApiRoute(addLogedinCart, ironOptions);
 
 async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
     if (req.session.user) {
-        const response = await fetch(`http://localhost:3000/api/users/${req.session.user.id}`);
+        const response = await fetch(`http://localhost:8000/users/${req.session.user.id}`);
         const userData: User = await response.json();
         const userCart: UserCart[] = userData.userCarts;
         if (req.session.cart) {
@@ -24,7 +24,7 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
         }
         const data = { userCarts: userCart };
         await fetch(
-            `http://localhost:3000/api/users/${req.session.user.id}`,
+            `http://localhost:8000/users/${req.session.user.id}`,
             {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },

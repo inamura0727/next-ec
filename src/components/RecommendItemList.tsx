@@ -27,7 +27,9 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                      <Image src={item.itemImage}
                             width={200}
                             height={112}
-                            alt={item.artist} />
+                            alt={item.artist}
+                            priority
+                            />
                      <br />
                      <div className={styles.artist}>{item.artist}</div>
                      <div className={styles.fesName}>{item.fesName}</div>
@@ -57,6 +59,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                             height={225}
                             alt={item.artist}
                             className={styles.itemImage}
+                            priority
                             />
                     <br />
                     <div className={styles.artist}>{item.artist}</div>
