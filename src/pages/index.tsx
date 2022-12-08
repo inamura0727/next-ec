@@ -6,6 +6,7 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import RecommendItemList from 'components/RecommendItemList';
 import loadStyles from 'styles/loading.module.css';
+import {config} from '../config/index';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -42,7 +43,7 @@ export default function Top({ items }: { items: Array<Item> }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:3000/api/items');
+  const res = await fetch(config.items);
   const items = await res.json();
   return {
     props: {
