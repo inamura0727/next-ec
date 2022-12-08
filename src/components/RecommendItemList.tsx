@@ -30,9 +30,10 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                             alt={item.artist}
                             priority
                             />
-                     <br />
+                     <div className={styles.detail}>
                      <div className={styles.artist}>{item.artist}</div>
                      <div className={styles.fesName}>{item.fesName}</div>
+                     </div>
                      </Link>
                      </div>
                  )
@@ -62,8 +63,10 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                             priority
                             />
                     <br />
+                    <div className={styles.detail}>
                     <div className={styles.artist}>{item.artist}</div>
                     <div className={styles.fesName}>{item.fesName}</div>
+                    </div>
                     </Link>
                     </div>
                 )

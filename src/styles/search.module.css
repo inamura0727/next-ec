@@ -62,11 +62,7 @@
   justify-content: center;
   width: 25%;
   margin-bottom: 2rem;
-  padding-right: 1rem;
-}
-
-.item:nth-of-type(4n){
-  padding-right: 0;
+  padding: 1rem;
 }
 
 @media (max-width: 800px) {

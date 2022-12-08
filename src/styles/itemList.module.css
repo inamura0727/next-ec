@@ -36,13 +36,9 @@
 }
 
 .item {
-  padding-right: 1rem;
+  padding: 1rem;
   width: 20%;
   margin-bottom: 1rem;
-}
-
-.item:nth-of-type(5n){
-  padding-right: 0;
 }
 
 @media (max-width: 800px) {
