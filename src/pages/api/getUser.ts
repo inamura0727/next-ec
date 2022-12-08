@@ -2,7 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart, RentalHistory } from '../../types/user';
-import {config} from '../../config/index'
+
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
