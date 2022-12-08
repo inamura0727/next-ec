@@ -11,8 +11,8 @@ import SearchForm from 'components/SearchForm';
 import SortSelect from 'components/SortSelect';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
-import { useState } from 'react';
 import loadStyles from 'styles/loading.module.css';
+import { config } from '../config/index';
 
 // 1ページあたりの最大表示件数を指定(仮で2件にしています。)
 const PAGE_SIZE = 12;
@@ -140,7 +140,7 @@ export async function getServerSideProps({
   const page = query.page ? +query.page : 1;
   const sort = query._sort ? query._sort : 'id&_order=desc';
   const res = await fetch(
-    `http://localhost:3000/api/items?categories_like=${genre}&q=${keyword}&_sort=${sort}`
+    `${config.items}?categories_like=${genre}&q=${keyword}&_sort=${sort}`
   );
   const items = await res.json();
   const count = items.length;

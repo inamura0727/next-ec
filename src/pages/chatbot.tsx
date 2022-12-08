@@ -9,6 +9,7 @@ import { Item } from "types/item";
 import Image from "next/image";
 import Router from "next/router";
 import React from "react";
+import { config } from '../config/index';
 
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -94,7 +95,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
         e.preventDefault();
         setButton(false);
         const info = { favoriteGenre: genre }
-        await fetch(`http://localhost:3000/api/users/${data.userId}`, {
+        await fetch(`${config.users}/${data.userId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json', },
             body: JSON.stringify(info)
@@ -237,7 +238,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
 }
 
 export async function getServerSideProps() {
-    const res = await fetch('http://localhost:3000/api/items')
+    const res = await fetch(config.items)
     const items = await res.json()
     return {
         props: {
