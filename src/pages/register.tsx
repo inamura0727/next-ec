@@ -5,6 +5,7 @@ import styleHeader from 'styles/header.module.css';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
+import {config} from '../config/index';
 
 type Errors = {
   userName: string;
@@ -157,7 +158,8 @@ export default function LoginScreen() {
     ) {
       // 登録内容を登録する
       const response = await fetch(
-        'http://localhost:3000/api/users',
+        // 'http://localhost:3000/api/users',
+        config.users,
         {
           //Jsonファイルに送る
           method: 'POST',
@@ -184,10 +186,10 @@ export default function LoginScreen() {
           },
         }
       ).then(() => {
-        router.push('http://localhost:3000/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+        router.push('/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
       });
     } else {
-      router.push('http://localhost:3000/register');
+      router.push('/register');
     }
   };
 
