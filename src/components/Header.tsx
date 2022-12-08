@@ -27,6 +27,7 @@ export default function Header({
             width={232}
             height={70}
             alt={'タイトルロゴ'}
+            priority
           />
         </Link>
         {/* ハンバーガーメニュー */}
@@ -198,7 +199,7 @@ export default function Header({
         <nav className={styles.pc_nav}>
           <ul>
             <li>
-            <Link href="/">
+              <Link href="/">
                 <Image
                   src={'/images/icon-top.png'}
                   width={32}
