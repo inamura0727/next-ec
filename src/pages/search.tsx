@@ -105,6 +105,7 @@ export default function Search({
                         height={225}
                         alt={item.artist}
                         className={styles.itemImage}
+                        priority
                       />
                       <br />
                       <div className={styles.artist}>
