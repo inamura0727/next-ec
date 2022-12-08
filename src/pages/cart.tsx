@@ -13,17 +13,20 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function CartList() {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
-  if (!data) return <div className={loadStyles.loadingArea}>
-  <div className={loadStyles.bound}>
-      <span>L</span>
-      <span>o</span>
-      <span>a</span>
-      <span>d</span>
-      <span>i</span>
-      <span>g</span>
-      <span>...</span>
-  </div>
-</div>;
+  if (!data)
+    return (
+      <div className={loadStyles.loadingArea}>
+        <div className={loadStyles.bound}>
+          <span>L</span>
+          <span>o</span>
+          <span>a</span>
+          <span>d</span>
+          <span>i</span>
+          <span>g</span>
+          <span>...</span>
+        </div>
+      </div>
+    );
   // ユーザーのidを取得予定
   const id = data.userId;
   // ユーザーのカート情報を取得
@@ -63,8 +66,9 @@ export default function CartList() {
                         className={styles.cartImg}
                         src={item.itemImage}
                         width={200}
-                        height={112.5}
+                        height={112}
                         alt="商品の画像"
+                        priority
                       />
                     </figure>
                     <div className={styles.cartBody}>

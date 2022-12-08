@@ -340,8 +340,9 @@ export default function ItemDetail({ item }: { item: Item }) {
                   className={styles.detailImg}
                   src={item.itemImage}
                   alt="画像"
-                  layout="fill"
-                  objectFit="cover"
+                  sizes="100vw"
+                  fill
+                  priority
                 />
               </div>
               <div className={styles.detailBodyWrapper}>
@@ -429,7 +430,11 @@ export default function ItemDetail({ item }: { item: Item }) {
           </div>
         </form>
         {start && (
-          <Player closePlayer={() => closePlayer()} id={startId} startPlayer={() => mutate('/api/getUser')}/>
+          <Player
+            closePlayer={() => closePlayer()}
+            id={startId}
+            startPlayer={() => mutate('/api/getUser')}
+          />
         )}
       </section>
     </>
