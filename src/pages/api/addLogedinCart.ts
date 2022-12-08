@@ -2,7 +2,6 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart } from 'types/user';
 import { ironOptions } from '../../../lib/ironOprion';
-import { config } from '../../config/index';
 
 export default withIronSessionApiRoute(addLogedinCart, ironOptions);
 
