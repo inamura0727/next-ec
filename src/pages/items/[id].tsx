@@ -20,7 +20,7 @@ export type loginUser = {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export async function getStaticPaths() {
-  const req = await fetch('http://localhost:3000/api/items');
+  const req = await fetch('http://localhost:8000/items');
   const data = await req.json();
 
   const paths = data.map((item: { id: number }) => {
@@ -38,7 +38,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: any }) {
   const id = params.id;
-  const req = await fetch(`http://localhost:3000/api/items/${id}`);
+  const req = await fetch(`http://localhost:8000/items/${id}`);
   const data = await req.json();
 
   return {
