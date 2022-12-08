@@ -5,6 +5,8 @@ import styles from "styles/itemList.module.css";
 import { SessionUser } from "pages/api/getUser";
 import Router from "next/router";
 
+const css = { width: '100%', height: 'auto' }
+
 export default function RecommendItemList ({items, data}: {items: Array<Item>, data: SessionUser}) {
     const route = () => {
         Router.push('/chatbot')
@@ -22,7 +24,10 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                  return(
                      <div key={item.id} className={styles.item}>
                      <Link href={`/items/${item.id}`}>
-                     <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
+                     <Image src={item.itemImage}
+                            width={200}
+                            height={112}
+                            alt={item.artist} />
                      <br />
                      <div className={styles.artist}>{item.artist}</div>
                      <div className={styles.fesName}>{item.fesName}</div>
@@ -47,7 +52,12 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                 return(
                     <div key={item.id} className={styles.item}>
                     <Link key={item.id} href={`/items/${item.id}`}>
-                    <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
+                    <Image src={item.itemImage}
+                            width={400}
+                            height={225}
+                            alt={item.artist}
+                            className={styles.itemImage}
+                            />
                     <br />
                     <div className={styles.artist}>{item.artist}</div>
                     <div className={styles.fesName}>{item.fesName}</div>

@@ -25,17 +25,24 @@
 }
 
 .itemList {
+  width:98%;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 2rem;
   margin-top: 1rem;
+  justify-content: center;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .item {
-  display: flex;
-  justify-content: center; 
+  padding-right: 1rem;
   width: 20%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.item:nth-of-type(5n){
+  padding-right: 0;
 }
 
 @media (max-width: 800px) {
@@ -46,6 +53,13 @@
 
 .item:hover {
   opacity: 0.5;
+}
+
+.itemImage{
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  height: auto;
 }
 
 .artist {

@@ -10,14 +10,19 @@ export default function ItemList ({items}: {items: Array<Item>}) {
         <section className={styles.itemList}>
         {items.slice(0, 10).map((item)=>{
             return(
-                <div key={item.id} className={styles.item}>
-                <Link href={`/items/${item.id}`}>
-                <Image src={item.itemImage} width={200} height={112.5} alt={item.artist} />
-                <br />
+                
+                <Link key={item.id} href={`/items/${item.id}`} className={styles.item}>
+                <Image src={item.itemImage} 
+                        width={400}
+                        height={225}
+                        priority
+                        alt={item.artist} 
+                        className={styles.itemImage}
+                        />
                 <div className={styles.artist}>{item.artist}</div>
                 <div className={styles.fesName}>{item.fesName}</div>
                 </Link>
-                </div>
+       
             )
         }).reverse()}
         </section>

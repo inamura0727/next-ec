@@ -101,9 +101,11 @@ export default function Search({
                     <Link href={`/items/${item.id}`}>
                       <Image
                         src={item.itemImage}
-                        width={200}
-                        height={112.5}
+                        width={400}
+                        height={225}
                         alt={item.artist}
+                        className={styles.itemImage}
+                        priority
                       />
                       <br />
                       <div className={styles.artist}>

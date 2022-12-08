@@ -53,6 +53,8 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 2rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .item {
@@ -60,6 +62,11 @@
   justify-content: center;
   width: 25%;
   margin-bottom: 2rem;
+  padding-right: 1rem;
+}
+
+.item:nth-of-type(4n){
+  padding-right: 0;
 }
 
 @media (max-width: 800px) {
@@ -70,6 +77,11 @@
 
 .item:hover {
   opacity: 0.5;
+}
+
+.itemImage{
+  width: 100%;
+  height: auto;
 }
 
 .artist {
