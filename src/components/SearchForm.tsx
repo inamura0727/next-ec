@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from 'styles/search.module.css'
+import Image from "next/image";
 
 export default function SearchForm () {
     const [data, setData] = useState('');
     const [genre, setGenre] = useState('');
+    const [searchOpen, setSearchOpen] = useState(false)
     const router = useRouter()
     function search (e: { preventDefault: () => void; }){
         e.preventDefault();
@@ -15,7 +17,16 @@ export default function SearchForm () {
     }
     return (
         <>
-        <form className={styles.searchForm} method="get" id="form" onSubmit={search}>
+        {/* <div
+          className={
+            searchOpen ? styles.searchOpenTrue : styles.searchOpenFalse
+          }
+          onClick={() => setSearchOpen(!search)}
+        >
+          <Image src={"/images/searchIcon.jpeg"} alt={"search"} width={50} height={50} className={styles.searchIcon} />
+        </div> */}
+        <div className={styles.searchForm}>
+        <form method="get" id="form" onSubmit={search}>
         <div className={styles.headline}>キーワード検索</div>
         <input placeholder="キーワードを入力" value={data} onChange={(e) => setData(e.target.value)}/>
         <div className={styles.headline}>ジャンルで絞り込み</div>
@@ -51,6 +62,8 @@ export default function SearchForm () {
         </ul>
         <button className={styles.searchBtn} type="submit">検索</button>
         </form>
+        </div>
+        
         </>
     )
 }

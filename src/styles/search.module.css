@@ -3,7 +3,12 @@
   justify-content: space-between;
 }
 
+.searchOpenFalse{
+  display: none;
+}
+
 .searchForm{
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -37,9 +42,15 @@
   margin-right: 1rem;
 }
 
-.searchResult{
-  width:90%;
+/* .searchResult{
+  width:100%;
 }
+
+@media (max-width: 1200px) {
+  .searchResult{
+    width: 100%;
+  }
+} */
 
 .searchCount{
   font-size: 1.5rem;
@@ -50,25 +61,31 @@
 }
 
 .itemList {
+  width:100%;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 2rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .item {
-  display: flex;
-  justify-content: center;
-  width: 25%;
-  margin-bottom: 2rem;
   padding: 1rem;
+  width: 20%;
+  margin-bottom: 1rem;
 }
 
-@media (max-width: 800px) {
-.item{
-  width: 50%;
+@media (max-width: 1200px) {
+  .item{
+    width: 50%;
+  }
 }
+
+@media (max-width: 768px) {
+  .item{
+    width: 50%;
+  }
 }
 
 .item:hover {
@@ -76,21 +93,30 @@
 }
 
 .itemImage{
+  margin-right: auto;
+  margin-left: auto;
   width: 100%;
   height: auto;
 }
 
 .artist {
   font-size: 1.5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .fesName{
   font-size: 1.2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .paging{
   display: flex;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .pagingBtn{
