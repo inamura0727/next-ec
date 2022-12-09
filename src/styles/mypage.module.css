@@ -95,6 +95,12 @@
     transform: translateY(5px);
 }
 
+.itemInfo img{
+    width: 40%;
+    height: auto;
+}
+
+
 @media screen and (max-width: 800px) {
     .mypageSection {
         flex-direction: column;

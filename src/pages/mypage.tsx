@@ -38,9 +38,9 @@ export default function Mypage() {
         </div>
       </div>
     );
-    if (!data.isLoggedIn) {
-      router.push(`/`);
-    }
+  if (!data.isLoggedIn) {
+    router.push(`/`);
+  }
 
   const rentalHistory = data.userRentalHistories; //レンタル履歴を取得
 
@@ -138,7 +138,7 @@ export default function Mypage() {
                           <Image
                             priority
                             src={rentalNow.itemImage}
-                            height={112.5}
+                            height={112}
                             width={200}
                             alt="画像"
                           />
@@ -180,11 +180,10 @@ export default function Mypage() {
                         <Image
                           priority
                           src={rentalHistory.itemImage}
-                          height={112.5}
+                          height={112}
                           width={200}
                           alt="画像"
                         />
-
                         <div className={styles.rentalInfo}>
                           <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
                           <p>{`視聴期間：${rentalHistory.period}`}</p>
@@ -209,7 +208,11 @@ export default function Mypage() {
         </section>
 
         {start && (
-          <Player closePlayer={() => setStart(!start)} id={startId} startPlayer={() => mutate('/api/getUser')}/>
+          <Player
+            closePlayer={() => setStart(!start)}
+            id={startId}
+            startPlayer={() => mutate('/api/getUser')}
+          />
         )}
       </main>
     </>
