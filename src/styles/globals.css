@@ -33,14 +33,14 @@ a {
 
 @media (max-width: 1200px) {
   main{
-    width: 80%;
+    width: 90%;
     margin: auto;
   }
 }
 
 @media (max-width: 768px) {
   main{
-    width: 90%;
+    width: 95%;
     margin: auto;
   }
 }
