@@ -4,7 +4,6 @@
 }
 
 .mypageGrop {
-  max-width: 120rem;
   display: flex;
   justify-content: center;
 }
@@ -120,28 +119,4 @@
     width: 100%;
     margin-top: 2rem;
   }
-  .btn {
-    width: 9rem;
-    height: 3.5rem;
-    background-color: #111;
-    border: 0.1rem solid #111;
-    color: #fff;
-    font-size: 1.5rem;
-    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-radius: 20rem;
-  }
-  
-  .btn::after {
-    content: url(/images/再生ボタン.png);
-    position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    top: 30%;
-    right: 17%;
-    transform: translateY(-50%);
-  }
-
-
 }
