@@ -5,7 +5,7 @@ import styleHeader from 'styles/header.module.css';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from 'next/image';
-import {config} from '../config/index';
+import { config } from '../config/index';
 
 type Errors = {
   userName: string;
@@ -157,34 +157,31 @@ export default function LoginScreen() {
       error.passwordTest === ''
     ) {
       // 登録内容を登録する
-      const response = await fetch(
-        config.users,
-        {
-          //Jsonファイルに送る
-          method: 'POST',
-          body: JSON.stringify({
-            //Jsonデータに保存する内容を記載
-            userName: formValues.userName,
-            zipcode: formValues.zipcode,
-            prefectures: formValues.prefectures,
-            city: formValues.city,
-            houseNumber: formValues.houseNumber,
-            buildingName: formValues.buildingName,
-            familyName: formValues.familyName,
-            firstName: formValues.firstName,
-            familyNameKana: formValues.familyNameKana,
-            firstNameKana: formValues.firstNameKana,
-            mailAddress: formValues.mailAddress,
-            password: formValues.password,
-            rentalHistories,
-            userCarts,
-            favoriteGenre,
-          }),
-          headers: {
-            'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-          },
-        }
-      ).then(() => {
+      const response = await fetch(config.users, {
+        //Jsonファイルに送る
+        method: 'POST',
+        body: JSON.stringify({
+          //Jsonデータに保存する内容を記載
+          userName: formValues.userName,
+          zipcode: formValues.zipcode,
+          prefectures: formValues.prefectures,
+          city: formValues.city,
+          houseNumber: formValues.houseNumber,
+          buildingName: formValues.buildingName,
+          familyName: formValues.familyName,
+          firstName: formValues.firstName,
+          familyNameKana: formValues.familyNameKana,
+          firstNameKana: formValues.firstNameKana,
+          mailAddress: formValues.mailAddress,
+          password: formValues.password,
+          rentalHistories,
+          userCarts,
+          favoriteGenre,
+        }),
+        headers: {
+          'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
+        },
+      }).then(() => {
         router.push('/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
       });
     } else {
@@ -319,6 +316,7 @@ export default function LoginScreen() {
                 onChange={(e) => handleChange(e)}
               />
               <button
+                className={styles.Search}
                 onClick={submitAddress}
                 type="button"
                 id="btn-search"
@@ -331,91 +329,96 @@ export default function LoginScreen() {
             </li>
 
             <li className={styles.listWrapper}>
-              <div className={styles.listInfo}>
-                <div className={styles.labelWrapper}>
-                  <label
-                    className={styles.label}
-                    htmlFor={'prefectures'}
-                  >
-                    都道府県
-                  </label>
-                  <span className={styles.required}>必須</span>
+              <div className={styles.listflex}>
+                <div className={styles.listInfo}>
+                  <div className={styles.labelWrapper}>
+                    <label
+                      className={styles.label}
+                      htmlFor={'prefectures'}
+                    >
+                      都道府県
+                    </label>
+                    <span className={styles.required}>必須</span>
+                  </div>
+                  <input
+                    type="text"
+                    name="prefectures"
+                    id="prefectures"
+                    value={formValues.prefectures}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {formErros.prefectures && (
+                    <p className={styles.error}>
+                      {formErros.prefectures}
+                    </p>
+                  )}
                 </div>
-                <input
-                  type="text"
-                  name="prefectures"
-                  id="prefectures"
-                  value={formValues.prefectures}
-                  onChange={(e) => handleChange(e)}
-                />
-                {formErros.prefectures && (
-                  <p className={styles.error}>
-                    {formErros.prefectures}
-                  </p>
-                )}
+                <div className={styles.listInfo}>
+                  <div className={styles.labelWrapper}>
+                    <label className={styles.label} htmlFor={'city'}>
+                      市区町村
+                    </label>
+                    <span className={styles.required}>必須</span>
+                  </div>
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    value={formValues.city}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {formErros.city && (
+                    <p className={styles.error}>{formErros.city}</p>
+                  )}
+                </div>
               </div>
-
-              <div className={styles.listInfo}>
-                <div className={styles.labelWrapper}>
-                  <label className={styles.label} htmlFor={'city'}>
-                    市区町村
-                  </label>
-                  <span className={styles.required}>必須</span>
+              <div className={styles.listflex}>
+                <div className={styles.listInfo}>
+                  <div className={styles.labelWrapper}>
+                    <label
+                      className={styles.label}
+                      htmlFor={'houseNumber'}
+                    >
+                      番地
+                    </label>
+                    <span className={styles.required}>必須</span>
+                  </div>
+                  <input
+                    type="text"
+                    name="houseNumber"
+                    id="houseNumber"
+                    value={formValues.houseNumber}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  {formErros.houseNumber && (
+                    <p className={styles.error}>
+                      {formErros.houseNumber}
+                    </p>
+                  )}
                 </div>
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  value={formValues.city}
-                  onChange={(e) => handleChange(e)}
-                />
-                {formErros.city && (
-                  <p className={styles.error}>{formErros.city}</p>
-                )}
-              </div>
-              <div className={styles.listInfo}>
-                <div className={styles.labelWrapper}>
-                  <label
-                    className={styles.label}
-                    htmlFor={'houseNumber'}
-                  >
-                    番地
-                  </label>
-                  <span className={styles.required}>必須</span>
+                <div className={styles.listInfo}>
+                  <div className={styles.labelWrapper}>
+                    <label
+                      className={styles.label}
+                      htmlFor={'buildingName'}
+                    >
+                      建物名・部屋番号
+                    </label>
+                  </div>
+                  <input
+                    type="text"
+                    name="buildingName"
+                    id="buildingName"
+                    value={formValues.buildingName}
+                    onChange={(e) => handleChange(e)}
+                  />
                 </div>
-                <input
-                  type="text"
-                  name="houseNumber"
-                  id="houseNumber"
-                  value={formValues.houseNumber}
-                  onChange={(e) => handleChange(e)}
-                />
-                {formErros.houseNumber && (
-                  <p className={styles.error}>
-                    {formErros.houseNumber}
-                  </p>
-                )}
-              </div>
-              <div className={styles.listInfo}>
-                <div className={styles.labelWrapper}>
-                  <label
-                    className={styles.label}
-                    htmlFor={'buildingName'}
-                  >
-                    建物名・部屋番号
-                  </label>
-                </div>
-                <input
-                  type="text"
-                  name="buildingName"
-                  id="buildingName"
-                  value={formValues.buildingName}
-                  onChange={(e) => handleChange(e)}
-                />
               </div>
             </li>
 
-            <li className={styles.listWrapper}>
+            <li
+              className={`${styles.listWrapperFlex} ${styles.listWrapper}`}
+            >
               <div className={styles.listInfo}>
                 <div className={styles.labelWrapper}>
                   <label
@@ -465,7 +468,9 @@ export default function LoginScreen() {
               </div>
             </li>
 
-            <li className={styles.listWrapper}>
+            <li
+              className={`${styles.listWrapperFlex} ${styles.listWrapper}`}
+            >
               <div className={styles.listInfo}>
                 <div className={styles.labelWrapper}>
                   <label
@@ -567,7 +572,9 @@ export default function LoginScreen() {
               </div>
             </li>
 
-            <li className={styles.listWrapper}>
+            <li
+              className={`${styles.listWrapperFlex} ${styles.listWrapper}`}
+            >
               <div className={styles.listInfo}>
                 <div className={styles.labelWrapper}>
                   <label
@@ -597,7 +604,7 @@ export default function LoginScreen() {
                     htmlFor={'passwordTest'}
                   >
                     確認用パスワード
-                  </label>  
+                  </label>
                   <span className={styles.required}>必須</span>
                 </div>
                 <input

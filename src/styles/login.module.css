@@ -1,3 +1,4 @@
+
 .loginMain {
     display: flex;
     justify-content: center;
@@ -11,7 +12,11 @@
     color: #fff;
     border-radius: 1rem;
     padding: 5rem;
-    
+}
+@media (max-width: 768px) {
+    .formWrapper {
+        padding: 3rem;
+    }
 }
 
 .loginForm ul {
