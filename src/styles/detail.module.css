@@ -5,15 +5,20 @@
   margin: 0 auto;
 }
 
+.detailImgWrapper img {
+  object-fit: cover;
+}
+
 .detailTitle {
   font-size: 7rem;
   font-weight: bold;
   color: #fff;
-  padding: 1.5rem;
   position: absolute;
+  padding: 0 1rem;
   top: 25%;
-  left: 10%;
+  left: 5%;
   transform: translateY(-50%);
+  z-index: 3;
 }
 
 .detailContainer {
@@ -21,7 +26,7 @@
 }
 
 .detailBodyWrapper {
-  padding: 3rem 1.5rem;
+  padding: 3rem 0;
 }
 
 .detailBody {
@@ -173,17 +178,7 @@
   font-size: 1.5rem;
 }
 
-@media screen and (max-width: 1000px) {
-  .detailTitle {
-    font-size: 5.5rem;
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .detailTitle {
-    font-size: 5.5rem;
-  }
-
+@media screen and (max-width: 1200px) {
   .detailBody {
     padding: 1.5rem;
     display: block;
@@ -201,5 +196,37 @@
   .btnWrapper {
     width: 100%;
     margin-top: 2rem;
+  }
+
+  .middleOnly {
+    display: none;
+  }
+
+  .middleOnlyMr50 {
+    margin-right: 50px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .detailTitle {
+    font-size: 5.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .detailTitle {
+    font-size: 4.4rem;
+  }
+
+  .middleOnly {
+    display: block;
+  }
+
+  .middleOnlyMr50 {
+    margin-right: 0;
+  }
+
+  .detailImgWrapper {
+    height: 30rem;
   }
 }
