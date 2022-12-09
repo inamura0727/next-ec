@@ -101,7 +101,7 @@ export default function Payment({
                 <Image
                   src={item.itemImage}
                   width={200}
-                  height={112.5}
+                  height={112}
                   alt={'商品画像のURL'}
                 />
                 <div className={styles.itemName}>
