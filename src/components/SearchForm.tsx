@@ -17,14 +17,6 @@ export default function SearchForm () {
     }
     return (
         <>
-        {/* <div
-          className={
-            searchOpen ? styles.searchOpenTrue : styles.searchOpenFalse
-          }
-          onClick={() => setSearchOpen(!search)}
-        >
-          <Image src={"/images/searchIcon.jpeg"} alt={"search"} width={50} height={50} className={styles.searchIcon} />
-        </div> */}
         <div className={styles.searchForm}>
         <form method="get" id="form" onSubmit={search}>
         <div className={styles.headline}>キーワード検索</div>

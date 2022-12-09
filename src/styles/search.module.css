@@ -11,7 +11,6 @@
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   padding-left: 0.8rem;
   padding-right: 0.8rem;
   border-right: 0.1rem solid #1111;
@@ -27,6 +26,7 @@
 .radioUl{
   padding-left: 0;
   margin-bottom: 1rem;
+  margin-top: 0;
 }
 
 .radioLi{
@@ -41,16 +41,6 @@
   margin-left: 1rem;
   margin-right: 1rem;
 }
-
-/* .searchResult{
-  width:100%;
-}
-
-@media (max-width: 1200px) {
-  .searchResult{
-    width: 100%;
-  }
-} */
 
 .searchCount{
   font-size: 1.5rem;
@@ -144,4 +134,25 @@
 .searchBtn:hover{
   background-color: white;
   color: #26a4ca;
+}
+
+@media (max-width: 768px) {
+  .container{
+    flex-flow: column;
+  }
+  .searchForm{
+    height: fit-content;
+    border-right: 0rem;
+    border-right: none;
+    border-bottom: 0.1rem solid #1111;
+    display: flex;
+    padding-bottom: 1rem;
+  }
+  .radioUl{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .radioLi{
+    margin-right: 1rem;
+  }
 }
