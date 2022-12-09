@@ -319,22 +319,22 @@ export default function ItemDetail({ item }: { item: Item }) {
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
       />
-      <section className={styles.detail}>
+      <div className={styles.detailImgWrapper}>
+        <Image
+          className={styles.detailImg}
+          src={item.itemImage}
+          alt="画像"
+          sizes="100vw"
+          fill
+          priority
+        />
+        <p className={styles.detailTitle}>{item.artist}</p>
+      </div>
+      <main className={styles.detail}>
         <form onSubmit={(e) => handleSubmit(e, item)}>
           <div>
             <div className={styles.detaiContainer}>
-              <div className={styles.detailImgWrapper}>
-                <Image
-                  className={styles.detailImg}
-                  src={item.itemImage}
-                  alt="画像"
-                  sizes="100vw"
-                  fill
-                  priority
-                />
-              </div>
               <div className={styles.detailBodyWrapper}>
-                <p className={styles.detailTitle}>{item.artist}</p>
                 <div className={styles.detailBody}>
                   <div className={styles.detailBodyInner}>
                     <p>{item.itemDetail}</p>
@@ -369,7 +369,10 @@ export default function ItemDetail({ item }: { item: Item }) {
                           <p className={styles.detailLerge}>
                             【レンタル期間】
                           </p>
-                          <label htmlFor="palyTime">
+                          <label
+                            htmlFor="palyTime"
+                            className={styles.middleOnlyMr50}
+                          >
                             <input
                               type="radio"
                               name="palyTime"
@@ -378,7 +381,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                             />
                             48時間&nbsp;{item.twoDaysPrice}円
                           </label>
-                          <br />
+                          <br className={styles.middleOnly} />
                           <label htmlFor="palyTime">
                             <input
                               type="radio"
@@ -424,7 +427,7 @@ export default function ItemDetail({ item }: { item: Item }) {
             startPlayer={() => mutate('/api/getUser')}
           />
         )}
-      </section>
+      </main>
     </>
   );
 }
