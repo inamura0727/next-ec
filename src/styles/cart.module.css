@@ -150,7 +150,12 @@
   font-weight: bold;
 }
 
-@media screen and (max-width: 800px) {
+.cartImgWrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 768px) {
   .cartInner,
   .cartBodyWrapper {
     display: block;
@@ -163,8 +168,4 @@
   .cartBody p {
     padding-bottom: 1rem;
   }
-
-  /* .cartBodyWrapper{
-    display: block;
-  } */
 }
