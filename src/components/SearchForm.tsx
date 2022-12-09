@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from 'styles/search.module.css'
-import Image from "next/image";
 
 export default function SearchForm () {
     const [data, setData] = useState('');
