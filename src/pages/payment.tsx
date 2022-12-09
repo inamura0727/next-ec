@@ -10,7 +10,7 @@ import Header from '../components/Header';
 import { SessionUser } from 'pages/api/getUser';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import {config} from '../config/index'
+import { config } from '../config/index';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -96,22 +96,24 @@ export default function Payment({
         <section className={styles.orderWrapper}>
           <h1>ご注文内容</h1>
           {user.userCarts?.map((item: UserCart) => (
-            <div className={styles.itemWrapper} key={item.id}>
-              <div className={styles.ItemInfo}>
-                <Image
-                  src={item.itemImage}
-                  width={200}
-                  height={112}
-                  alt={'商品画像のURL'}
-                />
-                <div className={styles.itemName}>
-                  <p>{item.itemName}</p>
-                  <p>レンタル期間：{item.rentalPeriod}泊</p>
+            <div className={styles.itemGrop} key={item.id}>
+              <div className={styles.itemWrapper}>
+                <div className={styles.ItemInfo}>
+                  <Image
+                    src={item.itemImage}
+                    width={200}
+                    height={112}
+                    alt={'商品画像のURL'}
+                  />
+                  <div className={styles.itemName}>
+                    <p>{item.itemName}</p>
+                    <p>レンタル期間：{item.rentalPeriod}泊</p>
+                  </div>
                 </div>
-              </div>
-              <div className={styles.price}>
-                <p>価格</p>
-                <div>{item.price}円</div>
+                <div className={styles.price}>
+                  <p>価格</p>
+                  <div>{item.price}円</div>
+                </div>
               </div>
             </div>
           ))}
@@ -124,7 +126,10 @@ export default function Payment({
           <div className={styles.sumPrice}>ご請求金額：{sum}円</div>
           <input type="hidden" name="price" value={sum} />
           <div className={styles.btnWrapper}>
-            <button type="submit" className={`${styles.paymentBtn} ${styles.bgleft}`} >
+            <button
+              type="submit"
+              className={`${styles.paymentBtn} ${styles.bgleft}`}
+            >
               <span>決済する</span>
             </button>
           </div>

@@ -54,7 +54,7 @@ export default function CartList() {
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
       />
-      <section className="cart">
+      <main className={styles.cart}>
         {items?.map((item: UserCart) => {
           return (
             <div className={styles.cartContent} key={item.id}>
@@ -90,13 +90,13 @@ export default function CartList() {
                   <div className={styles.cartPriceWrapper}>
                     <p>価格</p>
                     <p className={styles.cartPrice}>{item.price}円</p>
+                    <DeleteBtn
+                      id={id}
+                      cartId={item.id}
+                      rebuild={() => mutate('/api/getUser')}
+                    />
                   </div>
                 </div>
-                <DeleteBtn
-                  id={id}
-                  cartId={item.id}
-                  rebuild={() => mutate('/api/getUser')}
-                />
               </div>
             </div>
           );
@@ -139,15 +139,7 @@ export default function CartList() {
             </>
           )}
         </div>
-        <style jsx>
-          {`
-            p {
-              margin-block-start: 0;
-              margin-block-end: 0;
-            }
-          `}
-        </style>
-      </section>
+      </main>
     </>
   );
 }

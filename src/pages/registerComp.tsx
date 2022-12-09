@@ -4,9 +4,7 @@ import styles from 'styles/registerComp.module.css';
 import Image from 'next/image';
 import styleHeader from 'styles/header.module.css';
 
-
 export default function Completion() {
-
   return (
     <>
       <Head>
@@ -26,11 +24,14 @@ export default function Completion() {
       <main className={styles.registerCompMain}>
         <div className={styles.contents}>
           <p>
-          登録完了いたしました
+            登録完了いたしました
             <br />
             ご登録ありがとうございます。
           </p>
-          <Link href={`/login`} className={styles.loginLink}>ログイン画面へ</Link>
+
+          <Link href={`/login`} className={styles.loginLink}>
+            <button className={styles.registerBtn}>ログイン画面へ</button>
+          </Link>
         </div>
       </main>
     </>
