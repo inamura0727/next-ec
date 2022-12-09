@@ -140,8 +140,14 @@ export default function CartList() {
             </>
           )}
         </div>
-
-
+        <style jsx>
+          {`
+            p {
+              margin-block-start: 0;
+              margin-block-end: 0;
+            }
+          `}
+        </style>
       </main>
     </>
   );
