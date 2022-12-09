@@ -78,7 +78,7 @@ export default function Search({
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
       />
-      <div className={styles.container}>
+      <main className={styles.container}>
         <SearchForm />
         <div className={styles.searchResult}>
           <div className={styles.components}>
@@ -127,7 +127,7 @@ export default function Search({
             onClick={onClick}
           />
         </div>
-      </div>
+      </main>
     </>
   );
 }
