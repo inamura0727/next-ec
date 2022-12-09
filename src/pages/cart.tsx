@@ -54,6 +54,7 @@ export default function CartList() {
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
       />
+
       <main className={styles.cart}>
         {items?.map((item: UserCart) => {
           return (
@@ -139,17 +140,8 @@ export default function CartList() {
             </>
           )}
         </div>
-<<<<<<< HEAD
-=======
-        <style jsx>
-          {`
-            p {
-              margin-block-start: 0;
-              margin-block-end: 0;
-            }
-          `}
-        </style>
->>>>>>> main
+
+
       </main>
     </>
   );
