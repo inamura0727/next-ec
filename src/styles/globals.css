@@ -31,6 +31,20 @@ a {
   height: 100vh;
 }
 
+@media (max-width: 1200px) {
+  main{
+    width: 80%;
+    margin: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  main{
+    width: 90%;
+    margin: auto;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
