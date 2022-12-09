@@ -20,6 +20,7 @@ export default function Header({
   return !login ? (
     // ログイン・ユーザ登録以外の画面の場合
     <header className={styles.header}>
+      <div>
       <div className={styles.info}>
         <Link href="/">
           <Image
@@ -45,25 +46,54 @@ export default function Header({
         >
           <ul>
             <li>
-              <Link href="/">トップページ</Link>
+              <Link href="/">
+                <Image
+                  className={styles.icon}
+                  src={'/images/icon-top.png'}
+                  width={32}
+                  height={32}
+                  alt={'カートアイコン'}
+                />
+                トップページ
+              </Link>
             </li>
             <li>
-              <Link href="/search?categories_like=&q=">検索</Link>
+              <Link href="/search?categories_like=&q=">
+                <Image
+                  className={styles.icon}
+                  src={'/images/icon-search.png'}
+                  width={32}
+                  height={32}
+                  alt={'カートアイコン'}
+                />
+                検索
+              </Link>
             </li>
             <li>
               <Link href="/cart">
                 <Image
+                  className={styles.icon}
                   src={'/images/icon-cart.png'}
                   width={32}
                   height={32}
                   alt={'カートアイコン'}
                 />
+                カート
               </Link>
             </li>
             {isLoggedIn ? (
               <>
                 <li>
-                  <Link href="/mypage">マイページ</Link>
+                  <Link href="/mypage">
+                    <Image
+                      className={styles.icon}
+                      src={'/images/icon-mypage.png'}
+                      width={32}
+                      height={32}
+                      alt={'カートアイコン'}
+                    />
+                    マイページ
+                  </Link>
                 </li>
                 <li>
                   <Link
@@ -171,6 +201,7 @@ export default function Header({
             )}
           </ul>
         </nav>
+      </div>
       </div>
     </header>
   ) : (
