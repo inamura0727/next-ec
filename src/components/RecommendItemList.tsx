@@ -42,7 +42,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
             </>
         ): (data.favoriteGenre === 0 ? (
             <div className={styles.btnWrapper}>
-            <button className={styles.chatbotButtonBefore} onClick={route}>やってみよう！チャットボット</button>
+            <button className={styles.chatbotButtonBefore} onClick={route}>やってみよう！ <br className={styles.br} /> チャットボット</button>
             </div>
         ): (
             <>
