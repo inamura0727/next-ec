@@ -27,7 +27,31 @@
 }
 
 
-@media screen and (max-width: 800px) {
+.payCompBtn{
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    background-color: #26a4ca;
+    border: 0.2rem solid transparent;
+    box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+    color: #fff;
+    font-size: 1.75rem;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.25s;
+    border-radius: 3rem;
+    margin-bottom: 2rem;
+  }
+  .payCompBtn:hover {
+      background-color: #fff;
+      border-color: currentColor;
+      color: #26a4ca;
+      box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
+  }
+
+
+
+@media screen and (max-width: 768px) {
 
     .payCompMain{
         width: 80%;
@@ -44,5 +68,9 @@
     
     .payCompMain .contents p{
         font-size: 1.8rem;
+    }
+
+    .payCompMain .contents{
+        height: 35%;
     }
 }

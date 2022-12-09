@@ -1,4 +1,56 @@
-.registerCompMain{
+.registerCompMain {
+  width: 80%;
+  margin: 5rem auto;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
+  color: #111111;
+  font-size: 2rem;
+  border-radius: 2rem;
+}
+.registerCompMain .contents {
+  text-align: center;
+  height: 50%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+}
+
+.registerCompMain .contents p {
+  font-size: 2.4rem;
+}
+
+.loginLink:hover {
+  text-decoration: revert;
+}
+
+
+.registerBtn {
+  width: 60%;
+  max-width: 100%;
+  padding: 1rem;
+  background-color: #26a4ca;
+  border: 0.2rem solid transparent;
+  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.16);
+  color: #fff;
+  font-size: 1.75rem;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.25s;
+  border-radius: 3rem;
+  margin-bottom: 2rem;
+}
+.registerBtn:hover {
+  background-color: #fff;
+  border-color: currentColor;
+  color: #26a4ca;
+  box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.16);
+}
+
+@media screen and (max-width: 768px) {
+  .registerCompMain {
     width: 80%;
     margin: 5rem auto;
     background-color: #fff;
@@ -7,42 +59,14 @@
     justify-content: center;
     height: 80%;
     color: #111111;
-    font-size: 2rem;
+    font-size: 1.4rem;
     border-radius: 2rem;
-}
-.registerCompMain .contents{
-    text-align: center;
-    height: 50%;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-}
+  }
 
-.registerCompMain .contents p{
-    font-size: 2.4rem;
-}
-
-.loginLink:hover {
-    text-decoration: revert;
-}
-
-
-@media screen and (max-width: 800px) {
-
-    .registerCompMain{
-        width: 80%;
-        margin: 5rem auto;
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 80%;
-        color: #111111;
-        font-size: 1.4rem;
-        border-radius: 2rem;
-    }
-    
-    .registerCompMain .contents p{
-        font-size: 1.8rem;
-    }
+  .registerCompMain .contents p {
+    font-size: 1.8rem;
+  }
+  .registerCompMain .contents {
+    height: 35%;
+  }
 }

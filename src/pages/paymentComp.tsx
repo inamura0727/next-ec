@@ -36,7 +36,9 @@ export default function PaymentComp() {
             <br />
             ご利用ありがとうございました。
           </p>
-          <Link href={`/mypage`} className={styles.maypageLink}>レンタルした作品を確認する</Link>
+          <Link href={`/mypage`} className={styles.maypageLink}>
+          <button className={styles.payCompBtn}>レンタルした作品を確認する</button>
+          </Link>
         </div>
       </main>
     </>
