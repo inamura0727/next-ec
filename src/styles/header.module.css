@@ -7,7 +7,7 @@
 }
 
 .header .info {
-  max-width: 90%;
+  max-width: 120rem;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -75,14 +75,15 @@
   margin: 0 auto 0.5rem;
 }
 
-/* レスポンシブスマホサイズ */
-@media screen and (max-width: 1200px) {
-  .header .info {
-    width: 90%;
-  }
+.infoWrapper {
+  width: 90%;
+  margin: 0 auto;
 }
-
+/* レスポンシブスマホサイズ */
 @media screen and (max-width: 768px) {
+  .infoWrapper {
+    width: 95%;
+  }
   .header .pc_nav {
     display: none;
   }
