@@ -12,7 +12,7 @@
 .p::before,
 .p::after {
   content: '';
-  width: 7rem;
+  width: 10%;
   height: 0.3rem;
   background-color: #26a4ca;
 }
