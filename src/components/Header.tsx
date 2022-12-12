@@ -54,7 +54,7 @@ export default function Header({
                     src={'/images/icon-top.png'}
                     width={32}
                     height={32}
-                    alt={'カートアイコン'}
+                    alt={'トップアイコン'}
                   />
                   トップページ
                 </Link>
@@ -66,7 +66,7 @@ export default function Header({
                     src={'/images/icon-search.png'}
                     width={32}
                     height={32}
-                    alt={'カートアイコン'}
+                    alt={'検索アイコン'}
                   />
                   検索
                 </Link>
@@ -92,7 +92,7 @@ export default function Header({
                         src={'/images/icon-mypage.png'}
                         width={32}
                         height={32}
-                        alt={'カートアイコン'}
+                        alt={'マイページアイコン'}
                       />
                       マイページ
                     </Link>
