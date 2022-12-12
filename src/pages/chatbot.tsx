@@ -121,7 +121,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             <div className={styles.chatbotWrapper} key='chatbotWrapper'>
             <div id="chatbot-body" className={styles.chatbotBody} key='chatboy-body'>
                 <div className={styles.header} key='header'>
-                <h1 className={styles.title} key='chath1'>チャットボット</h1>
+                <div className={styles.title} key='chath1'>チャットボット</div>
                 </div>
                 <div id="chatbot" className={styles.chatArea} key='chatArea'>
                     {output.map((obj) => {
