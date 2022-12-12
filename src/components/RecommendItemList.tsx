@@ -22,12 +22,12 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
              .slice(0, 10)
              .map((item)=>{
                  return(
-                     <div key={item.id} className={styles.item}>
-                     <Link href={`/items/${item.id}`}>
+                     <Link key={item.id} href={`/items/${item.id}`} className={styles.item}>
                      <Image src={item.itemImage}
-                            width={200}
-                            height={112}
+                            width={400}
+                            height={225}
                             alt={item.artist}
+                            className={styles.itemImage}
                             priority
                             />
                      <div className={styles.detail}>
@@ -35,7 +35,6 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                      <div className={styles.fesName}>{item.fesName}</div>
                      </div>
                      </Link>
-                     </div>
                  )
              }).reverse()}
              </section>
@@ -53,8 +52,7 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
             .slice(0, 10)
             .map((item)=>{
                 return(
-                    <div key={item.id} className={styles.item}>
-                    <Link key={item.id} href={`/items/${item.id}`}>
+                    <Link key={item.id} href={`/items/${item.id}`} className={styles.item}>
                     <Image src={item.itemImage}
                             width={400}
                             height={225}
@@ -62,13 +60,11 @@ export default function RecommendItemList ({items, data}: {items: Array<Item>, d
                             className={styles.itemImage}
                             priority
                             />
-                    <br />
                     <div className={styles.detail}>
                     <div className={styles.artist}>{item.artist}</div>
                     <div className={styles.fesName}>{item.fesName}</div>
                     </div>
                     </Link>
-                    </div>
                 )
             }).reverse()}
             </section>

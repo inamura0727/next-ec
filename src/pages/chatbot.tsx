@@ -118,9 +118,10 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             </Head>
             <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')} />
             <div className={styles.chatbotPage} key='chatbotPage'>
+            <div className={styles.chatbotWrapper} key='chatbotWrapper'>
             <div id="chatbot-body" className={styles.chatbotBody} key='chatboy-body'>
                 <div className={styles.header} key='header'>
-                <h1 className={styles.title} key='chath1'>チャットボット</h1>
+                <div className={styles.title} key='chath1'>チャットボット</div>
                 </div>
                 <div id="chatbot" className={styles.chatArea} key='chatArea'>
                     {output.map((obj) => {
@@ -206,14 +207,11 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                 .slice(0, 4)
                                 .map((item)=>{
                                     return(
-                                        <div key={`item${item.id}`} className={styles.item}>
-                                        <Link key={`itemLink${item.id}`} href={`/items/${item.id}`}>
+                                        <Link key={`itemLink${item.id}`} href={`/items/${item.id}`} className={styles.item}>
                                         <Image key={`itemImage${item.id}`} src={item.itemImage} width={400} height={225} alt={item.artist} className={styles.itemImage}/>
-                                        <br />
                                         <div key={`${item.artist}`} className={styles.artist}>{item.artist}</div>
                                         <div key={`${item.fesName}`} className={styles.fesName}>{item.fesName}</div>
                                         </Link>
-                                        </div>
                                     )
                                 }).reverse()}
                                 </section>
@@ -232,6 +230,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 <div key='closeChatbot' className={styles.closeChatbot} onClick={() => route()}>
                         ×
                 </div>
+            </div>
             </div>
         </>
     )

@@ -25,7 +25,6 @@ export default function Player({ closePlayer, id ,startPlayer}: playerProps) {
         height="70%"
         controls={true}
         playing={true}
-        config={{ youtube: { playerVars: { origin: 'https://localhost:3000' } } }}
         onStart={() => sample(id)}
       />
       <div
