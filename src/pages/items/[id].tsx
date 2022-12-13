@@ -72,8 +72,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     );
 
   const userId = data.userId;
-  const userName = data.userName;
-  const isLoggedIn = data.isLoggedIn;
 
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
@@ -444,13 +442,8 @@ export default function ItemDetail({ item }: { item: Item }) {
         <section className={styles.review}>
           <h1>レビュー</h1>
           <div className={styles.listWrpper}>
-            <Review
-              id={item.id}
-              userId={userId}
-              userName={userName}
-            />
+            <Review id={item.id} />
             <ReviewBtn
-              isLoggedIn={isLoggedIn}
               userId={userId}
               id={item.id}
               isRentaled={isRentaled}

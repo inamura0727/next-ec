@@ -20,12 +20,8 @@ type Review = {
 
 export default function Review({
   id,
-  userId,
-  userName,
 }: {
   id: number;
-  userId: number | undefined;
-  userName: string | undefined;
 }) {
   const { data } = useSWR(`/api/reviews/?id=${id}`, fetcher);
 
