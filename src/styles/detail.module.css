@@ -181,6 +181,8 @@
 .review {
   background-color: #fff;
   padding: 1.5rem;
+  max-width: 103rem;
+  margin: 0 auto;
 }
 
 .listWrpper {

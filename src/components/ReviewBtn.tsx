@@ -9,10 +9,12 @@ export default function Review({
   isLoggedIn,
   userId,
   id,
+  isRentaled,
 }: {
   isLoggedIn: boolean;
   userId: number | undefined;
   id: number;
+  isRentaled: boolean;
 }) {
   // ユーザーのレビュー情報を取得
   const { data } = useSWR(`/api/reviews/?userId=${userId}`, fetcher);
@@ -48,20 +50,14 @@ export default function Review({
     isReviewd = true;
   }
 
-  console.log(isReviewd);
-
   return (
     <>
-      {isReviewd ? (
-        <Link href="/">
-          <button className={styles.btnReview}>編集する</button>
-        </Link>
+      {isRentaled ? (
+        <button className={styles.btnReview}>
+          {isReviewd ? '編集する　' : 'レビューを書く'}
+        </button>
       ) : (
-        <Link href="/">
-          <button className={styles.btnReview}>
-            {isLoggedIn ? 'レビューを書く' : 'ログインする'}
-          </button>
-        </Link>
+        ''
       )}
     </>
   );

@@ -5,6 +5,18 @@ import Link from 'next/link';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
+type Reviwe = {
+  id: number;
+  itemName: string;
+  userId: number;
+  userName: string;
+  postTime: Date;
+  reviewName: string;
+  reviewText: string;
+  evaluation: number;
+  spoiler: boolean;
+};
+
 export default function Review({
   id,
   userId,
@@ -32,7 +44,7 @@ export default function Review({
     );
 
   // 点数の配列のみ取り出す
-  let scoreArr = data.map((dataList: any) => {
+  let scoreArr = data.map((dataList: Reviwe) => {
     return dataList.evaluation;
   });
 
@@ -48,12 +60,10 @@ export default function Review({
     average = 0;
   }
 
-  console.log(average);
-
   return (
     <section className={styles.contentWrapper}>
       <p>総合{average}点</p>
-      {data.map((review: any) => {
+      {data.map((review: Reviwe) => {
         return (
           <div key={review.id} className={styles.content}>
             {review.spoiler && <p>ネタバレあり</p>}
@@ -62,7 +72,7 @@ export default function Review({
               <p>{review.userName}</p>
               <p>投稿日{review.postTime}</p>
               <p>{review.evaluation}</p>
-              <div>{review.revieText}</div>
+              <div>{review.reviewText}</div>
             </div>
           </div>
         );
