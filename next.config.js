@@ -28,6 +28,14 @@ const nextConfig = {
         source: '/api/items/:slug',
         destination: 'http://localhost:8000/categories/:slug',
       },
+      {
+        source: '/api/reviews',
+        destination: 'http://localhost:8000/reviews',
+      },
+      {
+        source: '/api/reviews/:slug',
+        destination: 'http://localhost:8000/reviews/:slug',
+      },
     ];
   },
 };
