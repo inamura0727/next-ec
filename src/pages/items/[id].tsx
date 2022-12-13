@@ -92,8 +92,6 @@ export default function ItemDetail({ item }: { item: Item }) {
     isRentaled = true;
   }
 
-  console.log(isRentaled);
-
   // 再生ボタンの出しわけ
   if (!rentaledItems?.length) {
     rentalFlg = false;
@@ -442,7 +440,7 @@ export default function ItemDetail({ item }: { item: Item }) {
         <section className={styles.review}>
           <h1>レビュー</h1>
           <div className={styles.listWrpper}>
-            <Review id={item.id} />
+            <Review itemId={item.id} />
             <ReviewBtn
               userId={userId}
               id={item.id}
