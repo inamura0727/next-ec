@@ -7,7 +7,7 @@ import { Reviews } from 'types/review';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Review({ itemId }: { itemId: number }) {
-  const { data } = useSWR(`/api/reviews/?id=${itemId}`, fetcher);
+  const { data } = useSWR(`/api/reviews/?itemId=${itemId}`, fetcher);
 
   if (!data)
     return (
