@@ -10,6 +10,8 @@ import Head from 'next/head';
 import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
 import { config } from '../../config/index';
+import Review from '../../components/Review';
+import ReviewBtn from 'components/ReviewBtn';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -68,6 +70,10 @@ export default function ItemDetail({ item }: { item: Item }) {
         </div>
       </div>
     );
+
+  const userId = data.userId;
+  const userName = data.userName;
+  const isLoggedIn = data.isLoggedIn;
 
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
@@ -427,6 +433,21 @@ export default function ItemDetail({ item }: { item: Item }) {
             startPlayer={() => mutate('/api/getUser')}
           />
         )}
+        <section className={styles.review}>
+          <h1>レビュー</h1>
+          <div className={styles.listWrpper}>
+            <ReviewBtn
+              isLoggedIn={isLoggedIn}
+              userId={userId}
+              id={item.id}
+            />
+            <Review
+              id={item.id}
+              userId={userId}
+              userName={userName}
+            />
+          </div>
+        </section>
       </main>
     </>
   );

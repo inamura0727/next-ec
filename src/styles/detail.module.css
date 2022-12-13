@@ -178,6 +178,22 @@
   font-size: 1.5rem;
 }
 
+.review {
+  background-color: #fff;
+  padding: 1.5rem;
+}
+
+.listWrpper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnReview {
+  display: inline-block;
+  width: 150px;
+  height: 40px;
+}
+
 @media screen and (max-width: 1200px) {
   .detailBody {
     padding: 1.5rem;
