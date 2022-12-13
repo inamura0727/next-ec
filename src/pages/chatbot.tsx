@@ -10,6 +10,7 @@ import Image from "next/image";
 import Router from "next/router";
 import React from "react";
 import { config } from '../config/index';
+import { getClientBuildManifest } from "next/dist/client/route-loader";
 
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -60,6 +61,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
     const { data } = useSWR<SessionUser>('/api/getUser', fetcher);
 
     const chatArea = useRef<HTMLDivElement>(null);
+
 
     // 1回目の質問まで
     useEffect(() => {
@@ -455,12 +457,6 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         }
                                 </div>
                             )
-                        } else if(obj.option === 'return'){
-                            return (
-                                <div key='returnButton' className={styles.returnBtnWrapper} ref={chatArea}>
-                                    <button className={styles.returnBtn} key={obj.id} onClick={route}>{obj.text}</button>
-                                </div>
-                            )
                         } else if(obj.option === 'recommend') {
                             return (
                                 <section className={styles.itemList} ref={chatArea} key='recommend'>
@@ -477,6 +473,12 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                     )
                                 })}
                                 </section>
+                            )
+                        } else if(obj.option === 'return'){
+                            return (
+                                <div key='returnButton' className={styles.returnBtnWrapper} ref={chatArea}>
+                                    <button className={styles.returnBtn} key={obj.id} onClick={route}>{obj.text}</button>
+                                </div>
                             )
                         } else {
                             if (obj.text)
