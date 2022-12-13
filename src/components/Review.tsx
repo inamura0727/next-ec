@@ -59,8 +59,8 @@ export default function Review({
             {review.spoiler && <p>ネタバレあり</p>}
             <p>{review.reviewName}</p>
             <div className={styles.contentBody}>
-              <p>{userName}</p>
-              <p>投稿日</p>
+              <p>{review.userName}</p>
+              <p>投稿日{review.postTime}</p>
               <p>{review.evaluation}</p>
               <div>{review.revieText}</div>
             </div>
