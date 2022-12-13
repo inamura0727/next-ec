@@ -10,6 +10,8 @@ import Head from 'next/head';
 import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
 import { config } from '../../config/index';
+import Review from '../../components/Review';
+import ReviewBtn from 'components/ReviewBtn';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -69,6 +71,8 @@ export default function ItemDetail({ item }: { item: Item }) {
       </div>
     );
 
+  const userId = data.userId;
+
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
@@ -77,10 +81,16 @@ export default function ItemDetail({ item }: { item: Item }) {
   let rentalPeriod;
   let rentalCartId: number;
   let nowDate = new Date();
+  let isRentaled = false;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.id;
   });
+
+  // 購入しているかしていないかのフラグ
+  if (rentaledItems?.length) {
+    isRentaled = true;
+  }
 
   // 再生ボタンの出しわけ
   if (!rentaledItems?.length) {
@@ -427,6 +437,17 @@ export default function ItemDetail({ item }: { item: Item }) {
             startPlayer={() => mutate('/api/getUser')}
           />
         )}
+        <section className={styles.review}>
+          <h1>レビュー</h1>
+          <div className={styles.listWrpper}>
+            <Review itemId={item.id} />
+            <ReviewBtn
+              userId={userId}
+              id={item.id}
+              isRentaled={isRentaled}
+            />
+          </div>
+        </section>
       </main>
     </>
   );
