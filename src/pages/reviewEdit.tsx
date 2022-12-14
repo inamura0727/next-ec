@@ -26,7 +26,6 @@ export const getServerSideProps: GetServerSideProps = async (
 };
 
 export default function ReviewEdit({ items }: { items: Reviews }) {
-  console.log(items);
   const [formReviewName, setFormReviewName] = useState(
     items.reviewName
   );
@@ -36,7 +35,7 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
   const [formEvaluation, setFormEvaluation] = useState(
     items.evaluation
   );
-  const [formpoiler, setFormPoiler] = useState(items.spoiler);
+  const [formSpoiler, setFormSpoiler] = useState(items.spoiler);
 
   const review = useRef<HTMLDivElement>(null);
 
@@ -44,14 +43,14 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
   const handleClick = function (e: SyntheticEvent) {
     setFormEvaluation(Number((e.target as Element).id));
 
-    for (let j = 0; j < 5; j++) {
-      review.current?.children[j].classList.remove(
+    for (let i = 0; i < 5; i++) {
+      review.current?.children[i].classList.remove(
         `${reviewStyles.active}`
       );
     }
 
-    for (let j = 0; j < Number((e.target as Element).id); j++) {
-      review.current?.children[j].classList.add(
+    for (let i = 0; i < Number((e.target as Element).id); i++) {
+      review.current?.children[i].classList.add(
         `${reviewStyles.active}`
       );
     }
@@ -84,7 +83,7 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
       reviewName: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
-      spoiler: formpoiler,
+      spoiler: formSpoiler,
       reviewId: items.id,
     };
 
@@ -171,7 +170,7 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
                   id="1"
                   type="radio"
                   value={1}
-                  onChange={(e) => setFormPoiler(true)}
+                  onChange={(e) => setFormSpoiler(true)}
                 />
                 <label htmlFor="1">あり</label>
               </li>
@@ -181,7 +180,7 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
                   id="2"
                   type="radio"
                   value={2}
-                  onChange={(e) => setFormPoiler(false)}
+                  onChange={(e) => setFormSpoiler(false)}
                 />
                 <label htmlFor="2">なし</label>
               </li>

@@ -9,7 +9,6 @@ type Reviews = {
   evaluation: number;
   spoiler: boolean;
   reviewId: number;
-  postedDate?: string;
   fesName:string;
   itemImage:string;
   id:number;

@@ -16,7 +16,7 @@ export default function Review({ post }: { post: Item }) {
   const [formReviewName, setFormReviewName] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
-  const [formpoiler, setFormPoiler] = useState(false);
+  const [formSpoiler, setFormSpoiler] = useState(false);
 
   const review = useRef<HTMLDivElement>(null);
 
@@ -78,11 +78,10 @@ export default function Review({ post }: { post: Item }) {
       reviewName: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
-      spoiler: formpoiler,
+      spoiler: formSpoiler,
       reviewId: 1,
     };
 
-    console.log(body);
 
     await fetch('/api/reviews', {
       method: 'POST',
@@ -172,7 +171,7 @@ export default function Review({ post }: { post: Item }) {
                   id="1"
                   type="radio"
                   value={1}
-                  onChange={(e) => setFormPoiler(true)}
+                  onChange={(e) => setFormSpoiler(true)}
                 />
                 <label htmlFor="1">あり</label>
               </li>
@@ -182,7 +181,7 @@ export default function Review({ post }: { post: Item }) {
                   id="2"
                   type="radio"
                   value={2}
-                  onChange={(e) => setFormPoiler(false)}
+                  onChange={(e) => setFormSpoiler(false)}
                 />
                 <label htmlFor="2">なし</label>
               </li>
