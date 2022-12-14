@@ -10,41 +10,14 @@ import Image from "next/image";
 import Router from "next/router";
 import React from "react";
 import { config } from '../config/index';
-import { getClientBuildManifest } from "next/dist/client/route-loader";
-
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-type ChatList = { id: number, text?: string, choices?:Array<Choice>, answers?:Array<Choice>, continue: boolean, option: string,}
+type ChatList = { id: number, text?: string, choices?:Array<Choice>, continue: boolean, option: string,}
 type Choice = {id: number, text: string}
 
-const chatList: Array<ChatList> = [
-    { id: 1, text: 'こんにちは、Nameさん！', continue: true, option: 'normal'},
-    { id: 2, text: 'ようこそ「チャットボット」へ！', continue: true, option: 'normal'},
-    { id: 3, text: '何をお探しですか？', continue: true, option: 'normal',},
-    { id: 4, text: '選択してください。', choices: [{id: 1, text:'今のおすすめ作品'}, {id: 2, text: '自分に合った作品を探す'}], continue: false, option: 'select'},
-    { id: 5, text: '今のおすすめ作品はこちらです！', continue: true, option: 'normal'},
-    { id: 6, continue: true, option: 'recommend'},
-    { id: 7, text: 'どちらの方法で探しますか？', continue: true, option: 'normal',},
-    { id: 8, text: '選択してください。', choices: [{id: 1, text:'興味のあるジャンルから探す'}, {id: 2, text: '今の気分から探す'}], continue: false, option: 'select'},
-    { id: 9, text: '興味のあるジャンルを教えてください！', continue: false, option: 'normal'},
-    { id: 10, text: '選択してください。', choices: [{id: 1, text:'J-POP'}, {id: 2, text: 'アイドル'}, {id: 3, text: '邦楽ロック'}, {id: 4, text: '洋楽ロック'}, {id: 5, text: 'アニソン'}, {id: 6, text: '男性アーティスト'}, {id: 7, text: '女性アーティスト'}], continue: false, option: 'select'},
-    { id: 12, text: 'ふむふむ。わかりました！', continue: true, option: 'normal'},
-    { id: 13, text: 'Nameさんにおすすめの作品はこちらです！', continue: true, option: 'normal'},
-    { id: 14, continue: true, option: 'recommend'},
-    { id: 15, text: 'さらにたくさんのおすすめ作品をトップページにご用意しました！', continue: true, option: 'normal'},
-    { id: 16, text: 'トップページへ戻る', continue: false, option: 'return'},
-    { id: 17, text: '今の気分は？', continue: true, option: 'normal',},
-    { id: 18, text: '選択してください。', choices: [{id: 1, text:'気分を上げたい'}, {id: 2, text: 'リラックスしたい'}, {id: 3, text: '感動したい'}], continue: false, option: 'select'},
-    { id: 19, text: '誰と観たい？', continue: true, option: 'normal',},
-    { id: 20, text: '選択してください。', choices: [{id: 1, text:'一人で'}, {id: 2, text: '友達と'}, {id: 3, text: '家族と'}, {id: 4, text: '恋人と'}], continue: false, option: 'select'},
-    { id: 21, text: 'ふむふむ。わかりました！', continue: true, option: 'normal'},
-    { id: 22, text: 'Nameさんにおすすめの作品はこちらです！', continue: true, option: 'normal'},
-    { id: 23, continue: true, option: 'recommend'},
-    { id: 16, text: 'トップページへ戻る', continue: false, option: 'return'}
-]
-
-export default function Chatbot({items}: {items: Array<Item>}) {
+export default function Chatbot({chatList}: {chatList: Array<ChatList>}) {
+    
     const [count, setCount] = useState(1);
     const [output, setOutput] = useState([chatList[0]]);
     const [option, setOption] = useState(0);
@@ -57,11 +30,21 @@ export default function Chatbot({items}: {items: Array<Item>}) {
     const [button, setButton] = useState(true);
     const [selectFeelingButton, setSelectFeelingButton] = useState(true);
     const [selectWhoButton, setSelectWhoButton] = useState(true);
+    const [getItems, setItems] = useState([])
 
     const { data } = useSWR<SessionUser>('/api/getUser', fetcher);
 
     const chatArea = useRef<HTMLDivElement>(null);
 
+    // itemsを取得
+    useEffect(() => {
+        fetch(`${config.items}?categories_like=${genre}`)
+        .then(res => res.json())
+        .then(data => {
+            setItems(data)
+        })
+    },[genre])
+    const items: Array<Item> = getItems;
 
     // 1回目の質問まで
     useEffect(() => {
@@ -73,7 +56,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             setOutput((prev) => [...prev, chatList[count]])
         }, 2000);
         return () => clearTimeout(id)
-    }, [count]);
+    }, [chatList, count]);
 
     // 1回目の質問解答後、1回だけ回す
     useEffect(() =>{
@@ -96,9 +79,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                     return () => clearTimeout(id)
                 }
         }
-    }, [optionButton, count, option])
+    }, [optionButton, count, option, chatList])
 
-    // 「今のおすすめ」ルートを1回だけ回す
+    // 「今のおすすめ」ルートを1回だけ回してsetGenre()
     useEffect(() => {
         if(count >=6){
             return
@@ -106,6 +89,8 @@ export default function Chatbot({items}: {items: Array<Item>}) {
         if(option === 1){
             if(count >= 5){
                 if(option === 1){
+                    // 仮でJ-POPをおすすめ
+                    setGenre(1) 
                     const id = setTimeout(() => {
                         setCount((prev) => prev + 1);
                         setOutput((prev) => [...prev, chatList[count]]);
@@ -114,7 +99,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 }
             }
         }
-    }, [count, option]);
+    }, [chatList, count, option]);
 
     // 「今のおすすめルート」終了
     useEffect(() => {
@@ -132,9 +117,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                 }
             }
         }
-    }, [count, option]);
+    }, [chatList, count, option]);
 
-    // 「自分に合った作品」ルート1回だけ回す（質問提示）
+    // 「自分に合った作品」ルート1回だけ回して質問提示
     useEffect(() => {
         if(count >=8){
             return
@@ -148,7 +133,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                     return () => clearTimeout(id)
             }
         }
-    }, [count, option]);
+    }, [chatList, count, option]);
 
     // 質問回答後、1回だけ回す
     useEffect(() =>{
@@ -173,7 +158,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                     }
             }
             }
-    }, [count, method, option, selectMethodButton])
+    }, [chatList, count, method, option, selectMethodButton])
 
     // 「興味のあるジャンルルート」終了
     useEffect(() => {
@@ -193,9 +178,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                     }
         }
         }
-    }, [button, count, method, option]);
+    }, [button, chatList, count, method, option]);
 
-    // 「今の気分」ルート1回回して1つめの質問
+    // 「今の気分」ルート1回回して1つめの質問提示
     useEffect(() => {
         if(count >= 17){
             return
@@ -211,9 +196,9 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             }
             }
         }
-    }, [count, method, option]);
+    }, [chatList, count, method, option]);
 
-    // 「今の気分」ルート2回回して2つめの質問
+    // 「今の気分」ルート2回回して2つめの質問提示
     useEffect(() => {
         if(count >= 19){
             return
@@ -229,15 +214,22 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             }
             }
         }
-    }, [count, method, option, selectFeelingButton]);
+    }, [chatList, count, method, option, selectFeelingButton]);
 
+    // 質問回答後、回答に一致するcategoriesIdを取得
     useEffect(() => {
-        if(count === chatList.length){
+        if(count >= 20){
             return
         }
         if(option === 2){
             if(method === 2){
                 if(!selectWhoButton){
+                    fetch(`${config.answers}?q1=${feeling}&q2=${who}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        setGenre(data[0].categoriesId)
+                    })
                     const id = setTimeout(() => {
                         setCount((prev) => prev + 1);
                         setOutput((prev) => [...prev, chatList[count]]);
@@ -246,14 +238,32 @@ export default function Chatbot({items}: {items: Array<Item>}) {
             }
             }
         }
-    }, [count, method, option, selectWhoButton]);
+    }, [chatList, count, feeling, method, option, selectWhoButton, who]);
+
+    // 「今の気分ルート終了」
+    useEffect(() => {
+        if(count === chatList.length){
+            return
+        }
+        if(option === 2){
+            if(method === 2){
+                if(count >= 20){
+                    const id = setTimeout(() => {
+                        setCount((prev) => prev + 1);
+                        setOutput((prev) => [...prev, chatList[count]]);
+                    }, 2000);
+                    return () => clearTimeout(id)
+            }
+            }
+        }
+    }, [chatList, count, feeling, method, option, selectWhoButton, who]);
 
 
     useEffect(() => {
         chatArea?.current?.scrollIntoView(
             {
-                behavior: "smooth" ,
-                block: "end" ,
+                behavior: "smooth",
+                block: "end",
                 inline: "nearest"
             }
         );
@@ -336,7 +346,7 @@ export default function Chatbot({items}: {items: Array<Item>}) {
                                         </form>
                                         </div>
                                             ) : (
-                                                    <div key={`ans${obj.id}`} className={styles.answer}>
+                                                    <div key={`ans${obj.id}`} className={styles.answer} ref={chatArea}>
                                                         <div key={`cl${obj.id}`} className={styles.rightChat}>
                                                             {obj.choices[option - 1].text}
                                                         </div>
@@ -502,11 +512,11 @@ export default function Chatbot({items}: {items: Array<Item>}) {
 }
 
 export async function getServerSideProps() {
-    const res = await fetch(config.items)
-    const items = await res.json()
+    const res = await fetch(config.chatList)
+    const chatList = await res.json()
     return {
         props: {
-            items
+            chatList
         }
     }
 }
