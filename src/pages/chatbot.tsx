@@ -227,7 +227,6 @@ export default function Chatbot({chatList}: {chatList: Array<ChatList>}) {
                     fetch(`${config.answers}?q1=${feeling}&q2=${who}`)
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data)
                         setGenre(data[0].categoriesId)
                     })
                     const id = setTimeout(() => {
@@ -268,9 +267,6 @@ export default function Chatbot({chatList}: {chatList: Array<ChatList>}) {
             }
         );
     });
-
-    console.log(count)
-    console.log(output)
 
     if (!data) return <div>Loading</div>
 
