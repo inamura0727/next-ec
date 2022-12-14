@@ -14,8 +14,8 @@ import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
 import { config } from '../config/index';
 
-// 1ページあたりの最大表示件数を指定(仮で2件にしています。)
-const PAGE_SIZE = 12;
+// 1ページあたりの最大表示件数を指定
+const PAGE_SIZE = 10;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

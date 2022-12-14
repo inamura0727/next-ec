@@ -36,6 +36,22 @@ const nextConfig = {
         source: '/api/reviews/:slug',
         destination: 'http://localhost:8000/reviews/:slug',
       },
+      {
+        source: '/api/chatList',
+        destination: 'http://localhost:8000/chatList',
+      },
+      {
+        source: '/api/chatList/:slug',
+        destination: 'http://localhost:8000/chatList/:slug',
+      },
+      {
+        source: '/api/answers',
+        destination: 'http://localhost:8000/answers',
+      },
+      {
+        source: '/api/answers/:slug',
+        destination: 'http://localhost:8000/answers/:slug',
+      },
     ];
   },
 };

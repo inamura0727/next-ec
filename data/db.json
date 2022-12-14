@@ -503,7 +503,9 @@
           "price": 200,
           "itemImage": "/images/fes-image/fes-image03.jpg",
           "rentalPeriod": 2,
-          "payDate": "2022-12-06T05:28:41.416Z"
+          "payDate": "2022-12-06T05:28:41.416Z",
+          "rentalStart": "2022-12-12T01:51:10.051Z",
+          "rentalEnd": "2022-12-14T01:51:10.051Z"
         },
         {
           "id": 4,
@@ -512,11 +514,38 @@
           "price": 150,
           "itemImage": "/images/fes-image/fes-image02.jpg",
           "rentalPeriod": 2,
-          "payDate": "2022-12-06T05:28:41.416Z"
+          "payDate": "2022-12-06T05:28:41.416Z",
+          "rentalStart": "2022-12-09T06:20:51.978Z",
+          "rentalEnd": "2022-12-11T06:20:51.978Z"
         }
       ],
-      "userCarts": [],
-      "favoriteGenre": 0,
+      "userCarts": [
+        {
+          "id": 1,
+          "itemName": "MÅNESKIN  SUMMER SONIC 2022 TOKYO",
+          "rentalPeriod": 2,
+          "price": 250,
+          "itemImage": "/images/fes-image/fes-image05.jpg",
+          "itemId": 20
+        },
+        {
+          "id": 2,
+          "itemName": "Survive Said The Prophet  COUNTDOWN JAPAN 2019-12-28",
+          "rentalPeriod": 2,
+          "price": 100,
+          "itemImage": "/images/fes-image/fes-image08.jpg",
+          "itemId": 8
+        },
+        {
+          "id": 3,
+          "itemName": "ポルカドットスティングレイ  JAPAN JAM2022",
+          "rentalPeriod": 2,
+          "price": 1000,
+          "itemImage": "/images/fes-image/fes-image04.jpg",
+          "itemId": 4
+        }
+      ],
+      "favoriteGenre": 1,
       "id": 2
     },
     {
@@ -546,5 +575,299 @@
       "favoriteGenre": 0,
       "id": 3
     }
-  ]
+  ],
+  "chatList": [
+    {
+      "id": 1,
+      "text": "こんにちは、Nameさん！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 2,
+      "text": "ようこそ「チャットボット」へ！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 3,
+      "text": "何をお探しですか？",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 4,
+      "text": "選択してください。",
+      "choices": [
+        {
+          "id": 1,
+          "text": "今のおすすめ作品"
+        },
+        {
+          "id": 2,
+          "text": "自分に合った作品を探す"
+        }
+      ],
+      "continue": false,
+      "option": "select"
+    },
+    {
+      "id": 5,
+      "text": "今のおすすめ作品はこちらです！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 6,
+      "continue": true,
+      "option": "recommend"
+    },
+    {
+      "id": 7,
+      "text": "どちらの方法で探しますか？",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 8,
+      "text": "選択してください。",
+      "choices": [
+        {
+          "id": 1,
+          "text": "興味のあるジャンルから探す"
+        },
+        {
+          "id": 2,
+          "text": "今の気分から探す"
+        }
+      ],
+      "continue": false,
+      "option": "select"
+    },
+    {
+      "id": 9,
+      "text": "興味のあるジャンルを教えてください！",
+      "continue": false,
+      "option": "normal"
+    },
+    {
+      "id": 10,
+      "text": "選択してください。",
+      "choices": [
+        {
+          "id": 1,
+          "text": "J-POP"
+        },
+        {
+          "id": 2,
+          "text": "アイドル"
+        },
+        {
+          "id": 3,
+          "text": "邦楽ロック"
+        },
+        {
+          "id": 4,
+          "text": "洋楽ロック"
+        },
+        {
+          "id": 5,
+          "text": "アニソン"
+        },
+        {
+          "id": 6,
+          "text": "男性アーティスト"
+        },
+        {
+          "id": 7,
+          "text": "女性アーティスト"
+        }
+      ],
+      "continue": false,
+      "option": "select"
+    },
+    {
+      "id": 12,
+      "text": "ふむふむ。わかりました！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 13,
+      "text": "Nameさんにおすすめの作品はこちらです！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 14,
+      "continue": true,
+      "option": "recommend"
+    },
+    {
+      "id": 15,
+      "text": "さらにたくさんのおすすめ作品をトップページにご用意しました！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 16,
+      "text": "トップページへ戻る",
+      "continue": false,
+      "option": "return"
+    },
+    {
+      "id": 17,
+      "text": "今の気分は？",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 18,
+      "text": "選択してください。",
+      "choices": [
+        {
+          "id": 1,
+          "text": "気分を上げたい"
+        },
+        {
+          "id": 2,
+          "text": "リラックスしたい"
+        },
+        {
+          "id": 3,
+          "text": "感動したい"
+        }
+      ],
+      "continue": false,
+      "option": "select"
+    },
+    {
+      "id": 19,
+      "text": "誰と観たい？",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 20,
+      "text": "選択してください。",
+      "choices": [
+        {
+          "id": 1,
+          "text": "一人で"
+        },
+        {
+          "id": 2,
+          "text": "友達と"
+        },
+        {
+          "id": 3,
+          "text": "家族と"
+        },
+        {
+          "id": 4,
+          "text": "恋人と"
+        }
+      ],
+      "continue": false,
+      "option": "select"
+    },
+    {
+      "id": 21,
+      "text": "ふむふむ。わかりました！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 22,
+      "text": "Nameさんにおすすめの作品はこちらです！",
+      "continue": true,
+      "option": "normal"
+    },
+    {
+      "id": 23,
+      "continue": true,
+      "option": "recommend"
+    },
+    {
+      "id": 16,
+      "text": "トップページへ戻る",
+      "continue": false,
+      "option": "return"
+    }
+  ],
+  "answers": [
+    {
+      "id": 1,
+      "q1": 1,
+      "q2": 1,
+      "categoriesId": 1
+    },
+    {
+      "id": 2,
+      "q1": 1,
+      "q2": 2,
+      "categoriesId": 2
+    },
+    {
+      "id": 3,
+      "q1": 1,
+      "q2": 3,
+      "categoriesId": 3
+    },
+    {
+      "id": 4,
+      "q1": 1,
+      "q2": 4,
+      "categoriesId": 4
+    },
+    {
+      "id": 5,
+      "q1": 2,
+      "q2": 1,
+      "categoriesId": 5
+    },
+    {
+      "id": 6,
+      "q1": 2,
+      "q2": 2,
+      "categoriesId": 6
+    },
+    {
+      "id": 7,
+      "q1": 2,
+      "q2": 3,
+      "categoriesId": 7
+    },
+    {
+      "id": 8,
+      "q1": 2,
+      "q2": 4,
+      "categoriesId": 1
+    },
+    {
+      "id": 9,
+      "q1": 3,
+      "q2": 1,
+      "categoriesId": 2
+    },
+    {
+      "id": 10,
+      "q1": 3,
+      "q2": 2,
+      "categoriesId": 3
+    },
+    {
+      "id": 11,
+      "q1": 3,
+      "q2": 3,
+      "categoriesId": 4
+    },
+    {
+      "id": 12,
+      "q1": 3,
+      "q2": 4,
+      "categoriesId": 5
+    }
+  ],
+  "reviews": []
 }
