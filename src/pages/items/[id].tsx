@@ -438,7 +438,6 @@ export default function ItemDetail({ item }: { item: Item }) {
           />
         )}
         <section className={styles.review}>
-          <h1>レビュー</h1>
           <div className={styles.listWrpper}>
             <Review itemId={item.id} />
             <ReviewBtn
