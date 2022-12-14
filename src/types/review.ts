@@ -3,13 +3,15 @@ type Reviews = {
   itemName: string;
   userId: number;
   userName: string;
-  postTime: Date;
+  postTime: string;
   reviewName: string;
   reviewText: string;
   evaluation: number;
   spoiler: boolean;
   reviewId: number;
-  postedDate?: string
+  fesName:string;
+  itemImage:string;
+  id:number;
 };
 
 export type { Reviews };

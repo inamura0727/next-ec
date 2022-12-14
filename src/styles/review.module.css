@@ -1,8 +1,15 @@
+.evaluation {
+  color: #b8adad;
+}
+
+.active {
+  color: yellow;
+}
 .content {
   border: 1px solid #333;
   margin-bottom: 10px;
 }
 
-.contentWrapper{
+.contentWrapper {
   width: 70%;
 }
