@@ -1,42 +1,44 @@
-import Head from 'next/head';
-import Image from 'next/image';
 import { SyntheticEvent, useRef, useState } from 'react';
-import UseSWR from 'swr';
-import { SessionUser } from './api/getUser';
-import loadStyles from 'styles/loading.module.css';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
-import { Item } from 'types/item';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { Reviews } from 'types/review';
 
-export default function Review({ post }: { post: Item }) {
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher); //ユーザー情報取得
+//編集前の商品情報表示
+export const getServerSideProps: GetServerSideProps = async (
+  {
+    //   query,
+  }
+) => {
+  //分割代入
+  const response = await fetch(`http://localhost:8000/reviews/1`, {
+    //${query.id}
+    method: 'GET',
+  });
+  const items = await response.json();
+  return {
+    props: {
+      items,
+    },
+  };
+};
 
-  const [formReviewName, setFormReviewName] = useState('');
-  const [formReviewText, setFormReviewText] = useState('');
-  const [formEvaluation, setFormEvaluation] = useState(0);
-  const [formpoiler, setFormPoiler] = useState(false);
+export default function ReviewEdit({ items }: { items: Reviews }) {
+  console.log(items);
+  const [formReviewName, setFormReviewName] = useState(
+    items.reviewName
+  );
+  const [formReviewText, setFormReviewText] = useState(
+    items.reviewText
+  );
+  const [formEvaluation, setFormEvaluation] = useState(
+    items.evaluation
+  );
+  const [formpoiler, setFormPoiler] = useState(items.spoiler);
 
   const review = useRef<HTMLDivElement>(null);
-
-  if (!data)
-    return (
-      <div className={loadStyles.loadingArea}>
-        <div className={loadStyles.bound}>
-          <span>L</span>
-          <span>o</span>
-          <span>a</span>
-          <span>d</span>
-          <span>i</span>
-          <span>g</span>
-          <span>...</span>
-        </div>
-      </div>
-    );
-  if (!data.isLoggedIn) {
-    router.push(`/`);
-  }
 
   //星を押した時
   const handleClick = function (e: SyntheticEvent) {
@@ -56,7 +58,9 @@ export default function Review({ post }: { post: Item }) {
   };
 
   //投稿ボタンを押した時
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleSubmit = async (
+    e: SyntheticEvent
+  ) => {
     e.preventDefault();
 
     const postTime = new Date();
@@ -68,51 +72,46 @@ export default function Review({ post }: { post: Item }) {
 
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
+    items.reviewId = items.id;
+
     const body = {
-      userId: data.userId,
-      itemId: post.id,
-      itemImg: post.itemImage,
-      itemName: post.fesName,
-      userName: data.userName,
+      itemId: items.reviewId,
+      itemName: items.fesName,
+      userId: items.userId,
+      itemImg: items.itemImage,
+      userName: items.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formpoiler,
-      reviewId: 1,
+      reviewId: items.id,
     };
 
-    console.log(body);
-
-    await fetch('/api/reviews', {
-      method: 'POST',
+    const res = await fetch(`/api/reviews/${items.id}`, {
+      method: 'PATCH',
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${post.id}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+      router.push(`/items/${items.id}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };
 
   return (
     <>
+      <p>編集</p>
       <Head>
-        <title>{post.fesName}レビュー</title>
+        <title>{items.fesName}レビュー</title>
       </Head>
 
       <div>
-        <Image
-          src={`${post.itemImage}`}
-          alt="画像"
-          width={400}
-          height={225}
-        />
-        <p>{post.fesName}</p>
+        <p>{items.fesName}</p>
       </div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{data.userName}</p>
+        <p>ユーザー{items.userName}</p>
         <form onSubmit={handleSubmit}>
           <div>
             <div ref={review}>
@@ -200,21 +199,10 @@ export default function Review({ post }: { post: Item }) {
             />
           </div>
           <div>
-            <button type="submit">投稿する</button>
+            <button type="submit">編集完了</button>
           </div>
         </form>
       </main>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const response = await fetch('http://localhost:8000/items/1', {
-    method: 'GET',
-  });
-  const dates: Item = await response.json();
-
-  return {
-    props: { post: dates },
-  };
 }
