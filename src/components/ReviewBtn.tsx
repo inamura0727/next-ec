@@ -39,8 +39,10 @@ export default function Review({
   });
 
   // 詳細ページと一致しているレビューを取得
-  let reviewdItem = itemIdArr.filter((itemId: number) => {
-    return itemId === id;
+  let reviewdItem = data.filter((item: Reviews) => {
+    if (item.itemId === id) {
+      return item;
+    }
   });
 
   //レビューされた商品の場合はフラグを変更
@@ -54,7 +56,9 @@ export default function Review({
       {isRentaled ? (
         <>
           {isReviewd ? (
-            <Link href={`/reviewEdit?itemId=${id}`}>
+            <Link
+              href={`/reviewEdit?reviweId=${reviewdItem.reviewId}`}
+            >
               <button className={styles.btnReview}>編集する</button>
             </Link>
           ) : (
