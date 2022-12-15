@@ -24,6 +24,13 @@
 .title {
   font-size: 2rem;
 }
+.score {
+  font-size: 2rem;
+}
+
+.star span {
+  font-size: 2rem;
+}
 
 .rating::before,
 .rating::after {

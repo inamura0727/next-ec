@@ -82,7 +82,6 @@ export default function Review({ post }: { post: Item }) {
       reviewId: 1,
     };
 
-
     await fetch('/api/reviews', {
       method: 'POST',
       body: JSON.stringify(body),
@@ -207,10 +206,13 @@ export default function Review({ post }: { post: Item }) {
   );
 }
 
-export async function getServerSideProps() {
-  const response = await fetch('http://localhost:8000/items/1', {
-    method: 'GET',
-  });
+export async function getServerSideProps({ query }: { query: any }) {
+  const response = await fetch(
+    `http://localhost:8000/items/${query.itemId}`,
+    {
+      method: 'GET',
+    }
+  );
   const dates: Item = await response.json();
 
   return {

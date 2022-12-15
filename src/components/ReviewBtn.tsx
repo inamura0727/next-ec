@@ -52,9 +52,19 @@ export default function Review({
   return (
     <>
       {isRentaled ? (
-        <button className={styles.btnReview}>
-          {isReviewd ? '編集する　' : 'レビューを書く'}
-        </button>
+        <>
+          {isReviewd ? (
+            <Link href={`/reviewEdit?itemId=${id}`}>
+              <button className={styles.btnReview}>編集する</button>
+            </Link>
+          ) : (
+            <Link href={`/review?itemId=${id}`}>
+              <button className={styles.btnReview}>
+                レビューする
+              </button>
+            </Link>
+          )}
+        </>
       ) : (
         ''
       )}
