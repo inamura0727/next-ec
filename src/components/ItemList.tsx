@@ -8,10 +8,10 @@ export default function ItemList ({items}: {items: Array<Item>}) {
         <main className={styles.main}>
         <div className={styles.p}>新着作品</div>
         <section className={styles.itemList}>
-        {items.slice(0, 10).map((item)=>{
+        {items.map((item)=>{
             return(
                 
-                <Link key={item.id} href={`/items/${item.id}`} className={styles.item}>
+                <Link key={item.itemId} href={`/items/${item.itemId}`} className={styles.item}>
                 <Image src={item.itemImage} 
                         width={400}
                         height={225}
@@ -26,7 +26,7 @@ export default function ItemList ({items}: {items: Array<Item>}) {
                 </Link>
        
             )
-        }).reverse()}
+        })}
         </section>
         </main>
     )

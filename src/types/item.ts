@@ -1,6 +1,6 @@
 // 作品情報
 type Item = {
-  id: number;
+  itemId: number;
   fesName: string;
   artist: string;
   itemDetail: string;
