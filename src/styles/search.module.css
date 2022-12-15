@@ -141,6 +141,7 @@
 }
 
 @media (max-width: 768px) {
+  
   .container{
     flex-flow: column;
   }
@@ -158,5 +159,8 @@
   }
   .radioLi{
     margin-right: 1rem;
+  }
+  .searchResult{
+    width: 100%;
   }
 }
