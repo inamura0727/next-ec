@@ -41,7 +41,7 @@ export default function Review({ itemId }: { itemId: number }) {
   let average = Math.floor((sum / scoreArr.length) * 10) / 10;
 
   // 平均点を四捨五入
-  let rate = Math.round(average);
+  let rate = Math.round(average * 2) / 2;
 
   if (!average) {
     average = 0;
@@ -52,8 +52,8 @@ export default function Review({ itemId }: { itemId: number }) {
     <>
       <section className={styles.accordionWrapper}>
         <h1 className={styles.title}>レビュー</h1>
-        <p>総合{average}点</p>
-        <p>
+        <p className={styles.score}>総合{average}点</p>
+        <p className={styles.star}>
           <span className={styles.rating} data-rate={rate}></span>
         </p>
         {data.map((review: Reviews) => {

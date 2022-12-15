@@ -3,39 +3,41 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
-
 import { Reviews } from 'types/review';
 
 //編集前の商品情報表示
-export const getServerSideProps: GetServerSideProps = async (
-  {
-    //   query,
-  }
-) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+}) => {
   //分割代入
-  const response = await fetch(`http://localhost:8000/reviews/1`, {
-    //${query.id}
-    method: 'GET',
-  });
+  console.log(query.itemId);
+  const response = await fetch(
+    `http://localhost:8000/reviews?itemId=${query.itemId}`,
+    {
+      method: 'GET',
+    }
+  );
   const items = await response.json();
+  const item = items[0];
   return {
     props: {
-      items,
+      item,
     },
   };
 };
 
-export default function ReviewEdit({ items }: { items: Reviews }) {
+export default function ReviewEdit({ item }: { item: Reviews }) {
+  console.log('aaaa');
   const [formReviewName, setFormReviewName] = useState(
-    items.reviewName
+    item.reviewName
   );
   const [formReviewText, setFormReviewText] = useState(
-    items.reviewText
+    item.reviewText
   );
   const [formEvaluation, setFormEvaluation] = useState(
-    items.evaluation
+    item.evaluation
   );
-  const [formSpoiler, setFormSpoiler] = useState(items.spoiler);
+  const [formSpoiler, setFormSpoiler] = useState(item.spoiler);
 
   const review = useRef<HTMLDivElement>(null);
 
@@ -57,9 +59,7 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
   };
 
   //投稿ボタンを押した時
-  const handleSubmit = async (
-    e: SyntheticEvent
-  ) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     const postTime = new Date();
@@ -71,30 +71,31 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
 
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
-    items.reviewId = items.id;
+    item.reviewId = item.id;
 
     const body = {
-      itemId: items.reviewId,
-      itemName: items.fesName,
-      userId: items.userId,
-      itemImg: items.itemImage,
-      userName: items.userName,
+      itemId: item.itemId,
+      itemName: item.fesName,
+      userId: item.userId,
+      itemImg: item.itemImage,
+      userName: item.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
-      reviewId: items.id,
+      reviewId: item.id,
     };
 
-    const res = await fetch(`/api/reviews/${items.id}`, {
+    const res = await fetch(`/api/reviews/${item.id}`, {
       method: 'PATCH',
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${items.id}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+      router.push(`/items/${item.itemId}`);
+      //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };
 
@@ -102,15 +103,15 @@ export default function ReviewEdit({ items }: { items: Reviews }) {
     <>
       <p>編集</p>
       <Head>
-        <title>{items.fesName}レビュー</title>
+        <title>{item.fesName}レビュー</title>
       </Head>
 
       <div>
-        <p>{items.fesName}</p>
+        <p>{item.fesName}</p>
       </div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{items.userName}</p>
+        <p>ユーザー{item.userName}</p>
         <form onSubmit={handleSubmit}>
           <div>
             <div ref={review}>
