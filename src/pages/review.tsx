@@ -121,7 +121,6 @@ export default function Review({ post }: { post: Item }) {
 }
 
 export async function getServerSideProps({ query }: { query: {itemId:string} }) {
-  console.log(query);
   const response = await fetch(
     `http://localhost:8000/items/${query.itemId}`,
     {
