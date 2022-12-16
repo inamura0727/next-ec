@@ -7,6 +7,7 @@ import loadStyles from 'styles/loading.module.css';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Item } from 'types/item';
+import ReviewForm from '../components/ReviewForm';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -40,16 +41,16 @@ export default function Review({ post }: { post: Item }) {
 
   //星を押した時
   const handleClick = function (e: SyntheticEvent) {
-    setFormEvaluation(Number((e.target as Element).id));
+   setFormEvaluation(Number((e.target as Element).id));
 
-    for (let j = 0; j < 5; j++) {
-      review.current?.children[j].classList.remove(
+    for (let i = 0; i < 5; i++) {
+     review.current?.children[i].classList.remove(
         `${reviewStyles.active}`
       );
     }
 
-    for (let j = 0; j < Number((e.target as Element).id); j++) {
-      review.current?.children[j].classList.add(
+    for (let i = 0; i < Number((e.target as Element).id); i++) {
+     review.current?.children[i].classList.add(
         `${reviewStyles.active}`
       );
     }
@@ -112,91 +113,16 @@ export default function Review({ post }: { post: Item }) {
         <h2>レビュー</h2>
         <p>ユーザー{data.userName}</p>
         <form onSubmit={handleSubmit}>
-          <div>
-            <div ref={review}>
-              <span
-                className={reviewStyles.evaluation}
-                id="1"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="2"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="3"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="4"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="5"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-            </div>
-
-            <div>
-              <label>レビュータイトル</label>
-            </div>
-            <input
-              type="text"
-              name="reviewName"
-              id="reviewName"
-              value={formReviewName}
-              onChange={(e) => setFormReviewName(e.target.value)}
-            />
-
-            <ul>
-              <p>ネタバレ</p>
-              <li key={1}>
-                <input
-                  name="spoiler"
-                  id="1"
-                  type="radio"
-                  value={1}
-                  onChange={(e) => setFormSpoiler(true)}
-                />
-                <label htmlFor="1">あり</label>
-              </li>
-              <li key={2}>
-                <input
-                  name="spoiler"
-                  id="2"
-                  type="radio"
-                  value={2}
-                  onChange={(e) => setFormSpoiler(false)}
-                />
-                <label htmlFor="2">なし</label>
-              </li>
-            </ul>
-
-            <div>
-              <label>レビュー追加</label>
-            </div>
-            <input
-              type="text"
-              name="reviewText"
-              id="reviewText"
-              value={formReviewText}
-              onChange={(e) => setFormReviewText(e.target.value)}
-            />
-          </div>
+          <ReviewForm
+            item={post}
+            userItem={data}
+            setFormReviewName={setFormReviewName}
+            setFormReviewText={setFormReviewText}
+            setFormEvaluation={setFormEvaluation}
+            setFormSpoiler={setFormSpoiler}
+            review = {review}
+            onClick={handleClick}
+          />
           <div>
             <button type="submit">投稿する</button>
           </div>
