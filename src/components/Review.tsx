@@ -1,13 +1,19 @@
 import styles from 'styles/review.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
-import Link from 'next/link';
 import { Reviews } from 'types/review';
+import ReviewPagination from './ReviewPaging';
+import { useState } from 'react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Review({ itemId }: { itemId: number }) {
-  const { data } = useSWR(`/api/reviews/?itemId=${itemId}`, fetcher);
+  const [num, setNum] = useState(1);
+
+  const { data } = useSWR(
+    `/api/reviews/?itemId=${itemId}&_page=${num}&_limit=5`,
+    fetcher
+  );
 
   if (!data)
     return (
@@ -48,6 +54,10 @@ export default function Review({ itemId }: { itemId: number }) {
     rate = 0;
   }
 
+  const handleClick = (number: number) => {
+    setNum(number);
+  };
+
   return (
     <>
       <section className={styles.accordionWrapper}>
@@ -84,6 +94,11 @@ export default function Review({ itemId }: { itemId: number }) {
           );
         })}
       </section>
+      <ReviewPagination
+        itemId={itemId}
+        pageSize={5}
+        handleClick={handleClick}
+      />
       <style jsx>
         {`
           p {
