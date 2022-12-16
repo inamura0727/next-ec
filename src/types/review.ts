@@ -10,7 +10,7 @@ type Reviews = {
   spoiler: boolean;
   reviewId: number;
   fesName:string;
-  itemImage:string;
+  itemImg:string;
   id:number;
 };
 

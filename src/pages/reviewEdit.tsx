@@ -5,6 +5,7 @@ import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Reviews } from 'types/review';
 import ReviewForm from '../components/ReviewForm';
+import Image from 'next/image';
 
 //編集前の商品情報表示
 export const getServerSideProps: GetServerSideProps = async ({
@@ -74,9 +75,9 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
 
     const body = {
       itemId: item.itemId,
-      itemName: item.fesName,
+      itemName: item.itemName,
       userId: item.userId,
-      itemImg: item.itemImage,
+      itemImg: item.itemImg,
       userName: item.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
@@ -102,11 +103,17 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
     <>
       <p>編集</p>
       <Head>
-        <title>{item.fesName}レビュー</title>
+        <title>{item.itemName}レビュー</title>
       </Head>
 
+      <Image
+        src={`${item.itemImg}`}
+        alt="画像"
+        width={400}
+        height={225}
+      />
       <div>
-        <p>{item.fesName}</p>
+        <p>{item.itemName}</p>
       </div>
       <main>
         <h2>レビュー</h2>

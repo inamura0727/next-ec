@@ -73,7 +73,7 @@ export default function Review({ post }: { post: Item }) {
       userId: data.userId,
       itemId: post.id,
       itemImg: post.itemImage,
-      itemName: post.fesName,
+      itemName: `${post.artist}${post.fesName}`,
       userName: data.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
@@ -97,7 +97,7 @@ export default function Review({ post }: { post: Item }) {
   return (
     <>
       <Head>
-        <title>{post.fesName}レビュー</title>
+        <title>{post.artist}{post.fesName}レビュー</title>
       </Head>
 
       <div>
@@ -107,7 +107,7 @@ export default function Review({ post }: { post: Item }) {
           width={400}
           height={225}
         />
-        <p>{post.fesName}</p>
+        <p>{post.artist}{post.fesName}</p>
       </div>
       <main>
         <h2>レビュー</h2>
