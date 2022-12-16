@@ -13,6 +13,7 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
 import { config } from '../config/index';
+import getTotalCount from './api/getTotalCount';
 
 // 1ページあたりの最大表示件数を指定
 const PAGE_SIZE = 10;
@@ -137,18 +138,28 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const keyword = query.q;
   const genre = query.categories_like;
-  const page = query.page ? +query.page : 1;
+  const page = query.page ? query.page : 1;
   const sort = query._sort ? query._sort : 'id&_order=desc';
   const res = await fetch(
-    `${config.items}?categories_like=${genre}&q=${keyword}&_sort=${sort}`
+    `${config.items}?categories_like=${genre}&q=${keyword}&_sort=${sort}&_page=${page}&_limit=${PAGE_SIZE}`
   );
   const items = await res.json();
-  const count = items.length;
-  const startIndex = (page - 1) * PAGE_SIZE;
-  const paging = items.slice(startIndex, startIndex + PAGE_SIZE);
+  // const count = items.length;
+  const body = { url: `items?categories_like=${genre}&q=${keyword}`,};
+  const result = await fetch('http://localhost:3000/api/getTotalCount', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const total = await result.json();
+  const count = total.count;
+  // const startIndex = (page - 1) * PAGE_SIZE;
+  // const paging = items.slice(startIndex, startIndex + PAGE_SIZE);
   return {
     props: {
-      items: paging,
+      items: items,
       keyword: keyword,
       genre: genre,
       page: page,
