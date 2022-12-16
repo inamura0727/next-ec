@@ -145,7 +145,7 @@ export async function getServerSideProps({
   );
   const items = await res.json();
   // const count = items.length;
-  const body = { url: `?categories_like=${genre}&q=${keyword}`, type: `items`};
+  const body = { url: `items?categories_like=${genre}&q=${keyword}`,};
   const result = await fetch('http://localhost:3000/api/getTotalCount', {
     method: 'POST',
     headers: {
