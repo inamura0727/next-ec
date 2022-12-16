@@ -33,31 +33,26 @@ export default function Review({
       </div>
     );
 
-  //レビューされた商品のIDを取得
-  let itemIdArr = data.map((item: Reviews) => {
-    return item.itemId;
-  });
-
   // 詳細ページと一致しているレビューを取得
-  let reviewdItem = data.filter((item: Reviews) => {
+  let reviewedItem = data.filter((item: Reviews) => {
     if (item.itemId === id) {
       return item;
     }
   });
 
   //レビューされた商品の場合はフラグを変更
-  let isReviewd = false;
-  if (reviewdItem.length) {
-    isReviewd = true;
+  let isReviewed = false;
+  if (reviewedItem.length) {
+    isReviewed = true;
   }
 
   return (
     <>
       {isRentaled ? (
         <>
-          {isReviewd ? (
+          {isReviewed ? (
             <Link
-              href={`/reviewEdit?reviewId=${reviewdItem[0].reviewId}`}
+              href={`/reviewEdit?reviewId=${reviewedItem[0].reviewId}`}
             >
               <button className={styles.btnReview}>編集する</button>
             </Link>
