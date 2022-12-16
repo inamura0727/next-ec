@@ -4,15 +4,16 @@ import Head from 'next/head';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Reviews } from 'types/review';
+import ReviewForm from '../components/ReviewForm';
+import Image from 'next/image';
 
 //編集前の商品情報表示
 export const getServerSideProps: GetServerSideProps = async ({
   query,
 }) => {
   //分割代入
-  console.log(query.itemId);
   const response = await fetch(
-    `http://localhost:8000/reviews?itemId=${query.itemId}`,
+    `http://localhost:8000/reviews?reviewId=${query.reviewId}`,
     {
       method: 'GET',
     }
@@ -27,7 +28,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 export default function ReviewEdit({ item }: { item: Reviews }) {
-  console.log('aaaa');
   const [formReviewName, setFormReviewName] = useState(
     item.reviewName
   );
@@ -41,22 +41,6 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
 
   const review = useRef<HTMLDivElement>(null);
 
-  //星を押した時
-  const handleClick = function (e: SyntheticEvent) {
-    setFormEvaluation(Number((e.target as Element).id));
-
-    for (let i = 0; i < 5; i++) {
-      review.current?.children[i].classList.remove(
-        `${reviewStyles.active}`
-      );
-    }
-
-    for (let i = 0; i < Number((e.target as Element).id); i++) {
-      review.current?.children[i].classList.add(
-        `${reviewStyles.active}`
-      );
-    }
-  };
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -75,9 +59,9 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
 
     const body = {
       itemId: item.itemId,
-      itemName: item.fesName,
+      itemName: item.itemName,
       userId: item.userId,
-      itemImg: item.itemImage,
+      itemImg: item.itemImg,
       userName: item.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
@@ -103,101 +87,31 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
     <>
       <p>編集</p>
       <Head>
-        <title>{item.fesName}レビュー</title>
+        <title>{item.itemName}レビュー</title>
       </Head>
 
+      <Image
+        src={`${item.itemImg}`}
+        alt="画像"
+        width={400}
+        height={225}
+      />
       <div>
-        <p>{item.fesName}</p>
+        <p>{item.itemName}</p>
       </div>
       <main>
         <h2>レビュー</h2>
         <p>ユーザー{item.userName}</p>
         <form onSubmit={handleSubmit}>
-          <div>
-            <div ref={review}>
-              <span
-                className={reviewStyles.evaluation}
-                id="1"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="2"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="3"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="4"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-              <span
-                className={reviewStyles.evaluation}
-                id="5"
-                onClick={(e) => handleClick(e)}
-              >
-                ★
-              </span>
-            </div>
-
-            <div>
-              <label>レビュータイトル</label>
-            </div>
-            <input
-              type="text"
-              name="reviewName"
-              id="reviewName"
-              value={formReviewName}
-              onChange={(e) => setFormReviewName(e.target.value)}
-            />
-
-            <ul>
-              <p>ネタバレ</p>
-              <li key={1}>
-                <input
-                  name="spoiler"
-                  id="1"
-                  type="radio"
-                  value={1}
-                  onChange={(e) => setFormSpoiler(true)}
-                />
-                <label htmlFor="1">あり</label>
-              </li>
-              <li key={2}>
-                <input
-                  name="spoiler"
-                  id="2"
-                  type="radio"
-                  value={2}
-                  onChange={(e) => setFormSpoiler(false)}
-                />
-                <label htmlFor="2">なし</label>
-              </li>
-            </ul>
-
-            <div>
-              <label>レビュー追加</label>
-            </div>
-            <input
-              type="text"
-              name="reviewText"
-              id="reviewText"
-              value={formReviewText}
-              onChange={(e) => setFormReviewText(e.target.value)}
-            />
-          </div>
+          <ReviewForm
+            formReviewName={formReviewName}
+            formReviewText={formReviewText}
+            formEvaluation={formEvaluation}
+            setFormReviewName={setFormReviewName}
+            setFormReviewText={setFormReviewText}
+            setFormEvaluation={setFormEvaluation}
+            setFormSpoiler={setFormSpoiler}
+          />
           <div>
             <button type="submit">編集完了</button>
           </div>
