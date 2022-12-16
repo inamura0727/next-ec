@@ -41,22 +41,6 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
 
   const review = useRef<HTMLDivElement>(null);
 
-  //星を押した時
-  const handleClick = function (e: SyntheticEvent) {
-    setFormEvaluation(Number((e.target as Element).id));
-
-    for (let i = 0; i < 5; i++) {
-      review.current?.children[i].classList.remove(
-        `${reviewStyles.active}`
-      );
-    }
-
-    for (let i = 0; i < Number((e.target as Element).id); i++) {
-      review.current?.children[i].classList.add(
-        `${reviewStyles.active}`
-      );
-    }
-  };
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
