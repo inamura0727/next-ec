@@ -138,7 +138,7 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const keyword = query.q;
   const genre = query.categories_like;
-  const page = query.page ? +query.page : 1;
+  const page = query.page ? query.page : 1;
   const sort = query._sort ? query._sort : 'id&_order=desc';
   const res = await fetch(
     `${config.items}?categories_like=${genre}&q=${keyword}&_sort=${sort}&_page=${page}&_limit=${PAGE_SIZE}`
