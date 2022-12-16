@@ -127,8 +127,6 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
             setFormReviewText={setFormReviewText}
             setFormEvaluation={setFormEvaluation}
             setFormSpoiler={setFormSpoiler}
-            review={review}
-            onClick={handleClick}
           />
           <div>
             <button type="submit">編集完了</button>

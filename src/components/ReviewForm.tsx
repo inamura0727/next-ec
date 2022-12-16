@@ -1,41 +1,77 @@
 import reviewStyles from 'styles/review.module.css';
+import { Item } from 'types/item';
+import {useRef,Dispatch,SetStateAction, MouseEvent} from 'react';
+import { SessionUser } from 'pages/api/getUser';
 
-export default function ReviewForm(props: any) {
+
+type Reviews = {
+  item?:Item;
+  userItem?:SessionUser;
+  formReviewName:string;
+  formReviewText:string;
+  formEvaluation:number;
+  setFormReviewName:Dispatch<SetStateAction<string>>;
+  setFormReviewText:Dispatch<SetStateAction<string>>;
+  setFormEvaluation:Dispatch<SetStateAction<number>>;
+  setFormSpoiler:Dispatch<SetStateAction<boolean>>;
+};
+
+export default function ReviewForm(props: Reviews) {
+
+  const review = useRef<HTMLDivElement>(null);
+
+  //星を押した時
+  const handleClick = function (e: MouseEvent<HTMLSpanElement>) {
+    props.setFormEvaluation(Number((e.target as Element).id));
+ 
+     for (let i = 0; i < 5; i++) {
+      review.current?.children[i].classList.remove(
+         `${reviewStyles.active}`
+       );
+     }
+ 
+     for (let i = 0; i < Number((e.target as Element).id); i++) {
+      review.current?.children[i].classList.add(
+         `${reviewStyles.active}`
+       );
+     }
+   };
+
   return (
     <div>
-      <div ref={props.review}>
+      <div ref={review}>
         <span
           className={reviewStyles.evaluation}
           id="1"
-          onClick={(e) =>props.onClick(e)}
+          onClick={(e) =>handleClick(e)}
         >
           ★
         </span>
         <span
           className={reviewStyles.evaluation}
           id="2"
-          onClick={(e) =>props.onClick(e)}
+          onClick={(e) =>handleClick(e)}
         >
           ★
         </span>
         <span
           className={reviewStyles.evaluation}
           id="3"
-          onClick={(e) =>props.onClick(e)}
+          onClick={(e) =>handleClick(e)}
         >
           ★
         </span>
         <span
           className={reviewStyles.evaluation}
           id="4"
-          onClick={(e) =>props.onClick(e)}
+          onClick={(e) =>handleClick(e)}
         >
           ★
         </span>
         <span
           className={reviewStyles.evaluation}
           id="5"
-          onClick={(e) =>props.onClick(e)}
+          onClick={(e) =>handleClick(e)}
         >
           ★
         </span>

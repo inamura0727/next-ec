@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { SyntheticEvent, useRef, useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import UseSWR from 'swr';
 import { SessionUser } from './api/getUser';
 import loadStyles from 'styles/loading.module.css';
@@ -19,8 +19,6 @@ export default function Review({ post }: { post: Item }) {
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
 
-  const review = useRef<HTMLDivElement>(null);
-
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -38,23 +36,6 @@ export default function Review({ post }: { post: Item }) {
   if (!data.isLoggedIn) {
     router.push(`/`);
   }
-
-  //星を押した時
-  const handleClick = function (e: SyntheticEvent) {
-   setFormEvaluation(Number((e.target as Element).id));
-
-    for (let i = 0; i < 5; i++) {
-     review.current?.children[i].classList.remove(
-        `${reviewStyles.active}`
-      );
-    }
-
-    for (let i = 0; i < Number((e.target as Element).id); i++) {
-     review.current?.children[i].classList.add(
-        `${reviewStyles.active}`
-      );
-    }
-  };
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -97,7 +78,10 @@ export default function Review({ post }: { post: Item }) {
   return (
     <>
       <Head>
-        <title>{post.artist}{post.fesName}レビュー</title>
+        <title>
+          {post.artist}
+          {post.fesName}レビュー
+        </title>
       </Head>
 
       <div>
@@ -107,7 +91,10 @@ export default function Review({ post }: { post: Item }) {
           width={400}
           height={225}
         />
-        <p>{post.artist}{post.fesName}</p>
+        <p>
+          {post.artist}
+          {post.fesName}
+        </p>
       </div>
       <main>
         <h2>レビュー</h2>
@@ -116,12 +103,13 @@ export default function Review({ post }: { post: Item }) {
           <ReviewForm
             item={post}
             userItem={data}
+            formReviewName={formReviewName}
+            formReviewText={formReviewText}
+            formEvaluation={formEvaluation}
             setFormReviewName={setFormReviewName}
             setFormReviewText={setFormReviewText}
             setFormEvaluation={setFormEvaluation}
             setFormSpoiler={setFormSpoiler}
-            review = {review}
-            onClick={handleClick}
           />
           <div>
             <button type="submit">投稿する</button>
@@ -132,7 +120,8 @@ export default function Review({ post }: { post: Item }) {
   );
 }
 
-export async function getServerSideProps({ query }: { query: any }) {
+export async function getServerSideProps({ query }: { query: {itemId:string} }) {
+  console.log(query);
   const response = await fetch(
     `http://localhost:8000/items/${query.itemId}`,
     {
