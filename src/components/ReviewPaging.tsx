@@ -1,5 +1,5 @@
-import loadStyles from 'styles/loading.module.css';
-import useSWR from 'swr';
+import { memo } from 'react';
+import styles from 'styles/review.module.css';
 
 type Props = {
   total: number;
@@ -10,17 +10,15 @@ type Props = {
 const range = (start: number, end: number) =>
   [...Array(end - start + 1)].map((_, i) => start + i);
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 export default function ReviewPagination({
   total,
   pageSize,
   handleClick,
 }: Props) {
   return (
-    <div>
+    <div className={styles.paging}>
       {range(1, Math.ceil(total / pageSize)).map((index) => (
-        <button key={index} onClick={() => handleClick(index)}>
+        <button key={index} onClick={() => handleClick(index)} className={styles.pagingBtn}>
           {index}
         </button>
       ))}

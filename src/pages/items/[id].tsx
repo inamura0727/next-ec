@@ -75,7 +75,6 @@ export default function ItemDetail({
     setStartId(id);
   };
 
-  console.log(total);
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
   if (!data)
     return (
@@ -460,12 +459,16 @@ export default function ItemDetail({
         )}
         <section className={styles.review}>
           <div className={styles.listWrpper}>
-            <Review itemId={item.id} total={total}/>
-            <ReviewBtn
-              userId={userId}
-              id={item.id}
-              isRentaled={isRentaled}
-            />
+            <div className={styles.listInner}>
+              <Review itemId={item.id} total={total} />
+            </div>
+            <div className={styles.tac}>
+              <ReviewBtn
+                userId={userId}
+                id={item.id}
+                isRentaled={isRentaled}
+              />
+            </div>
           </div>
         </section>
       </main>

@@ -78,34 +78,36 @@ export default function Review({
         <p className={styles.star}>
           <span className={styles.rating} data-rate={rate}></span>
         </p>
-        <ReviewSelect selectChange={selectChange} />
-        {data.map((review: Reviews) => {
-          return (
-            <div key={review.id} className={styles.accordion}>
-              <input
-                type="checkbox"
-                className={styles.toggle}
-                id={String(review.id)}
-              />
-              <label
-                className={styles.label}
-                htmlFor={String(review.id)}
-              >
-                {review.reviewName}
+        <div className={styles.accordionOuter}>
+          <ReviewSelect selectChange={selectChange} />
+          {data.map((review: Reviews) => {
+            return (
+              <div key={review.id} className={styles.accordion}>
+                <input
+                  type="checkbox"
+                  className={styles.toggle}
+                  id={String(review.id)}
+                />
+                <label
+                  className={styles.label}
+                  htmlFor={String(review.id)}
+                >
+                  {review.reviewName}
 
-                {review.spoiler && (
-                  <span className={styles.tag}>ネタバレあり </span>
-                )}
-              </label>
-              <div className={styles.contentBody}>
-                <p>投稿者名：{review.userName}</p>
-                <p>投稿日：{review.postTime}</p>
-                <p>点数：{review.evaluation}点</p>
-                <p>{review.reviewText}</p>
+                  {review.spoiler && (
+                    <span className={styles.tag}>ネタバレあり </span>
+                  )}
+                </label>
+                <div className={styles.contentBody}>
+                  <p>投稿者名：{review.userName}</p>
+                  <p>投稿日：{review.postTime}</p>
+                  <p>点数：{review.evaluation}点</p>
+                  <p>{review.reviewText}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </section>
       <ReviewPagination
         total={total}
