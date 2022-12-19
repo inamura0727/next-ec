@@ -36,8 +36,6 @@ export default function Review({
       </div>
     );
 
-  console.log(data);
-
   //レビューされた商品の場合はフラグを変更
   let isReviewed = false;
   if (data.length) {
