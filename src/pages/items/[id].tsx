@@ -36,15 +36,35 @@ export async function getStaticProps({ params }: { params: any }) {
   const id = params.id;
   const req = await fetch(`http://localhost:8000/items/${id}`);
   const data = await req.json();
+  const body = { url: `reviews/?itemId=${id}` };
+  const result = await fetch(
+    'http://localhost:3000/api/getTotalCount',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    }
+  );
+  const totalJson = await result.json();
+  const total = totalJson.count;
 
   return {
     props: {
       item: data,
+      total: total,
     },
   };
 }
 
-export default function ItemDetail({ item }: { item: Item }) {
+export default function ItemDetail({
+  item,
+  total,
+}: {
+  item: Item;
+  total: number;
+}) {
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
@@ -439,12 +459,16 @@ export default function ItemDetail({ item }: { item: Item }) {
         )}
         <section className={styles.review}>
           <div className={styles.listWrpper}>
-            <Review itemId={item.id} />
-            <ReviewBtn
-              userId={userId}
-              id={item.id}
-              isRentaled={isRentaled}
-            />
+            <div className={styles.listInner}>
+              <Review itemId={item.id} total={total} />
+            </div>
+            <div className={styles.tac}>
+              <ReviewBtn
+                userId={userId}
+                id={item.id}
+                isRentaled={isRentaled}
+              />
+            </div>
           </div>
         </section>
       </main>

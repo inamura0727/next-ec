@@ -1,13 +1,27 @@
 import styles from 'styles/review.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
-import Link from 'next/link';
 import { Reviews } from 'types/review';
+import ReviewPagination from './ReviewPaging';
+import { useState } from 'react';
+import ReviewSelect from './ReviewSort ';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Review({ itemId }: { itemId: number }) {
-  const { data } = useSWR(`/api/reviews/?itemId=${itemId}`, fetcher);
+export default function Review({
+  itemId,
+  total,
+}: {
+  itemId: number;
+  total: number;
+}) {
+  const [num, setNum] = useState(1);
+  const [sort, setSort] = useState('reviewId&_order=desc');
+
+  const { data } = useSWR(
+    `/api/reviews/?itemId=${itemId}&_page=${num}&_limit=5&_sort=${sort}`,
+    fetcher
+  );
 
   if (!data)
     return (
@@ -48,6 +62,14 @@ export default function Review({ itemId }: { itemId: number }) {
     rate = 0;
   }
 
+  const handleClick = (number: number) => {
+    setNum(number);
+  };
+
+  const selectChange = (value: string) => {
+    setSort(value);
+  };
+
   return (
     <>
       <section className={styles.accordionWrapper}>
@@ -56,34 +78,42 @@ export default function Review({ itemId }: { itemId: number }) {
         <p className={styles.star}>
           <span className={styles.rating} data-rate={rate}></span>
         </p>
-        {data.map((review: Reviews) => {
-          return (
-            <div key={review.id} className={styles.accordion}>
-              <input
-                type="checkbox"
-                className={styles.toggle}
-                id={String(review.id)}
-              />
-              <label
-                className={styles.label}
-                htmlFor={String(review.id)}
-              >
-                {review.reviewName}
+        <div className={styles.accordionOuter}>
+          <ReviewSelect selectChange={selectChange} />
+          {data.map((review: Reviews) => {
+            return (
+              <div key={review.id} className={styles.accordion}>
+                <input
+                  type="checkbox"
+                  className={styles.toggle}
+                  id={String(review.id)}
+                />
+                <label
+                  className={styles.label}
+                  htmlFor={String(review.id)}
+                >
+                  {review.reviewName}
 
-                {review.spoiler && (
-                  <span className={styles.tag}>ネタバレあり </span>
-                )}
-              </label>
-              <div className={styles.contentBody}>
-                <p>投稿者名：{review.userName}</p>
-                <p>投稿日：{review.postTime}</p>
-                <p>点数：{review.evaluation}点</p>
-                <p>{review.reviewText}</p>
+                  {review.spoiler && (
+                    <span className={styles.tag}>ネタバレあり </span>
+                  )}
+                </label>
+                <div className={styles.contentBody}>
+                  <p>投稿者名：{review.userName}</p>
+                  <p>投稿日：{review.postTime}</p>
+                  <p>点数：{review.evaluation}点</p>
+                  <p>{review.reviewText}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </section>
+      <ReviewPagination
+        total={total}
+        pageSize={5}
+        handleClick={handleClick}
+      />
       <style jsx>
         {`
           p {

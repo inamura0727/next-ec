@@ -7,11 +7,10 @@
 }
 .accordion {
   border: 1px solid #333;
-  margin-bottom: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
-.accordionWrapper {
-  width: 75%;
-}
+
 
 .rating {
   position: relative;
@@ -51,19 +50,28 @@
 .toggle {
   display: none;
 }
-.accordion {
-  font-size: 1.5rem;
-}
 
 .contentBody {
   height: 0;
   overflow: hidden;
+  transition: 1s;
 }
 
 .toggle:checked ~ .contentBody {
   height: auto;
   opacity: 1;
-  margin: 1rem;
+  transition: 1s;
+}
+
+.contentBody p {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.contentBody p:first-child {
+  margin-top: 1rem;
+}
+.contentBody p:last-child {
+  margin-bottom: 1rem;
 }
 
 .toggle:checked {
@@ -77,6 +85,8 @@
   background-color: #26a4ca;
   color: #fff;
   font-weight: bold;
+  cursor: pointer;
+  position: relative;
 }
 
 .label span {
@@ -87,6 +97,21 @@
   background-color: #fff;
   padding: 0.5rem;
   border-radius: 5rem;
+}
+
+.label::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  transform: translateY(-70%) rotate(135deg);
+}
+.toggle:checked + .label::after {
+  transform: rotate(-45deg);
 }
 
 /* レーティング */
@@ -122,4 +147,36 @@
 }
 .rating[data-rate='5']:after {
   width: 100%;
+}
+
+/* ページング番号 */
+.paging {
+  /* text-align: center; */
+  margin: 2rem 0;
+}
+
+.pagingBtn {
+  margin-left: 1rem;
+  border-radius: 25rem;
+  color: white;
+  background-color: #26a4ca;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: 0.2rem solid #26a4ca;
+  cursor: pointer;
+}
+
+.pagingBtn:hover {
+  background-color: white;
+  color: #26a4ca;
+}
+/* ソート */
+.selection {
+  margin: 1rem 0;
+}
+
+@media screen and (max-width: 768px) {
+  .accordionOuter {
+    width: 100%;
+  }
 }

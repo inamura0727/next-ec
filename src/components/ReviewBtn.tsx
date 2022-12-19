@@ -16,7 +16,10 @@ export default function Review({
   isRentaled: boolean;
 }) {
   // ユーザーのレビュー情報を取得
-  const { data } = useSWR(`/api/reviews/?userId=${userId}`, fetcher);
+  const { data } = useSWR(
+    `/api/reviews/?userId=${userId}&itemId=${id}`,
+    fetcher
+  );
 
   if (!data)
     return (
@@ -33,32 +36,18 @@ export default function Review({
       </div>
     );
 
-  //レビューされた商品のIDを取得
-  let itemIdArr = data.map((item: Reviews) => {
-    return item.itemId;
-  });
-
-  // 詳細ページと一致しているレビューを取得
-  let reviewdItem = data.filter((item: Reviews) => {
-    if (item.itemId === id) {
-      return item;
-    }
-  });
-
   //レビューされた商品の場合はフラグを変更
-  let isReviewd = false;
-  if (reviewdItem.length) {
-    isReviewd = true;
+  let isReviewed = false;
+  if (data.length) {
+    isReviewed = true;
   }
 
   return (
     <>
       {isRentaled ? (
         <>
-          {isReviewd ? (
-            <Link
-              href={`/reviewEdit?reviewId=${reviewdItem[0].reviewId}`}
-            >
+          {isReviewed ? (
+            <Link href={`/reviewEdit?reviewId=${data[0].reviewId}`}>
               <button className={styles.btnReview}>編集する</button>
             </Link>
           ) : (

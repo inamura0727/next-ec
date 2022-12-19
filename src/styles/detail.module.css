@@ -185,15 +185,28 @@
   margin: 0 auto;
 }
 
-.listWrpper {
-  display: flex;
-  justify-content: space-between;
-}
-
 .btnReview {
   display: inline-block;
-  width: 150px;
-  height: 40px;
+  width: 20rem;
+  height: 4rem;
+  color: white;
+  background-color: #26a4ca;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+  border: 0.2rem solid #26a4ca;
+  cursor: pointer;
+}
+.btnReview:hover {
+  background-color: white;
+  color: #26a4ca;
+}
+
+.listWrpper {
+  display: flex;
+}
+
+.listInner {
+  width: 80%;
 }
 
 @media screen and (max-width: 1200px) {
@@ -228,6 +241,17 @@
 @media screen and (max-width: 1000px) {
   .detailTitle {
     font-size: 5.5rem;
+  }
+
+  .listWrpper {
+    display: block;
+  }
+
+  .listInner {
+    width: 100%;
+  }
+  .tac {
+    text-align: center;
   }
 }
 
