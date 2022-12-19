@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ユーザ情報
+model User {
+  userId Int @id @default(autoincrement())
+  userName String 
+  zipcode String
+  prefecture String
+  city String
+  houseNumber String
+  building String
+  familyName String
+  firstName String
+  familyNameKana String
+  firstNameKana String
+  mailAddress String
+  password String
+  favoriteId Int
+  category Category @relation(fields: [favoriteId], references: [categoryId])
+  rentalHistories RentalHistory[]
+  carts Cart[]
+}
+
+// 作品情報
+model Item{
+  itemId Int @id @default(autoincrement())
+  fesName String
+  artist String
+  itemDetail String
+  itemImage String
+  releaseDate DateTime
+  playTime Int
+  twoDaysPrice Int
+  sevenDaysPrice Int
+  categories Int[]
+  keywords String[]
+  reviews Review[]
+  carts Cart[]
+}
+
+// ジャンル情報
+model Category{
+  categoryId Int @id @default(autoincrement()) 
+  categoryName String
+  user User[]
+  chatbotAnswer ChatbotAnswer[]
+}
+
+// レビュー情報
+model Review{
+  reviewId Int @id @default(autoincrement()) 
+  itemId Int
+  userId Int
+  postTime String
+  reviewTitle String
+  reviewText String
+  evaluation Int
+  spoiler Boolean
+  item Item @relation(fields: [itemId], references: [itemId])
+}
+
+// レンタル履歴
+model RentalHistory{
+  rentalHistoryId Int @id @default(autoincrement())
+  userId Int
+  itemId Int
+  itemName String
+  price Int
+  itemImage String
+  rentalPeriod Int
+  payDate DateTime
+  rentalStart DateTime?
+  rentalEnd DateTime?
+  users User @relation(fields: [userId], references: [userId])
+}
+
+// カート情報
+model Cart{
+  cartId Int @id @default(autoincrement())
+  userId Int
+  rentalPeriod Int
+  itemId Int
+  users User @relation(fields: [userId], references: [userId])
+  items Item @relation(fields: [itemId], references: [itemId])
+}
+
+// チャットボットシナリオ情報
+model Chatbot{
+  chatobotId Int @id @default(autoincrement())
+  text String
+  continue Boolean
+  option String
+  chatbotChoise ChatbotChoise[]
+}
+
+// チャットボット選択肢情報
+model ChatbotChoise{
+  chatbotChoiseId Int @unique
+  chatobotId Int @unique
+  text String
+  Chatbot Chatbot @relation(fields: [chatobotId], references: [chatobotId])
+}
+
+// チャットボット回答情報
+model ChatbotAnswer{
+  question1 Int @unique
+  question2 Int @unique
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [categoryId])
+}
