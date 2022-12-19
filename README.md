@@ -6,7 +6,7 @@ yarn
 ```
 - 拡張機能『Prisma』のインストール 
 
-### 使用するもの
+### 紹介
 - vercel
   - ホスティングサービス
 - prisma
@@ -14,16 +14,18 @@ yarn
 - Supabase
   - データベースプラットフォーム
 - postgresSQL
+  - データベース
 
 ### ORMのメリット
 - SQLを記述する手間が省ける
-- データベース接続設定が簡単共通化できる
 - SQLインジェクション対策やってくれる
+- データベース接続設定が簡単に共通化できる
 
 #### 参考
 [Prisma Docs](https://www.prisma.io/docs/concepts/components/prisma-client/crud#include-related-records)  
 [Prisma チートシート](https://qiita.com/koffee0522/items/92be1826f1a150bfe62e)  
-[初期構築の参考サイト](https://vercel.com/guides/nextjs-prisma-postgres)
+[初期構築の参考サイト](https://vercel.com/guides/nextjs-prisma-postgres)  
+[PrismaのGitHub](https://github.com/prisma/prisma)
 
 
 
@@ -39,8 +41,6 @@ yarn
 ```basn
 yarn add stripe @stripe/stripe-js next
 ```
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 
 ## エラー解消について
