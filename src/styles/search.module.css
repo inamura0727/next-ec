@@ -1,13 +1,13 @@
-.container{
+.container {
   display: flex;
   justify-content: space-between;
 }
 
-.searchOpenFalse{
+.searchOpenFalse {
   display: none;
 }
 
-.searchForm{
+.searchForm {
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -17,23 +17,23 @@
   font-size: 1.2rem;
 }
 
-.headline{
+.headline {
   font-size: 1.5rem;
   font-weight: bold;
   padding-top: 1rem;
 }
 
-.radioUl{
+.radioUl {
   padding-left: 0;
   margin-bottom: 1rem;
   margin-top: 0;
 }
 
-.radioLi{
+.radioLi {
   list-style: none;
 }
 
-.components{
+.components {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
@@ -42,20 +42,20 @@
   margin-right: 1rem;
 }
 
-.searchResult{
+.searchResult {
   width: 90%;
 }
 
-.searchCount{
+.searchCount {
   font-size: 1.5rem;
 }
 
-.sortSelect{
+.sortSelect {
   font-size: 1.5rem;
 }
 
 .itemList {
-  width:100%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 2rem;
@@ -71,13 +71,13 @@
 }
 
 @media (max-width: 1200px) {
-  .item{
+  .item {
     width: 50%;
   }
 }
 
 @media (max-width: 768px) {
-  .item{
+  .item {
     width: 50%;
   }
 }
@@ -86,7 +86,7 @@
   opacity: 0.5;
 }
 
-.itemImage{
+.itemImage {
   margin-right: auto;
   margin-left: auto;
   width: 100%;
@@ -100,20 +100,20 @@
   white-space: nowrap;
 }
 
-.fesName{
+.fesName {
   font-size: 1.2rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.paging{
+.paging {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
 }
 
-.pagingBtn{
+.pagingBtn {
   border-radius: 25rem;
   color: white;
   background-color: #26a4ca;
@@ -122,12 +122,12 @@
   border: 0.2rem solid #26a4ca;
 }
 
-.pagingBtn:hover{
+.pagingBtn:hover {
   background-color: white;
   color: #26a4ca;
 }
 
-.searchBtn{
+.searchBtn {
   color: white;
   font-weight: bold;
   border-radius: 10rem;
@@ -135,17 +135,21 @@
   border: 0.2rem solid #26a4ca;
 }
 
-.searchBtn:hover{
+.searchBtn:hover {
   background-color: white;
   color: #26a4ca;
 }
 
+.taLeft {
+  text-align: left;
+  display: inline-block;
+}
+
 @media (max-width: 768px) {
-  
-  .container{
+  .container {
     flex-flow: column;
   }
-  .searchForm{
+  .searchForm {
     height: fit-content;
     border-right: 0rem;
     border-right: none;
@@ -153,14 +157,14 @@
     display: flex;
     padding-bottom: 1rem;
   }
-  .radioUl{
+  .radioUl {
     display: flex;
     flex-wrap: wrap;
   }
-  .radioLi{
+  .radioLi {
     margin-right: 1rem;
   }
-  .searchResult{
+  .searchResult {
     width: 100%;
   }
 }

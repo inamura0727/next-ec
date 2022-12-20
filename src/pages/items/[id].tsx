@@ -12,51 +12,98 @@ import loadStyles from 'styles/loading.module.css';
 import { config } from '../../config/index';
 import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
+import prisma from '../../../lib/prisma';
+import itemDelete from 'pages/api/itemDelete';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export async function getStaticPaths() {
-  const req = await fetch(`http://localhost:8000/items`);
-  const data = await req.json();
+// export async function getStaticPaths() {
+//   const req = await fetch(`http://localhost:8000/items`);
+//   const data = await req.json();
 
-  const paths = data.map((item: { id: number }) => {
+//   const paths = data.map((item: { id: number }) => {
+//     return {
+//       params: {
+//         id: item.id.toString(),
+//       },
+//     };
+//   });
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// }
+
+export async function getStaticPaths() {
+  const data = await prisma.item.findMany();
+  const paths = data.map((item: { itemId: number }) => {
     return {
       params: {
-        id: item.id.toString(),
+        id: item.itemId.toString(),
       },
     };
   });
+  console.log(paths);
   return {
     paths,
     fallback: false,
   };
 }
 
-export async function getStaticProps({ params }: { params: any }) {
-  const id = params.id;
-  const req = await fetch(`http://localhost:8000/items/${id}`);
-  const data = await req.json();
-  const body = { url: `reviews/?itemId=${id}` };
-  const result = await fetch(
-    'http://localhost:3000/api/getTotalCount',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+export async function getStaticProps({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const id = parseInt(params.id);
+  const item: Item | null = await prisma.item.findUnique({
+    where: {
+      itemId: id,
+    },
+  });
+  console.log(item);
+  if (!item) {
+    return {
+      redirect: {
+        destination: '/error',
       },
-      body: JSON.stringify(body),
-    }
-  );
-  const totalJson = await result.json();
-  const total = totalJson.count;
-
+    };
+  }
+  if (item?.releaseDate) {
+    item.releaseDate = item?.releaseDate.toString();
+  }
   return {
     props: {
-      item: data,
-      total: total,
+      item,
     },
   };
 }
+
+// export async function getStaticProps({ params }: { params: any }) {
+//   const id = params.id;
+//   const req = await fetch(`http://localhost:8000/items/${id}`);
+//   const data = await req.json();
+//   const body = { url: `reviews/?itemId=${id}` };
+//   const result = await fetch(
+//     'http://localhost:3000/api/getTotalCount',
+//     {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(body),
+//     }
+//   );
+//   const totalJson = await result.json();
+//   const total = totalJson.count;
+
+//   return {
+//     props: {
+//       item: data,
+//       total: total,
+//     },
+//   };
+// }
 
 export default function ItemDetail({
   item,
@@ -104,7 +151,7 @@ export default function ItemDetail({
   let isRentaled = false;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
-    return rentaledItem.itemId === item.id;
+    return rentaledItem.itemId === item.itemId;
   });
 
   // 購入しているかしていないかのフラグ
@@ -146,7 +193,7 @@ export default function ItemDetail({
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
     const check = carts.filter((cart) => {
-      return cart.itemId === item.id;
+      return cart.itemId === item.itemId;
     });
     if (check.length) {
       cartflg = true;
@@ -194,7 +241,7 @@ export default function ItemDetail({
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
-        itemId: item.id,
+        itemId: item.itemId,
       };
 
       res.push(userCarts);
@@ -235,7 +282,7 @@ export default function ItemDetail({
         rentalPeriod: period,
         price: price,
         itemImage: item.itemImage,
-        itemId: item.id,
+        itemId: item.itemId,
       };
 
       const body = { cart: userCarts };
@@ -273,7 +320,7 @@ export default function ItemDetail({
       const res = data.userCarts;
 
       const fil = res.filter((cartItem: UserCart) => {
-        return cartItem.itemId !== item.id;
+        return cartItem.itemId !== item.itemId;
       });
 
       const newFil = [];
@@ -307,7 +354,7 @@ export default function ItemDetail({
         });
     } else {
       // ログイン前の場合
-      const body = { id: item.id, detail: true };
+      const body = { id: item.itemId, detail: true };
 
       await fetch(`/api/itemDelete`, {
         method: 'POST',
@@ -460,14 +507,14 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              <Review itemId={item.id} total={total} />
+              {/* <Review itemId={item.itemId} total={total} /> */}
             </div>
             <div className={styles.tac}>
-              <ReviewBtn
+              {/* <ReviewBtn
                 userId={userId}
-                id={item.id}
+                id={item.itemId}
                 isRentaled={isRentaled}
-              />
+              /> */}
             </div>
           </div>
         </section>
