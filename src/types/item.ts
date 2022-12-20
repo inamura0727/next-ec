@@ -6,14 +6,13 @@ type Item = {
   itemDetail: string;
   itemImage: string;
   // 形式: yyyy-MM-dd
-  releaseDate: Date;
+  releaseDate: Date | string;
   // 単位：分
   playTime: number;
   twoDaysPrice: number;
   sevenDaysPrice: number;
-  categories: [id: number];
-  keywords: [keyword: string]
+  categories: number[];
+  keywords: string[];
 };
 
-
-export type { Item }
+export type { Item };
