@@ -97,7 +97,7 @@ model Cart{
 // チャットボットシナリオ情報
 model Chatbot{
   chatobotId Int @id @default(autoincrement())
-  text String
+  text String?
   continue Boolean
   option String
   chatbotChoise ChatbotChoise[]
