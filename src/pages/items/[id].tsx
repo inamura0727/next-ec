@@ -17,23 +17,6 @@ import itemDelete from 'pages/api/itemDelete';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// export async function getStaticPaths() {
-//   const req = await fetch(`http://localhost:8000/items`);
-//   const data = await req.json();
-
-//   const paths = data.map((item: { id: number }) => {
-//     return {
-//       params: {
-//         id: item.id.toString(),
-//       },
-//     };
-//   });
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
 export async function getStaticPaths() {
   const data = await prisma.item.findMany();
   const paths = data.map((item: { itemId: number }) => {
@@ -43,7 +26,6 @@ export async function getStaticPaths() {
       },
     };
   });
-  console.log(paths);
   return {
     paths,
     fallback: false,
@@ -61,7 +43,6 @@ export async function getStaticProps({
       itemId: id,
     },
   });
-  console.log(item);
   if (!item) {
     return {
       redirect: {
@@ -78,32 +59,6 @@ export async function getStaticProps({
     },
   };
 }
-
-// export async function getStaticProps({ params }: { params: any }) {
-//   const id = params.id;
-//   const req = await fetch(`http://localhost:8000/items/${id}`);
-//   const data = await req.json();
-//   const body = { url: `reviews/?itemId=${id}` };
-//   const result = await fetch(
-//     'http://localhost:3000/api/getTotalCount',
-//     {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(body),
-//     }
-//   );
-//   const totalJson = await result.json();
-//   const total = totalJson.count;
-
-//   return {
-//     props: {
-//       item: data,
-//       total: total,
-//     },
-//   };
-// }
 
 export default function ItemDetail({
   item,
