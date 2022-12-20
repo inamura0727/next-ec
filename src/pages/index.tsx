@@ -9,6 +9,7 @@ import loadStyles from 'styles/loading.module.css';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import prisma from '../../lib/prisma';
+import { config } from '../config/index';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -72,12 +73,12 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
     };
 
       // 新着作品取得
-  const res = await fetch('http://localhost:3000/api/selectNewItem')
+  const res = await fetch(`${config.api}/selectNewItem`)
   const newItems = await res.json();
 
   // ジャンル別作品取得
   const body = { categoriesId: user.favoriteGenre };
-  const result = await fetch('http://localhost:3000/api/selectGenre', {
+  const result = await fetch(`${config.api}/selectGenre`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
