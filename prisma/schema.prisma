@@ -18,15 +18,15 @@ model User {
   prefecture String
   city String
   houseNumber String
-  building String
+  building String?
   familyName String
   firstName String
   familyNameKana String
   firstNameKana String
   mailAddress String
   password String
-  favoriteId Int
-  category Category @relation(fields: [favoriteId], references: [categoryId])
+  favoriteId Int?
+  category Category? @relation(fields: [favoriteId], references: [categoryId])
   rentalHistories RentalHistory[]
   carts Cart[]
 }
