@@ -7,6 +7,11 @@ yarn prisma generate
 ```
 - 拡張機能『Prisma』のインストール 
 
+DBのデータ確認、修正
+```bash
+yarn prisma studio
+```
+
 ### 紹介
 - vercel
   - ホスティングサービス
