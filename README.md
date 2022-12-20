@@ -3,6 +3,7 @@
 ### ローカル環境でやること
 ```bash
 yarn 
+yarn prisma generate
 ```
 - 拡張機能『Prisma』のインストール 
 
