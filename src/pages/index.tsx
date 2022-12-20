@@ -6,7 +6,8 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import RecommendItemList from 'components/RecommendItemList';
 import loadStyles from 'styles/loading.module.css';
-import { config } from '../config/index';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
 import prisma from '../../lib/prisma';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -49,37 +50,41 @@ export default function Top({
   );
 }
 
-export async function getServerSideProps() {
-  // 新着アイテムの取得
-  const res = await prisma.item.findMany({
-    orderBy: {
-      releaseDate: 'desc',
-    },
-    take: 10,
-  });
-  const newItems = res.map((item) => ({
-    ...item,
-    releaseDate: item.releaseDate.toString(),
-  }));
+export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
+    // ユーザー情報の取得
+    let user: SessionUser = {
+      isLoggedIn: false,
+    };
+    // ログインしている場合、favoriteIdを取得する
+    if (req.session.user) {
+      const result = await prisma.user.findUnique({
+        where: {
+          userId: req.session.user.id,
+        }
+      });
+      let favoriteId = 3
+      if(result){
+        favoriteId = result.favoriteId
+      }
+      user.userId = req.session.user.id;
+      user.favoriteGenre = favoriteId;
+      user.isLoggedIn = true;
+    };
 
-  //邦ロックの取得
-  const response = await prisma.item.findMany({
-    where: {
-      categories: {
-        has: 3,
-      },
-    },
-    orderBy: {
-      releaseDate: 'desc',
-    },
-    take: 10,
-  });
-  console.log(response);
+      // 新着作品取得
+  const res = await fetch('http://localhost:3000/api/selectNewItem')
+  const newItems = await res.json();
 
-  const genreItems = response.map((item) => ({
-    ...item,
-    releaseDate: item.releaseDate.toString(),
-  }));
+  // ジャンル別作品取得
+  const body = { categoriesId: user.favoriteGenre };
+  const result = await fetch('http://localhost:3000/api/selectGenre', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const genreItems = await result.json();
 
   return {
     props: {
@@ -87,4 +92,4 @@ export async function getServerSideProps() {
       genreItems,
     },
   };
-}
+  }, ironOptions)
