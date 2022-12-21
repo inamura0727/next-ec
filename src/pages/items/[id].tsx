@@ -14,6 +14,7 @@ import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import itemDelete from 'pages/api/itemDelete';
+import Countdown from '../../components/Countdown';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -104,6 +105,9 @@ export default function ItemDetail({
   let rentalCartId: number;
   let nowDate = new Date();
   let isRentaled = false;
+  let rentalStart;
+  let rentalEnd;
+  let startFlg;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.itemId;
@@ -122,26 +126,14 @@ export default function ItemDetail({
     let lastItem = rentaledItems.slice(-1)[0];
     if (!lastItem.rentalEnd) {
       rentalFlg = true;
+      startFlg = false;
       rentalCartId = lastItem.id;
       rentalPeriod = '未再生';
     } else if (lastItem.rentalStart && lastItem.rentalEnd) {
-      const rentalStart = new Date(lastItem.rentalStart);
-      const rentalEnd = new Date(lastItem.rentalEnd);
-      if (rentalEnd > nowDate) {
-        rentalFlg = true;
-        rentalCartId = lastItem.id;
-        const startYear = rentalStart.getFullYear();
-        const startMonth = rentalStart.getMonth() + 1;
-        const startDate = rentalStart.getDate();
-        const startHours = rentalStart.getHours();
-        const startMinutes = rentalStart.getMinutes();
-        const endYear = rentalEnd.getFullYear();
-        const endMonth = rentalEnd.getMonth() + 1;
-        const endDate = rentalEnd.getDate();
-        const endHours = rentalEnd.getHours();
-        const endMinutes = rentalEnd.getMinutes();
-        rentalPeriod = `${startYear}/${startMonth}/${startDate} ${startHours}:${startMinutes} 〜 ${endYear}/${endMonth}/${endDate} ${endHours}:${endMinutes}`;
-      }
+      rentalFlg = true;
+      startFlg = true;
+      rentalStart = new Date(lastItem.rentalStart);
+      rentalEnd = new Date(lastItem.rentalEnd);
     }
   }
 
@@ -375,7 +367,17 @@ export default function ItemDetail({
                   </div>
                   {rentalFlg ? (
                     <div className={styles.btnWrapper}>
-                      <p>視聴期間：{rentalPeriod}</p>
+                      {startFlg ? (
+                        (rentalEnd && rentalStart) && (
+                          <Countdown
+                            endTime={rentalEnd}
+                            startTime={rentalStart}
+                          />
+                        )
+                      ):(
+                        <p>視聴期間：{rentalPeriod}</p>
+                      )}
+                      
                       <button
                         className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
