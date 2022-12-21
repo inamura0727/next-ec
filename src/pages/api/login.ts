@@ -1,18 +1,20 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import {ironOptions} from "../../../lib/ironOprion"
+import prisma from "../../../lib/prisma";
  
 export default withIronSessionApiRoute(
   async function loginRoute(req, res) {
-    const response = await fetch(`http://localhost:8000/users?mailAddress=${req.body.mailAddress}&password=${req.body.password}`, {
-      //Jsonファイルに送る
-      method: 'GET',
-    });
-    const items = await response.json();
+    const item = await prisma.user.findMany({
+      where: {
+        mailAddress: req.body.mailAddress,
+        password: req.body.password
+      }
+    })
 
-    if(items[0]){
+    if(item[0]){
       req.session.user= {   
-        id: items[0].id,
-        userName: items[0].userName,
+        id: item[0].userId,
+        userName: item[0].userName,
       };
       await req.session.save();
       res.status(200).end();

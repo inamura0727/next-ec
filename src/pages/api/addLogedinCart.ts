@@ -2,34 +2,33 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart } from 'types/user';
 import { ironOptions } from '../../../lib/ironOprion';
+import prisma from '../../../lib/prisma';
 
 export default withIronSessionApiRoute(addLogedinCart, ironOptions);
 
 async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
     if (req.session.user) {
-        const response = await fetch(`http://localhost:8000/users/${req.session.user.id}`);
-        const userData: User = await response.json();
-        const userCart: UserCart[] = userData.userCarts;
+        const userId = req.session.user.id;
         if (req.session.cart) {
-            // userのカートにsessionのカートをマージ
-            let sessionCart = req.session.cart;
-            for (let item of sessionCart) {
-                userCart.push(
-                    { id: (userCart.length + 1), itemId: item.itemId, itemName: item.itemName, rentalPeriod: item.rentalPeriod, price: item.price, itemImage: item.itemImage }
-                );
-            }
-
+            // sessionのカートからcartId以外を取得
+            const sessionCart = req.session.cart.map((item) => {
+                console.log(item);
+                const data = {
+                    itemId: item.itemId,
+                    userId: userId,
+                    rentalPeriod: item.rentalPeriod
+                }
+                return data;
+            })
+            // cartテーブルに追加
+            const result = await prisma.cart.createMany({
+                data: sessionCart
+            })
             // sessionのカートを空にする
-            sessionCart = []
+            req.session.cart = []
         }
-        const data = { userCarts: userCart };
-        await fetch(
-            `http://localhost:8000/users/${req.session.user.id}`,
-            {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            }
-        ).then(() => res.redirect('/'))
+        res.redirect('/')
+    }else{
+        res.redirect('/error')
     }
 }
