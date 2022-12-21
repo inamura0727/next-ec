@@ -10,7 +10,7 @@ import Link from 'next/link';
 import styles from 'styles/mypage.module.css';
 import loadStyles from 'styles/loading.module.css';
 import router from 'next/router';
-import Countdown from '../components/countdown';
+import Countdown from '../components/Countdown';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
