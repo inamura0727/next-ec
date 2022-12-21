@@ -51,7 +51,6 @@ export default function Mypage() {
   const rentalNows = rentalHistories
     ?.filter((item) => {
       if (item.rentalStart && item.rentalEnd) {
-        // const StartDay = new Date(item.rentalStart);
         const EndDay = new Date(item.rentalEnd);
         return EndDay >= nowDate;
       }
