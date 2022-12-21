@@ -12,7 +12,6 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
         if (req.session.cart) {
             // sessionのカートからcartId以外を取得
             const sessionCart = req.session.cart.map((item) => {
-                console.log(item);
                 const data = {
                     itemId: item.itemId,
                     userId: userId,
