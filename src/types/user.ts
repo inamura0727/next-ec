@@ -39,13 +39,11 @@ type RentalHistory = {
 
 // カート情報
 type UserCart = {
-  id: number;
+  cartId: number;
   itemId: number;
-  itemName: string;
+  userId: number;
   // 単位：日
   rentalPeriod: number;
-  price: number;
-  itemImage: string;
 };
 
 export type { User, RentalHistory, UserCart };
