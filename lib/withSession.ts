@@ -9,12 +9,10 @@ declare module 'iron-session' {
     };
 
     cart?: {
-      id: number;
+      cartId: number;
       itemId: number;
-      itemName: string;
+      userId: number;
       rentalPeriod: number;
-      price: number;
-      itemImage: string;
     }[];
   }
 }
