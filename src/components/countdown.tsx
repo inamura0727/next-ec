@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 type Countdown = {
   endTime: Date;
-  period?: string;
   startTime: Date;
 };
 

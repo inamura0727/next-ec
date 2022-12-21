@@ -174,7 +174,7 @@ export default function Mypage() {
                             <div className={styles.rentalInfo}>
                               <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
                               {(rentalHistory.endDay && rentalHistory.startDay)?(
-                              <Countdown endTime={rentalHistory.endDay} startTime ={rentalHistory.startDay} period ={rentalHistory.period}/>
+                              <Countdown endTime={rentalHistory.endDay} startTime ={rentalHistory.startDay}/>
                               ):(
                                 <p>未再生</p>
                               )}
