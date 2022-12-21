@@ -105,16 +105,20 @@ model Chatbot{
 
 // チャットボット選択肢情報
 model ChatbotChoise{
-  chatbotChoiseId Int @unique
-  chatobotId Int @unique
+  chatbotChoiseId Int @default(autoincrement())
+  chatobotId Int 
   text String
   Chatbot Chatbot @relation(fields: [chatobotId], references: [chatobotId])
+
+  @@unique([chatbotChoiseId,chatobotId])
 }
 
 // チャットボット回答情報
 model ChatbotAnswer{
-  question1 Int @unique
-  question2 Int @unique
+  question1 Int 
+  question2 Int 
   categoryId Int
   category Category @relation(fields: [categoryId], references: [categoryId])
+
+  @@unique([question1,question2])
 }
