@@ -1,3 +1,5 @@
+import { Item } from './item';
+
 // ユーザ情報
 type User = {
   id: number;
@@ -41,9 +43,17 @@ type RentalHistory = {
 type UserCart = {
   cartId: number;
   itemId: number;
-  userId: number;
+  userId?: number;
   // 単位：日
   rentalPeriod: number;
+  items: Item;
 };
 
-export type { User, RentalHistory, UserCart };
+type SessionUserCart = {
+  cartId: number;
+  itemId: number;
+  rentalPeriod: number;
+  items: Item;
+};
+
+export type { User, RentalHistory, UserCart, SessionUserCart };
