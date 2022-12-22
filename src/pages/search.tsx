@@ -13,7 +13,6 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
 import { config } from '../config/index';
-import getTotalCount from './api/getTotalCount';
 
 // 1ページあたりの最大表示件数を指定
 const PAGE_SIZE = 10;
@@ -98,8 +97,8 @@ export default function Search({
             <section className={styles.itemList}>
               {items.map((item) => {
                 return (
-                  <div key={item.id} className={styles.item}>
-                    <Link href={`/items/${item.id}`}>
+                  <div key={item.itemId} className={styles.item}>
+                    <Link href={`/items/${item.itemId}`}>
                       <Image
                         src={item.itemImage}
                         width={400}
