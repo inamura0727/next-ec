@@ -75,7 +75,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
     if (req.session.user) {
       const result = await prisma.user.findUnique({
         where: {
-          userId: req.session.user.id,
+          userId: req.session.user.userId,
         }
       });
       if(result?.favoriteId){
@@ -85,7 +85,7 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
       if(result?.userName){
         userName = result.userName
       }
-      user.userId = req.session.user.id;
+      user.userId = req.session.user.userId;
       user.isLoggedIn = true;
     };
 
