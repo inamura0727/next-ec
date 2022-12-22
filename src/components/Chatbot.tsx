@@ -9,7 +9,6 @@ import Image from "next/image";
 import Router from "next/router";
 import React from "react";
 import { config } from '../config/index';
-import { User } from "types/user";
 import { SessionUser } from "pages/api/getUser";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -32,14 +31,12 @@ export default function Chatbot({chatList, data}: {chatList: Array<ChatList>, da
     const [selectFeelingButton, setSelectFeelingButton] = useState(true);
     const [selectWhoButton, setSelectWhoButton] = useState(true);
     const [getItems, setItems] = useState([])
-
-    const chatArea = useRef<HTMLDivElement>(null);
-
     const items: Array<Item> = getItems;
+    const chatArea = useRef<HTMLDivElement>(null);
 
     useEffect(()=>{
         // itemsを取得
-        fetch(`${config.items}?categories_like=${genre}`)
+        fetch(`${config.items}?categories_like=${genre}&_limit=4`)
         .then(res => res.json())
         .then(data => {
             setItems(data)
@@ -428,8 +425,8 @@ export default function Chatbot({chatList, data}: {chatList: Array<ChatList>, da
                                 .slice(0, 4)
                                 .map((item)=>{
                                     return(
-                                        <Link key={`itemLink${item.id}`} href={`/items/${item.id}`} className={styles.item}>
-                                        <Image key={`itemImage${item.id}`} src={item.itemImage} width={400} height={225} alt={item.artist} className={styles.itemImage}/>
+                                        <Link key={`itemLink${item.itemId}`} href={`/items/${item.itemId}`} className={styles.item}>
+                                        <Image key={`itemImage${item.itemId}`} src={item.itemImage} width={400} height={225} alt={item.artist} className={styles.itemImage}/>
                                         <div key={`${item.artist}`} className={styles.artist}>{item.artist}</div>
                                         <div key={`${item.fesName}`} className={styles.fesName}>{item.fesName}</div>
                                         </Link>

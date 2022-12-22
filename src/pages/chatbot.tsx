@@ -11,7 +11,7 @@ import Router from "next/router";
 import React from "react";
 import { config } from '../config/index';
 import loadStyles from 'styles/loading.module.css';
-import Chatbot from "components/chatbot";
+import Chatbot from "components/Chatbot";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
