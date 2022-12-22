@@ -11,7 +11,7 @@ async function getUserRoute(
 ) {
   if (req.session.user) {
     const result = await fetch(
-      `http://localhost:8000/users/${req.session.user.id}`
+      `http://localhost:8000/users/${req.session.user.userId}`
     );
     const userData: User = await result.json();
     let cart: UserCart[] = userData.userCarts;
@@ -29,9 +29,12 @@ async function getUserRoute(
       const addItem: RentalHistory = {
         id: rentalHistory.length + 1,
         itemId: item.itemId,
-        itemName: item.itemName,
-        price: item.price,
-        itemImage: item.itemImage,
+        // itemName: item.itemName,
+        // price: item.price,
+        // itemImage: item.itemImage,
+        itemName: 'dummy',
+        price: 100,
+        itemImage: '/dummy',
         rentalPeriod: item.rentalPeriod,
         payDate: time,
       };
@@ -43,7 +46,7 @@ async function getUserRoute(
     // データベースを更新する
     const data = { userCarts: cart, rentalHistories: rentalHistory };
     await fetch(
-      `http://localhost:8000/users/${req.session.user.id}`,
+      `http://localhost:8000/users/${req.session.user.userId}`,
       {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },

@@ -21,7 +21,7 @@ async function getUserRoute(
 ) {
   if (req.session.user) {
     const result = await fetch(
-      `http://localhost:8000/users/${req.session.user.id}`
+      `http://localhost:8000/users/${req.session.user.userId}`
     );
     const userData: User = await result.json();
     res.json({

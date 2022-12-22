@@ -8,7 +8,7 @@ export default withIronSessionApiRoute(CartRoute, ironOptions);
 
 async function CartRoute(req: NextApiRequest, res: NextApiResponse) {
   if (req.session.user) {
-    const userId = req.session.user.id;
+    const userId = req.session.user.userId;
     // console.log(userId);
     const data = await prisma.user.findUnique({
       where: {
@@ -50,7 +50,7 @@ async function CartRoute(req: NextApiRequest, res: NextApiResponse) {
               itemId: cart.itemId,
             },
           });
-          cart.items = data;
+          // cart.items = data;
           return cart;
         })
       );
