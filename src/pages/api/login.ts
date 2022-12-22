@@ -13,7 +13,7 @@ export default withIronSessionApiRoute(
 
     if(item[0]){
       req.session.user= {   
-        id: item[0].userId,
+        userId: item[0].userId,
         userName: item[0].userName,
       };
       await req.session.save();

@@ -8,7 +8,7 @@ export default withIronSessionApiRoute(addLogedinCart, ironOptions);
 
 async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
     if (req.session.user) {
-        const userId = req.session.user.id;
+        const userId = req.session.user.userId;
         if (req.session.cart) {
             // sessionのカートからcartId以外を取得
             const sessionCart = req.session.cart.map((item) => {
