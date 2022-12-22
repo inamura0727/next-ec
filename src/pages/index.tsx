@@ -8,9 +8,9 @@ import loadStyles from 'styles/loading.module.css';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import prisma from '../../lib/prisma';
-import { config } from '../config/index';
 import { useState } from 'react';
 import { SessionUser } from './api/getSessionInfo';
+import PreTop from './api/preRendering/PreTop';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -26,9 +26,9 @@ export default function Top({
   userName: string
 }) {
   let [doLogout, setLogout] = useState(false)
-  const logout = () =>{
-  setLogout(true)
-  mutate('/api/getSessionInfo')
+  const logout = () => {
+    setLogout(true)
+    mutate('/api/getSessionInfo')
   }
 
   const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
@@ -64,38 +64,33 @@ export default function Top({
 
 export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
   const take = 10;
-    // ユーザー情報の取得
-    let user: SessionUser = {
-      isLoggedIn: false,
-    };
-    let favoriteId = 3
-    let userName = 'guest'
-    let useChatbot = false;
-    // ログインしている場合、favoriteIdを取得する
-    if (req.session.user) {
-      const result = await prisma.user.findUnique({
-        where: {
-          userId: req.session.user.userId,
-        }
-      });
-      if(result?.favoriteId){
-        favoriteId = result.favoriteId
-        useChatbot = true;
+  // ユーザー情報の取得
+  let user: SessionUser = {
+    isLoggedIn: false,
+  };
+  let favoriteId = 3
+  let userName = 'guest'
+  let useChatbot = false;
+  // ログインしている場合、favoriteIdを取得する
+  if (req.session.user) {
+    const result = await prisma.user.findUnique({
+      where: {
+        userId: req.session.user.userId,
       }
-      if(result?.userName){
-        userName = result.userName
-      }
-      user.userId = req.session.user.userId;
-      user.isLoggedIn = true;
-    };
+    });
+    if (result?.favoriteId) {
+      favoriteId = result.favoriteId
+      useChatbot = true;
+    }
+    if (result?.userName) {
+      userName = result.userName
+    }
+    user.userId = req.session.user.userId;
+    user.isLoggedIn = true;
+  };
 
-      // 新着作品取得
-  const res = await fetch(`${config.api}/selectNewItem/${take}`)
-  const newItems = await res.json();
-
-  // ジャンル別作品取得
-  const result = await fetch(`${config.api}/selectGenre/${favoriteId}/${take}`);
-  const genreItems = await result.json();
+  // 作品情報取得
+  const { newItems, genreItems } = await PreTop(take, favoriteId);
 
   return {
     props: {
@@ -106,4 +101,4 @@ export const getServerSideProps = withIronSessionSsr(async ({ req }) => {
       userName
     },
   };
-  }, ironOptions)
+}, ironOptions)
