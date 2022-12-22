@@ -182,11 +182,9 @@ export default function ItemDetail({
       const data = await req.json();
       const res = data.userCarts;
 
-      let userCarts: UserCart = {
-        id: res.length + 1,
-        itemName: `${item.artist}  ${item.fesName}`,
+      let userCarts = {
+        cartId: res.length + 1,
         rentalPeriod: period,
-        price: price,
         itemImage: item.itemImage,
         itemId: item.itemId,
       };
@@ -223,11 +221,9 @@ export default function ItemDetail({
         cartId = data.userCarts.length + 1;
       }
 
-      let userCarts: UserCart = {
-        id: cartId,
-        itemName: `${item.artist}  ${item.fesName}`,
+      let userCarts = {
+        cartId: cartId,
         rentalPeriod: period,
-        price: price,
         itemImage: item.itemImage,
         itemId: item.itemId,
       };
