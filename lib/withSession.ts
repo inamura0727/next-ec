@@ -4,14 +4,13 @@ import * as IronSession from 'iron-session';
 declare module 'iron-session' {
   interface IronSessionData {
     user?: {
-      id: number;
+      userId: number;
       userName: string;
     };
 
     cart?: {
       cartId: number;
       itemId: number;
-      userId: number;
       rentalPeriod: number;
     }[];
   }

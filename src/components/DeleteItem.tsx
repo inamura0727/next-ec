@@ -20,7 +20,7 @@ export default function DeleteBtn({
       const res = data.userCarts;
 
       const fil = res.filter((cartItem: Item) => {
-        return cartItem.id !== cartId;
+        return cartItem.itemId !== cartId;
       });
 
       const newFil = [];

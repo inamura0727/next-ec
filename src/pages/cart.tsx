@@ -8,11 +8,12 @@ import { SessionUser } from '../pages/api/getUser';
 import Header from '../components/Header';
 import Head from 'next/head';
 import loadStyles from 'styles/loading.module.css';
+import { Item } from 'types/item';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function CartList() {
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+  const { data } = UseSWR('/api/selectCart', fetcher);
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -27,23 +28,78 @@ export default function CartList() {
         </div>
       </div>
     );
+
   // ユーザーのidを取得予定
   const id = data.userId;
   // ユーザーのカート情報を取得
-  let items = data.userCarts;
+  let carts = data.userCarts;
+  console.log(data);
+
+  if (!carts) {
+    return {
+      redirect: {
+        destination: '/error',
+      },
+    };
+  }
+  const cartItems = carts.map(
+    (item: {
+      items: { cartId: number; rentalPeriod: number };
+      cartId: number;
+      rentalPeriod: number;
+    }) => {
+      item.items.cartId = item.cartId;
+      item.items.rentalPeriod = item.rentalPeriod;
+      return item.items;
+    }
+  );
+  // console.log(cartItems);
 
   let isCartflg = true;
-  if (!items?.length) {
+  if (!cartItems?.length) {
     isCartflg = false;
   }
 
   // 合計金額の表示
-  let sum = 0;
-  if (items !== undefined) {
-    items.map((item) => {
-      sum += item.price;
-    });
+  let sum: number[] = [];
+  if (cartItems !== undefined) {
+    cartItems.map(
+      (item: {
+        rentalPeriod: number;
+        twoDaysPrice: number;
+        sevenDaysPrice: number;
+      }) => {
+        if (item.rentalPeriod === 2) {
+          sum.push(item.twoDaysPrice);
+        } else if (item.rentalPeriod === 7) {
+          sum.push(item.sevenDaysPrice);
+        }
+      }
+    );
   }
+
+  let total;
+  if (!sum.length) {
+    total = 0;
+  } else {
+    total = sum.reduce((accu, curr) => accu + curr);
+  }
+
+  type cartItem = {
+    itemId: number;
+    fesName: string;
+    artist: string;
+    itemDetail: string;
+    itemImage: string;
+    // 形式: yyyy-MM-dd
+    releaseDate: Date | string;
+    // 単位：分
+    playTime: number;
+    twoDaysPrice: number;
+    sevenDaysPrice: number;
+    rentalPeriod: number;
+    cartId: number;
+  };
 
   return (
     <>
@@ -52,13 +108,13 @@ export default function CartList() {
       </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/getUser')}
+        dologout={() => mutate('/api/selectCart')}
       />
 
       <main className={styles.cart}>
-        {items?.map((item: UserCart) => {
+        {cartItems?.map((item: cartItem) => {
           return (
-            <div className={styles.cartContent} key={item.id}>
+            <div className={styles.cartContent} key={item.itemId}>
               <div className={styles.cartMedia}>
                 <div className={styles.cartInner}>
                   <div className={styles.cartBodyWrapper}>
@@ -74,7 +130,7 @@ export default function CartList() {
                     </figure>
                     <div className={styles.cartBody}>
                       <p className={styles.cartTitle}>
-                        {item.itemName}
+                        {`${item.artist}  ${item.fesName}`}
                       </p>
                       <p>
                         レンタル期間：
@@ -90,11 +146,19 @@ export default function CartList() {
                   </div>
                   <div className={styles.cartPriceWrapper}>
                     <p>価格</p>
-                    <p className={styles.cartPrice}>{item.price}円</p>
+                    {item.rentalPeriod === 2 ? (
+                      <p className={styles.cartPrice}>
+                        {item.twoDaysPrice}円
+                      </p>
+                    ) : (
+                      <p className={styles.cartPrice}>
+                        {item.sevenDaysPrice}円
+                      </p>
+                    )}
                     <DeleteBtn
                       id={id}
-                      cartId={item.id}
-                      rebuild={() => mutate('/api/getUser')}
+                      cartId={item.cartId}
+                      rebuild={() => mutate('/api/selectCart')}
                     />
                   </div>
                 </div>
@@ -107,7 +171,7 @@ export default function CartList() {
         )}
         <div className={styles.btnWrapper}>
           <div className={styles.totalPrice}>
-            <p>合計金額{sum}円</p>
+            <p>合計金額{total}円</p>
           </div>
           {!isCartflg ? (
             <Link href="/search?categories_like=&q=">
