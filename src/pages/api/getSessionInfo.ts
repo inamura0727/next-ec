@@ -18,7 +18,7 @@ async function getSessionRoute(
 ) {
   if (req.session.user) {
     res.json({
-      userId: req.session.user.id,
+      userId: req.session.user.userId,
       isLoggedIn: true,
     });
   } else {
