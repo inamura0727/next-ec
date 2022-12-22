@@ -1,25 +1,17 @@
 import * as IronSession from 'iron-session';
+import { Item } from 'types/item';
 
 // iron-sessionで『user』と『cart』が使えるようにするための定義
 declare module 'iron-session' {
   interface IronSessionData {
     user?: {
-      userId: any;
-      id: number;
+      userId: number;
       userName: string;
     };
 
-    // cart?: {
-    //   id: number;
-    //   itemId: number;
-    //   itemName: string;
-    //   rentalPeriod: number;
-    //   price: number;
-    //   itemImage: string;
-    // }[];
-
     cart?: {
-      items: any;
+      items: Item;
+      userId: number;
       cartId: number;
       itemId: number;
       rentalPeriod: number;
