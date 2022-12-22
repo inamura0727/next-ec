@@ -24,7 +24,7 @@ async function addLogedinCart(req: NextApiRequest, res: NextApiResponse) {
                 data: sessionCart
             })
             // sessionのカートを空にする
-            req.session.cart = []
+            req.session.cart = undefined;
         }
         res.redirect('/')
     }else{
