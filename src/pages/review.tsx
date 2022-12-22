@@ -51,22 +51,19 @@ export default function Review({ post }: { post: Item }) {
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
     const body = {
-      userId: data.userId,
+      reviewId: 1,
       itemId: post.itemId,
-      itemImg: post.itemImage,
-      itemName: `${post.artist}${post.fesName}`,
-      userName: data.userName,
+      userId: data.userId,
       postTime: nowPostTime,
-      reviewName: formReviewName,
+      reviewTitle: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
-      reviewId: 1,
     };
 
-    await fetch('/api/reviews', {
-      method: 'POST',
-      body: JSON.stringify(body),
+    await fetch('/api/addReview', {
+    method: 'POST',
+    body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
@@ -120,16 +117,27 @@ export default function Review({ post }: { post: Item }) {
   );
 }
 
-export async function getServerSideProps({ query }: { query: {itemId:string} }) {
-  const response = await fetch(
-    `http://localhost:8000/items/${query.itemId}`,
-    {
-      method: 'GET',
-    }
-  );
-  const dates: Item = await response.json();
+export async function getServerSideProps({
+  query,
+}: {
+  query: { itemId: number };
+}) {
+  // const response = await fetch(
+  //   `http://localhost:8000/items/${query.itemId}`,
+  //   {
+  //     method: 'GET',
+  //   }
+  // );
+  // const dates: Item = await response.json();
+  const items = await prisma.item.findMany({
+    where: {
+      itemId: query.itemId,
+    },
+  });
+
+  
 
   return {
-    props: { post: dates },
+    props: { post: items },
   };
 }
