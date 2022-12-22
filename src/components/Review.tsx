@@ -2,9 +2,9 @@ import styles from 'styles/review.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
 import { Reviews } from 'types/review';
-import ReviewPagination from './ReviewPaging';
 import { useState } from 'react';
 import ReviewSelect from './ReviewSort ';
+import Pagination from './Paging';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -109,10 +109,11 @@ export default function Review({
           })}
         </div>
       </section>
-      <ReviewPagination
-        total={total}
+      <Pagination
+        totalCount={total}
         pageSize={5}
-        handleClick={handleClick}
+        onClick={handleClick}
+        currentPage={0}
       />
       <style jsx>
         {`
