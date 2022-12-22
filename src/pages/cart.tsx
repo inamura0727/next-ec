@@ -11,7 +11,7 @@ import loadStyles from 'styles/loading.module.css';
 import { Item } from 'types/item';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import { SelectCart } from './api/selectCart';
+import { SelectCart } from './api/preRendering/PreCart';
 import { redirect } from 'next/dist/server/api-utils';
 import { GetServerSideProps } from 'next';
 
