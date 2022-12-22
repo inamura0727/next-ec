@@ -52,7 +52,7 @@ export default function Review({ post }: { post: Item }) {
 
     const body = {
       userId: data.userId,
-      itemId: post.id,
+      itemId: post.itemId,
       itemImg: post.itemImage,
       itemName: `${post.artist}${post.fesName}`,
       userName: data.userName,
@@ -71,7 +71,7 @@ export default function Review({ post }: { post: Item }) {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${post.id}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+      router.push(`/items/${post.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };
 
