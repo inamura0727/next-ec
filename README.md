@@ -1,3 +1,23 @@
+## vercelデプロイ後のpush作業について
+- 作業branch → vercelで確認 → mainにpushの手順でpushします
+
+1. vercel用のrepositoryにpush
+```bash
+git push -u [origin以外の名前] [作業branch]
+```
+2. vercel用のrepositoryプルリク作るとVercelでプレビュー見れるのでプレビューで問題ないか確認
+3. 確認出来たら、merge
+4. team-festivalにpush
+```bash
+git push -u origin [作業branch]
+```
+
+5. マージされたらローカル環境を最新化
+```bash
+git fetch origin
+git merge origin/main
+```
+
 ## vercel デプロイ手順
 
 Repositry の fork を行います。
