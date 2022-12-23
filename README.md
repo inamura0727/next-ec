@@ -17,6 +17,7 @@ git push -u origin [作業branch]
 git fetch origin
 git merge origin/main
 ```
+※他の人の変更を取り込んだら都度vercelを更新しておきましょう!!!
 
 ## vercel デプロイ手順
 
