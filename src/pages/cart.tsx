@@ -9,11 +9,51 @@ import Header from '../components/Header';
 import Head from 'next/head';
 import loadStyles from 'styles/loading.module.css';
 import { Item } from 'types/item';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
+import { SelectCart } from './api/preRendering/PreCart';
+import { redirect } from 'next/dist/server/api-utils';
+import { GetServerSideProps } from 'next';
+import { SessionUserCart } from 'types/session';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function CartList() {
-  const { data } = UseSWR('/api/selectCart', fetcher);
+export const getServerSideProps: GetServerSideProps =
+  withIronSessionSsr(async ({ req }) => {
+    // ユーザーIDを渡すかitemIdを渡すかの分岐をしてから渡す
+    let userId = req.session.user?.userId;
+    if (userId) {
+      // ログイン後
+      const res = await SelectCart(userId);
+      if (!res.cart) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/error',
+          },
+        };
+      }
+      return {
+        props: {
+          cart: res.cart,
+        },
+      };
+    } else {
+      // ログイン前
+      let cart: SessionUserCart[];
+      if (!req.session.cart) {
+        cart = [];
+      } else {
+        cart = req.session.cart;
+      }
+      return {
+        props: { cart },
+      };
+    }
+  }, ironOptions);
+
+export default function CartList({ cart }: { cart: UserCart[] }) {
+  const { data }= UseSWR('/api/getSessionInfo', fetcher);
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -33,49 +73,22 @@ export default function CartList() {
   const id = data.userId;
   // ユーザーのカート情報を取得
   let carts = data.userCarts;
-  console.log(data);
-
-  if (!carts) {
-    return {
-      redirect: {
-        destination: '/error',
-      },
-    };
-  }
-  const cartItems = carts.map(
-    (item: {
-      items: { cartId: number; rentalPeriod: number };
-      cartId: number;
-      rentalPeriod: number;
-    }) => {
-      item.items.cartId = item.cartId;
-      item.items.rentalPeriod = item.rentalPeriod;
-      return item.items;
-    }
-  );
-  // console.log(cartItems);
 
   let isCartflg = true;
-  if (!cartItems?.length) {
+  if (!cart?.length) {
     isCartflg = false;
   }
 
   // 合計金額の表示
   let sum: number[] = [];
-  if (cartItems !== undefined) {
-    cartItems.map(
-      (item: {
-        rentalPeriod: number;
-        twoDaysPrice: number;
-        sevenDaysPrice: number;
-      }) => {
-        if (item.rentalPeriod === 2) {
-          sum.push(item.twoDaysPrice);
-        } else if (item.rentalPeriod === 7) {
-          sum.push(item.sevenDaysPrice);
-        }
+  if (cart !== undefined) {
+    cart.map((item) => {
+      if (item.rentalPeriod === 2) {
+        sum.push(item.items.twoDaysPrice);
+      } else if (item.rentalPeriod === 7) {
+        sum.push(item.items.sevenDaysPrice);
       }
-    );
+    });
   }
 
   let total;
@@ -84,23 +97,6 @@ export default function CartList() {
   } else {
     total = sum.reduce((accu, curr) => accu + curr);
   }
-
-  type cartItem = {
-    itemId: number;
-    fesName: string;
-    artist: string;
-    itemDetail: string;
-    itemImage: string;
-    // 形式: yyyy-MM-dd
-    releaseDate: Date | string;
-    // 単位：分
-    playTime: number;
-    twoDaysPrice: number;
-    sevenDaysPrice: number;
-    rentalPeriod: number;
-    cartId: number;
-  };
-
   return (
     <>
       <Head>
@@ -108,11 +104,10 @@ export default function CartList() {
       </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/selectCart')}
+        dologout={() => mutate('/api/getSessionInfo')}
       />
-
       <main className={styles.cart}>
-        {cartItems?.map((item: cartItem) => {
+        {cart?.map((item: UserCart) => {
           return (
             <div className={styles.cartContent} key={item.itemId}>
               <div className={styles.cartMedia}>
@@ -121,7 +116,7 @@ export default function CartList() {
                     <figure className={styles.cartImgWrapper}>
                       <Image
                         className={styles.cartImg}
-                        src={item.itemImage}
+                        src={item.items.itemImage}
                         width={200}
                         height={112}
                         alt="商品の画像"
@@ -130,7 +125,7 @@ export default function CartList() {
                     </figure>
                     <div className={styles.cartBody}>
                       <p className={styles.cartTitle}>
-                        {`${item.artist}  ${item.fesName}`}
+                        {`${item.items.artist}  ${item.items.fesName}`}
                       </p>
                       <p>
                         レンタル期間：
@@ -148,17 +143,17 @@ export default function CartList() {
                     <p>価格</p>
                     {item.rentalPeriod === 2 ? (
                       <p className={styles.cartPrice}>
-                        {item.twoDaysPrice}円
+                        {item.items.twoDaysPrice}円
                       </p>
                     ) : (
                       <p className={styles.cartPrice}>
-                        {item.sevenDaysPrice}円
+                        {item.items.sevenDaysPrice}円
                       </p>
                     )}
                     <DeleteBtn
                       id={id}
                       cartId={item.cartId}
-                      rebuild={() => mutate('/api/selectCart')}
+                      rebuild={() => mutate('/api/getSessionInfo')}
                     />
                   </div>
                 </div>
