@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { UserCart, SessionUserCart } from 'types/user';
+import { UserCart, SessionUserCart, User } from 'types/user';
 import styles from 'styles/cart.module.css';
 import DeleteBtn from '../components/DeleteItem';
 import UseSWR, { mutate } from 'swr';
@@ -52,8 +52,7 @@ export const getServerSideProps: GetServerSideProps =
   }, ironOptions);
 
 export default function CartList({ cart }: { cart: UserCart[] }) {
-  console.log(cart);
-  const { data } = UseSWR('/api/getSessionInfo', fetcher);
+  const { data }= UseSWR('/api/getSessionInfo', fetcher);
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>

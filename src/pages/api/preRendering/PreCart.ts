@@ -8,7 +8,6 @@ import { Item } from 'types/item';
 export const SelectCart = async (
   req: number
 ): Promise<{ cart?: UserCart[]; errorFlg: boolean }> => {
-  console.log('selectCartきた');
   const data = await prisma.user.findUnique({
     where: {
       userId: req,
