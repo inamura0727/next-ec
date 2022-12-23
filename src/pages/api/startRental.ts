@@ -11,7 +11,7 @@ async function startRentalRoute(
   res: NextApiResponse
 ) {
   if (req.session.user) {
-    const url = `http://localhost:8000/users/${req.session.user.id}`;
+    const url = `http://localhost:8000/users/${req.session.user.userId}`;
 
     // レンタル履歴IDの取得
     const id = Number(req.body.id);
