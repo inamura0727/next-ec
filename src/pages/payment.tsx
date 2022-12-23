@@ -25,15 +25,15 @@ export const getServerSideProps: GetServerSideProps =
     // ログインしている場合、カート情報を取得する
     if (req.session.user) {
       const result = await fetch(
-        `${config.users}/${req.session.user.id}`
+        `${config.users}/${req.session.user.userId}`
       );
       const userData = await result.json();
       const cart: UserCart[] = userData.userCarts;
       // ID昇順
       cart.sort((a, b) => {
-        return a.id - b.id;
+        return a.cartId - b.cartId;
       });
-      user.userId = req.session.user.id;
+      user.userId = req.session.user.userId;
       user.userCarts = cart;
       user.isLoggedIn = true;
     }
@@ -67,12 +67,13 @@ export default function Payment({
     router.push(`/`);
   }
   // 合計金額
-  const sum = user.userCarts
-    ?.map((item) => item.price)
-    .reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
-    );
+  const sum = 100;
+  // const sum = user.userCarts
+  //   ?.map((item) => item.price)
+  //   .reduce(
+  //     (accumulator, currentValue) => accumulator + currentValue,
+  //     0
+  //   );
 
   return (
     <>
@@ -96,23 +97,23 @@ export default function Payment({
         <section className={styles.orderWrapper}>
           <h1>ご注文内容</h1>
           {user.userCarts?.map((item: UserCart) => (
-            <div className={styles.itemGrop} key={item.id}>
+            <div className={styles.itemGrop} key={item.itemId}>
               <div className={styles.itemWrapper}>
                 <div className={styles.ItemInfo}>
-                  <Image
+                  {/* <Image
                     src={item.itemImage}
                     width={200}
                     height={112}
                     alt={'商品画像のURL'}
-                  />
-                  <div className={styles.itemName}>
+                  /> */}
+                  {/* <div className={styles.itemName}>
                     <p>{item.itemName}</p>
                     <p>レンタル期間：{item.rentalPeriod}泊</p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className={styles.price}>
                   <p>価格</p>
-                  <div>{item.price}円</div>
+                  {/* <div>{item.price}円</div> */}
                 </div>
               </div>
             </div>
