@@ -14,43 +14,11 @@ export default function DeleteBtn({
 }) {
   const handleDelte = async () => {
     if (id !== undefined) {
+      console.log('DeleteItemきた');
       // ログイン後の場合
-      const req = await fetch(`${config.users}/${id}`);
-      const data = await req.json();
-      const res = data.userCarts;
-
-      const fil = res.filter((cartItem: Item) => {
-        return cartItem.itemId !== cartId;
-      });
-
-      const newFil = [];
-      for (let item of fil) {
-        newFil.push({
-          id: newFil.length + 1,
-          itemId: item.itemId,
-          itemName: item.itemName,
-          itemImage: item.itemImage,
-          price: item.price,
-          rentalPeriod: item.rentalPeriod,
-        });
-      }
-
-      const body = { userCarts: newFil };
-
-      await fetch(`${config.users}/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          rebuild();
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
+      // deleteCartに飛ばす
+      const res = await fetch(`/api/deleteCart/${id}/${cartId}`);
+      rebuild();
     } else {
       // ログイン前の場合
       const body = { id: cartId };
