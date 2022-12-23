@@ -1,4 +1,5 @@
 import * as IronSession from 'iron-session';
+import { Item } from 'types/item';
 
 // iron-sessionで『user』と『cart』が使えるようにするための定義
 declare module 'iron-session' {
@@ -12,6 +13,7 @@ declare module 'iron-session' {
       cartId: number;
       itemId: number;
       rentalPeriod: number;
+      items: Item
     }[];
   }
 }
