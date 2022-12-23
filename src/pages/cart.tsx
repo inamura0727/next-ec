@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { UserCart, SessionUserCart, User } from 'types/user';
+import { UserCart } from 'types/user';
 import styles from 'styles/cart.module.css';
 import DeleteBtn from '../components/DeleteItem';
 import UseSWR, { mutate } from 'swr';
@@ -14,6 +14,7 @@ import { ironOptions } from '../../lib/ironOprion';
 import { SelectCart } from './api/preRendering/PreCart';
 import { redirect } from 'next/dist/server/api-utils';
 import { GetServerSideProps } from 'next';
+import { SessionUserCart } from 'types/session';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

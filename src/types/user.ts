@@ -49,11 +49,6 @@ type UserCart = {
   items: Item;
 };
 
-type SessionUserCart = {
-  cartId: number;
-  itemId: number;
-  rentalPeriod: number;
-  items: Item;
-};
 
-export type { User, RentalHistory, UserCart, SessionUserCart };
+
+export type { User, RentalHistory, UserCart };
