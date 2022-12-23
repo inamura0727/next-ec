@@ -19,6 +19,7 @@ export const getServerSideProps = withIronSessionSsr(
       },
       select:{
         items:{
+          select:{}
           include: {
             carts: true,
           },
