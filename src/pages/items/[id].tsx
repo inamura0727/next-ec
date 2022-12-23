@@ -78,7 +78,7 @@ export default function ItemDetail({
     setStartId(id);
   };
 
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -226,10 +226,10 @@ export default function ItemDetail({
         rentalPeriod: period,
         itemImage: item.itemImage,
         itemId: item.itemId,
+        items: item,
       };
 
       const body = { cart: userCarts };
-
       // cookieに保存するために/api/cartに飛ばす
       fetch(`/api/addCart`, {
         method: 'POST',
@@ -364,16 +364,17 @@ export default function ItemDetail({
                   {rentalFlg ? (
                     <div className={styles.btnWrapper}>
                       {startFlg ? (
-                        (rentalEnd && rentalStart) && (
+                        rentalEnd &&
+                        rentalStart && (
                           <Countdown
                             endTime={rentalEnd}
                             startTime={rentalStart}
                           />
                         )
-                      ):(
+                      ) : (
                         <p>視聴期間：{rentalPeriod}</p>
                       )}
-                      
+
                       <button
                         className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
