@@ -17,6 +17,13 @@ export const getServerSideProps = withIronSessionSsr(
       where: {
         reviewId: Number(query.reviewId),
       },
+      select:{
+        items:{
+          include: {
+            carts: true,
+          },
+        }
+      }
     });
     return {
       props: {
