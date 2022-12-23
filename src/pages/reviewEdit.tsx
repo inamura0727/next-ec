@@ -6,41 +6,41 @@ import router from 'next/router';
 import { Reviews } from 'types/review';
 import ReviewForm from '../components/ReviewForm';
 import Image from 'next/image';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
+import { GetServerSidePropsResult } from 'next';
 
 //編集前の商品情報表示
-export const getServerSideProps: GetServerSideProps = async ({
-  query,
-}) => {
-  //分割代入
-  const response = await fetch(
-    `http://localhost:8000/reviews?reviewId=${query.reviewId}`,
-    {
-      method: 'GET',
-    }
-  );
-  const items = await response.json();
-  const item = items[0];
-  return {
-    props: {
-      item,
-    },
-  };
-};
+export const getServerSideProps = withIronSessionSsr(
+  async ({ query }) => {
+    const reviewItems = await prisma.review.findUnique({
+      where: {
+        reviewId: Number(query.reviewId),
+      },
+    });
+    return {
+      props: {
+        reviewItems,
+        userId,
+      },
+    };
+  },
+  ironOptions
+);
 
-export default function ReviewEdit({ item }: { item: Reviews }) {
+export default function ReviewEdit({ post }: { post: any }) {
   const [formReviewName, setFormReviewName] = useState(
-    item.reviewName
+    post.reviewItems.reviewName
   );
   const [formReviewText, setFormReviewText] = useState(
-    item.reviewText
+    post.reviewItems.reviewText
   );
   const [formEvaluation, setFormEvaluation] = useState(
-    item.evaluation
+    post.reviewItems.evaluation
   );
-  const [formSpoiler, setFormSpoiler] = useState(item.spoiler);
+  const [formSpoiler, setFormSpoiler] = useState(post.reviewItems.spoiler);
 
   const review = useRef<HTMLDivElement>(null);
-
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -55,30 +55,22 @@ export default function ReviewEdit({ item }: { item: Reviews }) {
 
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
-    item.reviewId = item.id;
-
     const body = {
-      itemId: item.itemId,
-      itemName: item.itemName,
-      userId: item.userId,
-      itemImg: item.itemImg,
-      userName: item.userName,
       postTime: nowPostTime,
       reviewName: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
-      reviewId: item.id,
     };
 
-    const res = await fetch(`/api/reviews/${item.id}`, {
+    const res = await fetch(`/api/updateReview`, {
       method: 'PATCH',
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${item.itemId}`);
+      router.push(`/items/${post.itemId}`);
       //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };

@@ -2,11 +2,11 @@ import reviewStyles from 'styles/review.module.css';
 import { Item } from 'types/item';
 import {useRef,Dispatch,SetStateAction, MouseEvent} from 'react';
 import { SessionUser } from 'pages/api/getUser';
+import { User } from 'types/user';
 
 
 type Reviews = {
   item?:Item;
-  userItem?:SessionUser;
   formReviewName:string;
   formReviewText:string;
   formEvaluation:number;

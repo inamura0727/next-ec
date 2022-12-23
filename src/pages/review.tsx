@@ -1,25 +1,24 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { SyntheticEvent, useState } from 'react';
-import UseSWR from 'swr';
-import { SessionUser } from './api/getUser';
 import loadStyles from 'styles/loading.module.css';
-import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Item } from 'types/item';
 import ReviewForm from '../components/ReviewForm';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
+import prisma from '../../lib/prisma';
+import { GetServerSidePropsResult } from 'next';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Review({ post }: { post: Item }) {
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher); //ユーザー情報取得
+export default async function Review({ post }: { post: any }) {
 
   const [formReviewName, setFormReviewName] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
 
-  if (!data)
+  if (!post)
     return (
       <div className={loadStyles.loadingArea}>
         <div className={loadStyles.bound}>
@@ -33,9 +32,17 @@ export default function Review({ post }: { post: Item }) {
         </div>
       </div>
     );
-  if (!data.isLoggedIn) {
+  if (!post.userId) {
     router.push(`/`);
   }
+
+  //ユーザー情報取得
+  const users = await prisma.user.findMany({
+    where: {
+      userId: post.userId,
+    },
+  });
+
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -53,7 +60,7 @@ export default function Review({ post }: { post: Item }) {
     const body = {
       reviewId: 1,
       itemId: post.itemId,
-      userId: data.userId,
+      userId: post.userId,
       postTime: nowPostTime,
       reviewTitle: formReviewName,
       reviewText: formReviewText,
@@ -62,8 +69,8 @@ export default function Review({ post }: { post: Item }) {
     };
 
     await fetch('/api/addReview', {
-    method: 'POST',
-    body: JSON.stringify(body),
+      method: 'POST',
+      body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
@@ -95,11 +102,10 @@ export default function Review({ post }: { post: Item }) {
       </div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{data.userName}</p>
+        <p>ユーザー{users[0].userName}</p>
         <form onSubmit={handleSubmit}>
           <ReviewForm
-            item={post}
-            userItem={data}
+            item={post.itemId}
             formReviewName={formReviewName}
             formReviewText={formReviewText}
             formEvaluation={formEvaluation}
@@ -117,27 +123,33 @@ export default function Review({ post }: { post: Item }) {
   );
 }
 
-export async function getServerSideProps({
-  query,
-}: {
-  query: { itemId: number };
-}) {
-  // const response = await fetch(
-  //   `http://localhost:8000/items/${query.itemId}`,
-  //   {
-  //     method: 'GET',
-  //   }
-  // );
-  // const dates: Item = await response.json();
-  const items = await prisma.item.findMany({
-    where: {
-      itemId: query.itemId,
-    },
-  });
 
-  
+export const getServerSideProps = withIronSessionSsr(
+  async ({
+    req,
+    query
+  }) => {
+    const items = await prisma.item.findUnique({
+      where: {
+        itemId: Number(query.itemId),
+      },
+    });
+    if(!req.session.user){
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/error',
+        },
+      };
+    }
+    const userId = req.session.user.userId;
 
-  return {
-    props: { post: items },
-  };
-}
+    return {
+      props: {
+        items,
+        userId,
+      },
+    };
+  },
+  ironOptions
+);
