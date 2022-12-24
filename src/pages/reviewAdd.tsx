@@ -2,23 +2,27 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { SyntheticEvent, useState } from 'react';
 import loadStyles from 'styles/loading.module.css';
+import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Item } from 'types/item';
 import ReviewForm from '../components/ReviewForm';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import prisma from '../../lib/prisma';
-import { GetServerSidePropsResult } from 'next';
 
-
-export default async function Review({ post }: { post: any }) {
+export default function Review({
+  item,
+  userId,
+}: {
+  item: Item;
+  userId: number;
+}) {
 
   const [formReviewName, setFormReviewName] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
 
-  if (!post)
+  if (!userId)
     return (
       <div className={loadStyles.loadingArea}>
         <div className={loadStyles.bound}>
@@ -32,17 +36,9 @@ export default async function Review({ post }: { post: any }) {
         </div>
       </div>
     );
-  if (!post.userId) {
-    router.push(`/`);
-  }
-
-  //ユーザー情報取得
-  const users = await prisma.user.findMany({
-    where: {
-      userId: post.userId,
-    },
-  });
-
+  // if (!user.) {
+  //   router.push(`/`);
+  // }
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -58,9 +54,8 @@ export default async function Review({ post }: { post: any }) {
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
     const body = {
-      reviewId: 1,
-      itemId: post.itemId,
-      userId: post.userId,
+      itemId: item.itemId,
+      userId: userId,
       postTime: nowPostTime,
       reviewTitle: formReviewName,
       reviewText: formReviewText,
@@ -75,7 +70,7 @@ export default async function Review({ post }: { post: any }) {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${post.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+      router.push(`/items/${item.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };
 
@@ -83,29 +78,29 @@ export default async function Review({ post }: { post: any }) {
     <>
       <Head>
         <title>
-          {post.artist}
-          {post.fesName}レビュー
+          {item.artist}
+          {item.fesName}レビュー
         </title>
       </Head>
 
       <div>
         <Image
-          src={`${post.itemImage}`}
+          src={`${item.itemImage}`}
           alt="画像"
           width={400}
           height={225}
         />
         <p>
-          {post.artist}
-          {post.fesName}
+          {item.artist}
+          {item.fesName}
         </p>
       </div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{users[0].userName}</p>
         <form onSubmit={handleSubmit}>
           <ReviewForm
-            item={post.itemId}
+            item={item}
+            // userItem={data}
             formReviewName={formReviewName}
             formReviewText={formReviewText}
             formEvaluation={formEvaluation}
@@ -123,31 +118,42 @@ export default async function Review({ post }: { post: any }) {
   );
 }
 
-
 export const getServerSideProps = withIronSessionSsr(
-  async ({
-    req,
-    query
-  }) => {
-    const items = await prisma.item.findUnique({
+  async ({ req, query }) => {
+    const item = await prisma.item.findUnique({
       where: {
-        itemId: Number(query.itemId),
+        // itemId: Number(query.itemId),
+        itemId: 6,
       },
     });
-    if(!req.session.user){
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/error',
-        },
-      };
+    // if (!req.session.user) {
+    //   return {
+    //     redirect: {
+    //       permanent: false,
+    //       destination: '/error',
+    //     },
+    //   };
+    // }
+
+    //  const userId = req.session.user.userId;
+    const userId = 5;
+
+    // if (userId) {
+    //   if (items) {
+    //     const tmp: Item = items;
+    //     tmp.releaseDate = String(items?.releaseDate);
+    //   }
+    // }
+
+    if (item) {
+      const tmp: Item = item;
+      tmp.releaseDate = String(item?.releaseDate);
     }
-    const userId = req.session.user.userId;
 
     return {
       props: {
-        items,
-        userId,
+        item,
+        userId
       },
     };
   },

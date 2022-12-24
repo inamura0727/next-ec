@@ -1,52 +1,66 @@
 import { SyntheticEvent, useRef, useState } from 'react';
-import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
-import { Reviews } from 'types/review';
 import ReviewForm from '../components/ReviewForm';
 import Image from 'next/image';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import { GetServerSidePropsResult } from 'next';
+import { Item } from 'types/item';
+
+type ReviewItem = {
+  reviewId: number;
+  item: Item;
+  userId: number;
+  postTime: string;
+  reviewTitle: string;
+  reviewText: string;
+  evaluation: number;
+  spoiler: boolean;
+};
 
 //編集前の商品情報表示
 export const getServerSideProps = withIronSessionSsr(
   async ({ query }) => {
-    const reviewItems = await prisma.review.findUnique({
+    const reviewItem = await prisma.review.findUnique({
       where: {
         reviewId: Number(query.reviewId),
       },
-      select:{
-        items:{
-          select:{}
-          include: {
-            carts: true,
-          },
-        }
-      }
+
+      include: {
+        item: true,
+      },
     });
+
+    if (reviewItem?.item) {
+      const tmp: Item = reviewItem?.item;
+      tmp.releaseDate = String(reviewItem?.item.releaseDate);
+    }
+
     return {
       props: {
-        reviewItems,
-        userId,
+        reviewItem,
       },
     };
   },
   ironOptions
 );
 
-export default function ReviewEdit({ post }: { post: any }) {
+export default function ReviewEdit({
+  reviewItem,
+}: {
+  reviewItem: ReviewItem;
+}) {
   const [formReviewName, setFormReviewName] = useState(
-    post.reviewItems.reviewName
+    reviewItem.reviewTitle
   );
   const [formReviewText, setFormReviewText] = useState(
-    post.reviewItems.reviewText
+    reviewItem.reviewText
   );
   const [formEvaluation, setFormEvaluation] = useState(
-    post.reviewItems.evaluation
+    reviewItem.evaluation
   );
-  const [formSpoiler, setFormSpoiler] = useState(post.reviewItems.spoiler);
+  const [formSpoiler, setFormSpoiler] = useState(reviewItem.spoiler);
 
   const review = useRef<HTMLDivElement>(null);
 
@@ -64,44 +78,41 @@ export default function ReviewEdit({ post }: { post: any }) {
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
     const body = {
+      reviewId: reviewItem.reviewId,
       postTime: nowPostTime,
-      reviewName: formReviewName,
+      reviewTitle: formReviewName,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
     };
 
-    const res = await fetch(`/api/updateReview`, {
-      method: 'PATCH',
+    await fetch(`/api/updateReview`, {
+      method: 'POST',
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
-    }).then(() => {
-      router.push(`/items/${post.itemId}`);
-      //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
-    });
+    })
+    // .then(() => {
+    //   router.push(`/items/${reviewItem.item.fesName}`);
+    //   //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+    // });
   };
 
   return (
     <>
       <p>編集</p>
-      <Head>
-        <title>{item.itemName}レビュー</title>
-      </Head>
+      <Head><title>{reviewItem?.item.fesName}レビュー</title></Head>
 
       <Image
-        src={`${item.itemImg}`}
+        src={`${reviewItem?.item.itemImage}`}
         alt="画像"
         width={400}
         height={225}
       />
-      <div>
-        <p>{item.itemName}</p>
-      </div>
+      <div><p>{reviewItem?.item.fesName}</p></div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{item.userName}</p>
         <form onSubmit={handleSubmit}>
           <ReviewForm
             formReviewName={formReviewName}
