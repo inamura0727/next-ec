@@ -12,7 +12,9 @@ import SortSelect from 'components/SortSelect';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
-import { config } from '../config/index';
+import getSearchCount from './api/getSearchCount';
+import searchItem from './api/searchItem';
+import selectNewItem from './api/selectNewItem';
 
 // 1ページあたりの最大表示件数を指定
 const PAGE_SIZE = 10;
@@ -21,40 +23,55 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 type Props = {
   items: Array<Item>;
+  newItems?: Array<Item>;
   keyword: string;
   genre: string;
   page: number;
   totalCount: number;
   sort: string;
+  orderBy: string;
+  order: string;
 };
 
 export default function Search({
   items,
+  newItems,
   keyword,
   genre,
   page,
   totalCount,
-  sort,
+  orderBy,
+  order,
 }: Props) {
   const router = useRouter();
   const onClick = (index: number) => {
     router.push({
       pathname: '/search',
       query: {
-        categories_like: genre,
+        categories: genre,
         q: keyword,
         page: index,
-        _sort: sort,
+        orderBy: orderBy,
+        order: order,
       },
     });
   };
   const onSortChange = (value: string) => {
+    const order = value.split(`,`);
     router.push({
       pathname: '/search',
-      query: { categories_like: genre, q: keyword, _sort: value },
+      query: {
+        categories: genre,
+        q: keyword,
+        orderBy: order[0],
+        order: order[1],
+      },
     });
   };
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+  const { data } = UseSWR<SessionUser>(
+    '/api/getSessionInfo',
+    fetcher
+  );
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -81,44 +98,81 @@ export default function Search({
       <main className={styles.container}>
         <SearchForm />
         <div className={styles.searchResult}>
-          <div className={styles.components}>
-            <div className={styles.searchCount}>
-              検索結果：{totalCount}件
+          {newItems ? (
+            <div>
+              <div className={styles.p}>新着作品</div>
+              <section className={styles.itemList}>
+                {newItems.map((item) => {
+                  return (
+                    <div key={item.itemId} className={styles.item}>
+                      <Link href={`/items/${item.itemId}`}>
+                        <Image
+                          src={item.itemImage}
+                          width={400}
+                          height={225}
+                          alt={item.artist}
+                          className={styles.itemImage}
+                          priority
+                        />
+                        <br />
+                        <div className={styles.artist}>
+                          {item.artist}
+                        </div>
+                        <div className={styles.fesName}>
+                          {item.fesName}
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </section>
             </div>
-            <SortSelect onSortChange={onSortChange} />
-          </div>
-          {totalCount === 0 ? (
-            <>
-              <div className={styles.itemList}>
+          ) : totalCount === 0 ? (
+            <div>
+              <div className={styles.components}>
+                <div className={styles.searchCount}>
+                  検索結果：{totalCount}件
+                </div>
+                <SortSelect onSortChange={onSortChange} />
+              </div>
+              <div className={styles.errorMessage}>
                 条件に合う検索結果がありません。
               </div>
-            </>
+            </div>
           ) : (
-            <section className={styles.itemList}>
-              {items.map((item) => {
-                return (
-                  <div key={item.itemId} className={styles.item}>
-                    <Link href={`/items/${item.itemId}`}>
-                      <Image
-                        src={item.itemImage}
-                        width={400}
-                        height={225}
-                        alt={item.artist}
-                        className={styles.itemImage}
-                        priority
-                      />
-                      <br />
-                      <div className={styles.artist}>
-                        {item.artist}
-                      </div>
-                      <div className={styles.fesName}>
-                        {item.fesName}
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })}
-            </section>
+            <div>
+              <div className={styles.components}>
+                <div className={styles.searchCount}>
+                  検索結果：{totalCount}件
+                </div>
+                <SortSelect onSortChange={onSortChange} />
+              </div>
+              <section className={styles.itemList}>
+                {items.map((item) => {
+                  return (
+                    <div key={item.itemId} className={styles.item}>
+                      <Link href={`/items/${item.itemId}`}>
+                        <Image
+                          src={item.itemImage}
+                          width={400}
+                          height={225}
+                          alt={item.artist}
+                          className={styles.itemImage}
+                          priority
+                        />
+                        <br />
+                        <div className={styles.artist}>
+                          {item.artist}
+                        </div>
+                        <div className={styles.fesName}>
+                          {item.fesName}
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </section>
+            </div>
           )}
           <Pagination
             totalCount={totalCount}
@@ -135,35 +189,40 @@ export default function Search({
 export async function getServerSideProps({
   query,
 }: GetServerSidePropsContext) {
+  let newItems = null;
   const keyword = query.q;
-  const genre = query.categories_like;
-  const page = query.page ? query.page : 1;
-  const sort = query._sort ? query._sort : 'id&_order=desc';
-  const res = await fetch(
-    `${config.items}?categories_like=${genre}&q=${keyword}&_sort=${sort}&_page=${page}&_limit=${PAGE_SIZE}`
+  const genre = query.page ? Number(query.categories) : 0;
+  const page = query.page ? Number(query.page) : 1;
+  const orderBy = query.orderBy ? query.orderBy : 'itemId';
+  const order = query.order ? query.order : 'desc';
+  const take = PAGE_SIZE;
+  const items = await searchItem(
+    keyword,
+    genre,
+    orderBy,
+    order,
+    page,
+    take
   );
-  const items = await res.json();
-  // const count = items.length;
-  const body = { url: `items?categories_like=${genre}&q=${keyword}`,};
-  const result = await fetch('http://localhost:3000/api/getTotalCount', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  const total = await result.json();
-  const count = total.count;
-  // const startIndex = (page - 1) * PAGE_SIZE;
-  // const paging = items.slice(startIndex, startIndex + PAGE_SIZE);
-  return {
-    props: {
-      items: items,
-      keyword: keyword,
-      genre: genre,
-      page: page,
-      totalCount: count ? count : 0,
-      sort: sort,
-    },
-  };
+
+  if (keyword?.length === 0 && genre === 0) {
+    const selectNew = await selectNewItem(10);
+    newItems = selectNew;
+  }
+
+  const count = await getSearchCount(genre, keyword);
+
+  if (count)
+    return {
+      props: {
+        items: items,
+        newItems: newItems,
+        keyword: keyword,
+        genre: genre,
+        page: page,
+        totalCount: count.count,
+        orderBy: orderBy,
+        order: order,
+      },
+    };
 }

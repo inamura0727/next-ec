@@ -1,3 +1,29 @@
+.p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.p::before,
+.p::after {
+  content: '';
+  width: 10%;
+  height: 0.3rem;
+  background-color: #26a4ca;
+}
+
+.p::before {
+  margin-right: 20px;
+}
+.p::after {
+  margin-left: 20px;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -52,6 +78,11 @@
 
 .sortSelect {
   font-size: 1.5rem;
+}
+
+.errorMessage{
+  display: flex;
+  text-align: center;
 }
 
 .itemList {

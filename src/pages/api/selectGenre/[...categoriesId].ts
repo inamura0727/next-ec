@@ -9,7 +9,7 @@ export default async function selectGenre (req: NextApiRequest, res: NextApiResp
     if(Array.isArray(categoriesId)){
       id = Number(categoriesId[0]);
       take = Number(categoriesId[1])
-    }
+    };
     const response = await prisma.item.findMany({
         where: {
           categories: {
