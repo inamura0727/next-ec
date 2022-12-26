@@ -1,16 +1,14 @@
 import reviewStyles from 'styles/review.module.css';
 import { Item } from 'types/item';
 import {useRef,Dispatch,SetStateAction, MouseEvent} from 'react';
-import { SessionUser } from 'pages/api/getUser';
-import { User } from 'types/user';
 
 
 type Reviews = {
   item?:Item;
-  formReviewName:string;
+  formReviewTitle:string;
   formReviewText:string;
   formEvaluation:number;
-  setFormReviewName:Dispatch<SetStateAction<string>>;
+  setFormReviewTitle:Dispatch<SetStateAction<string>>;
   setFormReviewText:Dispatch<SetStateAction<string>>;
   setFormEvaluation:Dispatch<SetStateAction<number>>;
   setFormSpoiler:Dispatch<SetStateAction<boolean>>;
@@ -84,8 +82,8 @@ export default function ReviewForm(props: Reviews) {
         type="text"
         name="reviewName"
         id="reviewName"
-        value={props.formReviewName}
-        onChange={(e) => props.setFormReviewName(e.target.value)}
+        value={props.formReviewTitle}
+        onChange={(e) => props.setFormReviewTitle(e.target.value)}
       />
 
       <ul>

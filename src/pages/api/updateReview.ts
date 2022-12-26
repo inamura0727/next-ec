@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function editReview(req: NextApiRequest, res: NextApiResponse,) {
 
-    console.log("APIこい");
     await prisma.review.update({
         where: {
             reviewId : req.body.reviewId,

@@ -9,6 +9,11 @@ import ReviewForm from '../components/ReviewForm';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import prisma from '../../lib/prisma';
+import UseSWR, { mutate } from 'swr';
+import { SessionUser } from './api/getSessionInfo';
+import Header from '../components/Header';
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Review({
   item,
@@ -17,13 +22,15 @@ export default function Review({
   item: Item;
   userId: number;
 }) {
-
-  const [formReviewName, setFormReviewName] = useState('');
+  let [doLogout, setLogout] = useState(false)
+  const [formReviewTitle, setFormReviewTitle] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
 
-  if (!userId)
+  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
+
+  if (!data)
     return (
       <div className={loadStyles.loadingArea}>
         <div className={loadStyles.bound}>
@@ -37,9 +44,9 @@ export default function Review({
         </div>
       </div>
     );
-  // if (!user.) {
-  //   router.push(`/`);
-  // }
+  if (!data.isLoggedIn) {
+    router.push(`/`);
+  }
 
   //投稿ボタンを押した時
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -58,7 +65,7 @@ export default function Review({
       itemId: item.itemId,
       userId: userId,
       postTime: nowPostTime,
-      reviewTitle: formReviewName,
+      reviewTitle: formReviewTitle,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
@@ -75,6 +82,11 @@ export default function Review({
     });
   };
 
+  const logout = () => {
+    setLogout(true)
+    mutate('/api/getSessionInfo')
+  }
+
   return (
     <>
       <Head>
@@ -83,6 +95,12 @@ export default function Review({
           {item.fesName}レビュー
         </title>
       </Head>
+
+      <Header
+        isLoggedIn={data?.isLoggedIn}
+        dologout={() => logout()}
+      />
+
 
       <div>
         <Image
@@ -101,11 +119,10 @@ export default function Review({
         <form onSubmit={handleSubmit}>
           <ReviewForm
             item={item}
-            // userItem={data}
-            formReviewName={formReviewName}
+            formReviewTitle={formReviewTitle}
             formReviewText={formReviewText}
             formEvaluation={formEvaluation}
-            setFormReviewName={setFormReviewName}
+            setFormReviewTitle={setFormReviewTitle}
             setFormReviewText={setFormReviewText}
             setFormEvaluation={setFormEvaluation}
             setFormSpoiler={setFormSpoiler}
@@ -123,27 +140,20 @@ export const getServerSideProps = withIronSessionSsr(
   async ({ req, query }) => {
     const item = await prisma.item.findUnique({
       where: {
-        itemId: 6,
+        itemId: Number(query.itemId),
       },
     });
-    // if (!req.session.user) {
-    //   return {
-    //     redirect: {
-    //       permanent: false,
-    //       destination: '/error',
-    //     },
-    //   };
-    // }
+    if (!req.session.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/error',
+        },
+      };
+    }
 
-    //  const userId = req.session.user.userId;
-    const userId = 5;
+    const userId = req.session.user.userId;
 
-    // if (userId) {
-    //   if (items) {
-    //     const tmp: Item = items;
-    //     tmp.releaseDate = String(items?.releaseDate);
-    //   }
-    // }
     if (item) {
       const tmp: Item = item;
       tmp.releaseDate = String(item?.releaseDate);
