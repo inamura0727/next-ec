@@ -279,10 +279,6 @@ export default function Chatbot({
     Router.push('/');
   };
 
-  console.log(count);
-  console.log(output);
-  console.log(`genre:${genre}`);
-
   return (
     <>
       <div className={styles.chatbotPage} key="chatbotPage">
