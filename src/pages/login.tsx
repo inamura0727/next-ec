@@ -27,9 +27,9 @@ export default function Home() {
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.status === 200) {
-        router.push('/api/addLogedinCart');
+        await fetch('/api/addLogedinCart').then((res) => router.push('/'));
       } else {
         setErrorMessage(
           '※メールアドレスまたはパスワードが間違っています'
@@ -43,7 +43,7 @@ export default function Home() {
       <Head>
         <title>ログイン</title>
       </Head>
-      <Header isLoggedIn={false} dologout={() => false } login={true}/>
+      <Header isLoggedIn={false} dologout={() => false} login={true} />
       <main className={styles.loginMain}>
         <section className={styles.formWrapper}>
           <h1>
