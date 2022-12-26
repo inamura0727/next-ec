@@ -85,26 +85,7 @@ export default function ItemDetail({
     setStart(!start);
     setStartId(id);
   };
-  const { data } = UseSWR<SessionUser>(
-    '/api/getSessionInfo',
-    fetcher
-  );
-
-  useEffect(() => {
-    const userId = data?.userId;
-    const body = { userId: userId };
-    fetch('/api/selectCart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setUserCart(result);
-      });
-  }, [data]);
+  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
 
   if (!data)
     return (
@@ -122,14 +103,10 @@ export default function ItemDetail({
     );
 
   // ログイン状態のカート
-  let carts;
-  console.log(userCart);
-  if (userCart) {
-    carts = userCart.cart;
-  }
+  let carts = data.userCarts;
+  console.log(carts);
+
   // ログイン前のカート
-  let preCart = data.userCarts;
-  console.log(preCart);
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
   let rentalFlg = false;
@@ -173,34 +150,14 @@ export default function ItemDetail({
   let cartId: number;
   if (carts) {
     // 商品が既に追加されている場合に同じitemIdがないか確かめる
-    const check = carts.filter((cart: Item) => {
+    const check = carts.filter((cart) => {
       return cart.itemId === item.itemId;
     });
+    console.log(check);
     if (check.length) {
       cartflg = true;
       cartId = check[0].cartId;
-      mutate('/api/getSessionInfo');
-    }
-  }
-
-  const checkCarts = (cartItem: UserCart[]) => {
-    if (cartItem) {
-      const check = cartItem.filter((cart: UserCart) => {
-        return cart.itemId === item.itemId;
-      });
-      if (check.length) {
-        cartflg = true;
-        cartId = check[0].cartId;
-        mutate('/api/getSessionInfo');
-      }
-    }
-  };
-  let userId = data.userId;
-  if (userId) {
-    checkCarts(carts);
-  } else {
-    if (preCart) {
-      checkCarts(preCart);
+      mutate('/api/getUser');
     }
   }
 
@@ -244,44 +201,12 @@ export default function ItemDetail({
           console.log(result.isAdd);
           if (result.isAdd === true) {
             cartflg = true;
-            mutate('/api/getSessionInfo');
+            mutate('/api/getUser');
           }
         })
         .catch((error) => {
           console.log('Error', error);
         });
-      // const req = await fetch(`${config.users}/${id}`);
-      // const data = await req.json();
-      // const res = data.userCarts;
-
-      // let userCarts = {
-      //   rentalPeriod: period,
-      //   itemImage: item.itemImage,
-      //   itemId: item.itemId,
-      // };
-
-      // res.push(userCarts);
-      // const body = { userCarts: res };
-
-      // // ログイン後　userCartsに追加
-      // fetch(`${config.users}/${id}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(body),
-      // })
-      //   .then((res) => res.json())
-      //   .then((result) => {
-      //     if (isChoiced === true) {
-      //       setIsChoiced(!isChoiced);
-      //     }
-      //     cartflg = true;
-      //     mutate('/api/getUser');
-      //   })
-      //   .catch((error) => {
-      //     console.log('Error', error);
-      //   });
     } else {
       // ログイン前
 
@@ -315,7 +240,7 @@ export default function ItemDetail({
             setIsChoiced(!isChoiced);
           }
           cartflg = true;
-          mutate('/api/getSessionInfo');
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -329,41 +254,7 @@ export default function ItemDetail({
     // ログイン後の場合
     if (id !== undefined) {
       await fetch(`/api/deleteCart/${id}/${cartId}`);
-      mutate('/api/getSessionInfo');
-      // await deleteCart()
-      // const req = await fetch(`${config.users}/${id}`);
-      // const data = await req.json();
-      // const res = data.userCarts;
-      // const fil = res.filter((cartItem: UserCart) => {
-      //   return cartItem.itemId !== item.itemId;
-      // });
-      // const newFil = [];
-      // for (let item of fil) {
-      //   newFil.push({
-      //     id: newFil.length + 1,
-      //     itemId: item.itemId,
-      //     itemName: item.itemName,
-      //     itemImage: item.itemImage,
-      //     price: item.price,
-      //     rentalPeriod: item.rentalPeriod,
-      //   });
-      // }
-      // const body = { userCarts: newFil };
-      // await fetch(`${config.users}/${id}`, {
-      //   method: 'PATCH',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(body),
-      // })
-      //   .then((res) => res.json())
-      //   .then((result) => {
-      //     cartflg = false;
-      //     mutate('/api/getUser');
-      //   })
-      //   .catch((error) => {
-      //     console.log('Error', error);
-      //   });
+      mutate('/api/getUser');
     } else {
       // ログイン前の場合
       const body = { id: item.itemId, detail: true };
@@ -378,7 +269,7 @@ export default function ItemDetail({
         .then((res) => res.json())
         .then((result) => {
           cartflg = false;
-          mutate('/api/getSessionInfo');
+          mutate('/api/getUser');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -395,7 +286,7 @@ export default function ItemDetail({
   };
   const closePlayer = () => {
     setStart(!start);
-    mutate('/api/getSessionInfo');
+    mutate('/api/getUser');
   };
 
   return (
@@ -405,7 +296,7 @@ export default function ItemDetail({
       </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/getSessionInfo')}
+        dologout={() => mutate('/api/getUser')}
       />
       <div className={styles.detailImgWrapper}>
         <Image

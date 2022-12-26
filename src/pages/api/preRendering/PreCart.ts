@@ -2,7 +2,7 @@ import { UserCart } from '../../../types/user';
 import prisma from '../../../../lib/prisma';
 import { Item } from 'types/item';
 
-export const PreCart = async (
+export const SelectCart = async (
   req: number
 ): Promise<{ cart?: UserCart[]; errorFlg: boolean }> => {
   const data = await prisma.user.findUnique({

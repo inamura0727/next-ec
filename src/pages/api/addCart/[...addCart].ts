@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { UserCart } from 'types/user';
 
 export const addCart = async (
   req: NextApiRequest,
@@ -7,17 +8,16 @@ export const addCart = async (
   let userId;
   let itemId;
   let period;
-  
+
   const { addCart } = req.query;
-  console.log(addCart);
   if (Array.isArray(addCart)) {
     userId = Number(addCart[0]);
     itemId = Number(addCart[1]);
     period = Number(addCart[2]);
+  } else {
+    return res.redirect('/error');
   }
-
-  // if(period){}
-  const addCartItem = await prisma.cart.create({
+  await prisma.cart.create({
     data: {
       userId: userId,
       itemId: itemId,
@@ -25,9 +25,8 @@ export const addCart = async (
     },
   });
 
-  let isAdd= true;
   res.json({
-    isAdd: isAdd,
+    isAdd: true,
   });
 };
 

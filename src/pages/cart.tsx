@@ -14,7 +14,7 @@ import { ironOptions } from '../../lib/ironOprion';
 import { redirect } from 'next/dist/server/api-utils';
 import { GetServerSideProps } from 'next';
 import { SessionUserCart } from 'types/session';
-import { PreCart } from './api/preRendering/PreCart';
+import { SelectCart } from './api/preRendering/PreCart';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps =
     let userId = req.session.user?.userId;
     if (userId) {
       // ログイン後
-      const res = await PreCart(userId);
+      const res = await SelectCart(userId);
       if (!res.cart) {
         return {
           redirect: {
