@@ -1,23 +1,32 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { SyntheticEvent, useState } from 'react';
-import UseSWR from 'swr';
-import { SessionUser } from './api/getUser';
 import loadStyles from 'styles/loading.module.css';
 import reviewStyles from 'styles/review.module.css';
 import router from 'next/router';
 import { Item } from 'types/item';
 import ReviewForm from '../components/ReviewForm';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
+import prisma from '../../lib/prisma';
+import UseSWR, { mutate } from 'swr';
+import { SessionUser } from './api/getSessionInfo';
+import Header from '../components/Header';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Review({ post }: { post: Item }) {
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher); //ユーザー情報取得
-
-  const [formReviewName, setFormReviewName] = useState('');
+export default function Review({
+  item,
+}: {
+  item: Item;
+}) {
+  let [doLogout, setLogout] = useState(false)
+  const [formReviewTitle, setFormReviewTitle] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
+
+  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
 
   if (!data)
     return (
@@ -51,62 +60,67 @@ export default function Review({ post }: { post: Item }) {
     const nowPostTime = `${postTimeYear}/${postTimeMonth}/${postTimeDate} ${postTimeHours}:${postTimeMinutes}`;
 
     const body = {
+      itemId: item.itemId,
       userId: data.userId,
-      itemId: post.itemId,
-      itemImg: post.itemImage,
-      itemName: `${post.artist}${post.fesName}`,
-      userName: data.userName,
       postTime: nowPostTime,
-      reviewName: formReviewName,
+      reviewTitle: formReviewTitle,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
-      reviewId: 1,
     };
 
-    await fetch('/api/reviews', {
+    await fetch('/api/addReview', {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {
         'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
       },
     }).then(() => {
-      router.push(`/items/${post.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+      router.push(`/items/${item.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
     });
   };
+
+  const logout = () => {
+    setLogout(true)
+    mutate('/api/getSessionInfo')
+  }
 
   return (
     <>
       <Head>
         <title>
-          {post.artist}
-          {post.fesName}レビュー
+          {item.artist}
+          {item.fesName}レビュー
         </title>
       </Head>
 
+      <Header
+        isLoggedIn={data?.isLoggedIn}
+        dologout={() => logout()}
+      />
+
+
       <div>
         <Image
-          src={`${post.itemImage}`}
+          src={`${item.itemImage}`}
           alt="画像"
           width={400}
           height={225}
         />
         <p>
-          {post.artist}
-          {post.fesName}
+          {item.artist}
+          {item.fesName}
         </p>
       </div>
       <main>
         <h2>レビュー</h2>
-        <p>ユーザー{data.userName}</p>
         <form onSubmit={handleSubmit}>
           <ReviewForm
-            item={post}
-            userItem={data}
-            formReviewName={formReviewName}
+            item={item}
+            formReviewTitle={formReviewTitle}
             formReviewText={formReviewText}
             formEvaluation={formEvaluation}
-            setFormReviewName={setFormReviewName}
+            setFormReviewTitle={setFormReviewTitle}
             setFormReviewText={setFormReviewText}
             setFormEvaluation={setFormEvaluation}
             setFormSpoiler={setFormSpoiler}
@@ -120,16 +134,32 @@ export default function Review({ post }: { post: Item }) {
   );
 }
 
-export async function getServerSideProps({ query }: { query: {itemId:string} }) {
-  const response = await fetch(
-    `http://localhost:8000/items/${query.itemId}`,
-    {
-      method: 'GET',
+export const getServerSideProps = withIronSessionSsr(
+  async ({ req, query }) => {
+    const item = await prisma.item.findUnique({
+      where: {
+        itemId: Number(query.itemId),
+      },
+    });
+    if (!req.session.user) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/error',
+        },
+      };
     }
-  );
-  const dates: Item = await response.json();
 
-  return {
-    props: { post: dates },
-  };
-}
+    if (item) {
+      const tmp: Item = item;
+      tmp.releaseDate = String(item?.releaseDate);
+    }
+
+    return {
+      props: {
+        item,
+      },
+    };
+  },
+  ironOptions
+);
