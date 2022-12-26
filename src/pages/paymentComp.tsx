@@ -10,25 +10,25 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function PaymentComp() {
 
-  const { data } = UseSWR<SessionUser>('/api/getUser',fetcher);
+  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
   <div className={loadStyles.loadingArea}>
-        <div className={loadStyles.bound}>
-            <span>L</span>
-            <span>o</span>
-            <span>a</span>
-            <span>d</span>
-            <span>i</span>
-            <span>g</span>
-            <span>...</span>
-        </div>
+    <div className={loadStyles.bound}>
+      <span>L</span>
+      <span>o</span>
+      <span>a</span>
+      <span>d</span>
+      <span>i</span>
+      <span>g</span>
+      <span>...</span>
     </div>
+  </div>
 
   return (
     <>
       <Head>
         <title>決済完了画面</title>
       </Head>
-      <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getUser')}/>
+      <Header isLoggedIn={data?.isLoggedIn} dologout={() => mutate('/api/getSessionInfo')} />
       <main className={styles.payCompMain}>
         <div className={styles.contents}>
           <p>
@@ -37,7 +37,7 @@ export default function PaymentComp() {
             ご利用ありがとうございました。
           </p>
           <Link href={`/mypage`} className={styles.maypageLink}>
-          <button className={styles.payCompBtn}>レンタルした作品を確認する</button>
+            <button className={styles.payCompBtn}>レンタルした作品を確認する</button>
           </Link>
         </div>
       </main>

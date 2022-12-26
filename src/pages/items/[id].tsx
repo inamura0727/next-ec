@@ -127,7 +127,7 @@ export default function ItemDetail({
     if (!lastItem.rentalEnd) {
       rentalFlg = true;
       startFlg = false;
-      rentalCartId = lastItem.id;
+      rentalCartId = lastItem.rentalHistoryId;
       rentalPeriod = '未再生';
     } else if (lastItem.rentalStart && lastItem.rentalEnd) {
       rentalFlg = true;
