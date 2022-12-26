@@ -15,10 +15,11 @@ export default function DeleteBtn({
   rebuild: () => void;
 }) {
   const handleDelte = async () => {
+    const detail = false;
     if (id !== undefined) {
       // ログイン後の場合
       // deleteCartに飛ばす
-      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      await fetch(`/api/deleteCart/${id}/${cartId}/${itemId}/${detail}`);
       rebuild();
     } else {
       // ログイン前の場合

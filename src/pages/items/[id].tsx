@@ -1,5 +1,11 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useId,
+  useState,
+} from 'react';
 import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -15,7 +21,6 @@ import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import itemDelete from 'pages/api/itemDelete';
 import Countdown from '../../components/Countdown';
-import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -74,6 +79,8 @@ export default function ItemDetail({
   const [isChoiced, setIsChoiced] = useState(false);
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
+  const [userCart, setUserCart] = useState();
+
   const startPlayer = (id: number) => {
     setStart(!start);
     setStartId(id);
@@ -83,7 +90,22 @@ export default function ItemDetail({
     fetcher
   );
 
-  
+  useEffect(() => {
+    const userId = data?.userId;
+    const body = { userId: userId };
+    fetch('/api/selectCart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setUserCart(result);
+      });
+  }, [data]);
+
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -98,9 +120,16 @@ export default function ItemDetail({
         </div>
       </div>
     );
-  console.log(data);
 
-  let carts = data.userCarts;
+  // ログイン状態のカート
+  let carts;
+  console.log(userCart);
+  if (userCart) {
+    carts = userCart.cart;
+  }
+  // ログイン前のカート
+  let preCart = data.userCarts;
+  console.log(preCart);
   let rentalHistory: RentalHistory[] | undefined =
     data.userRentalHistories;
   let rentalFlg = false;
@@ -141,16 +170,39 @@ export default function ItemDetail({
     }
   }
 
-  // if (carts) {
-  // 商品が既に追加されている場合に同じitemIdがないか確かめる
-  //   const check = carts.filter((cart) => {
-  //     return cart.itemId === item.itemId;
-  //   });
-  //   if (check.length) {
-  //     cartflg = true;
-  //     mutate('/api/getSessionInfo');
-  //   }
-  // }
+  let cartId: number;
+  if (carts) {
+    // 商品が既に追加されている場合に同じitemIdがないか確かめる
+    const check = carts.filter((cart: Item) => {
+      return cart.itemId === item.itemId;
+    });
+    if (check.length) {
+      cartflg = true;
+      cartId = check[0].cartId;
+      mutate('/api/getSessionInfo');
+    }
+  }
+
+  const checkCarts = (cartItem: UserCart[]) => {
+    if (cartItem) {
+      const check = cartItem.filter((cart: UserCart) => {
+        return cart.itemId === item.itemId;
+      });
+      if (check.length) {
+        cartflg = true;
+        cartId = check[0].cartId;
+        mutate('/api/getSessionInfo');
+      }
+    }
+  };
+  let userId = data.userId;
+  if (userId) {
+    checkCarts(carts);
+  } else {
+    if (preCart) {
+      checkCarts(preCart);
+    }
+  }
 
   // レンタル中の作品情報を取得
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -233,7 +285,7 @@ export default function ItemDetail({
     } else {
       // ログイン前
 
-      let cartId;
+      let cartId: number;
       if (!data.userCarts) {
         cartId = 1;
       } else {
@@ -274,10 +326,10 @@ export default function ItemDetail({
   // 選択した商品をカートから削除
   const handleDelte = async (item: Item) => {
     const id = data.userId;
-    const itemId = item.itemId;
     // ログイン後の場合
     if (id !== undefined) {
-      await fetch(`/api/deleteCart/${id}/${itemId}`);
+      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      mutate('/api/getSessionInfo');
       // await deleteCart()
       // const req = await fetch(`${config.users}/${id}`);
       // const data = await req.json();

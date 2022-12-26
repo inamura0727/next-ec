@@ -14,12 +14,13 @@ export const deleteCart = async (
     userId = Number(DeleteCart[0]);
     cartId = Number(DeleteCart[1]);
   }
-  console.log('apiきてる');
   const cartItem = await prisma.cart.delete({
     where: {
       cartId: cartId,
     },
   });
+  let success = true;
+  res.json({ success: success });
 };
 
 export default deleteCart;

@@ -11,10 +11,10 @@ import loadStyles from 'styles/loading.module.css';
 import { Item } from 'types/item';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import { SelectCart } from './api/preRendering/PreCart';
 import { redirect } from 'next/dist/server/api-utils';
 import { GetServerSideProps } from 'next';
 import { SessionUserCart } from 'types/session';
+import { PreCart } from './api/preRendering/PreCart';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps =
     let userId = req.session.user?.userId;
     if (userId) {
       // ログイン後
-      const res = await SelectCart(userId);
+      const res = await PreCart(userId);
       if (!res.cart) {
         return {
           redirect: {

@@ -1,11 +1,8 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
-import { ironOptions } from '../../../../lib/ironOprion';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { User, UserCart, RentalHistory } from '../../../types/user';
+import { UserCart } from '../../../types/user';
 import prisma from '../../../../lib/prisma';
 import { Item } from 'types/item';
 
-export const SelectCart = async (
+export const PreCart = async (
   req: number
 ): Promise<{ cart?: UserCart[]; errorFlg: boolean }> => {
   const data = await prisma.user.findUnique({
