@@ -100,17 +100,17 @@ model Chatbot{
   text String?
   continue Boolean
   option String
-  chatbotChoise ChatbotChoise[]
+  chatbotChoice ChatbotChoice[]
 }
 
 // チャットボット選択肢情報
-model ChatbotChoise{
-  chatbotChoiseId Int @default(autoincrement())
+model ChatbotChoice{
+  chatbotChoiceId Int @default(autoincrement())
   chatbotId Int 
   text String
   Chatbot Chatbot @relation(fields: [chatbotId], references: [chatbotId])
 
-  @@unique([chatbotChoiseId,chatbotId])
+  @@unique([chatbotChoiceId,chatbotId])
 }
 
 // チャットボット回答情報
