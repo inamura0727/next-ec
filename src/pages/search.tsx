@@ -12,7 +12,6 @@ import SortSelect from 'components/SortSelect';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
-import getSearchCount from './api/getSearchCount';
 import searchItem from './api/searchItem';
 import selectNewItem from './api/selectNewItem';
 
@@ -196,7 +195,7 @@ export async function getServerSideProps({
   const orderBy = query.orderBy ? query.orderBy : 'itemId';
   const order = query.order ? query.order : 'desc';
   const take = PAGE_SIZE;
-  const items = await searchItem(
+  const result = await searchItem(
     keyword,
     genre,
     orderBy,
@@ -205,24 +204,25 @@ export async function getServerSideProps({
     take
   );
 
+  if (!result) {
+    return;
+  }
+
   if (keyword?.length === 0 && genre === 0) {
     const selectNew = await selectNewItem(10);
     newItems = selectNew;
   }
 
-  const count = await getSearchCount(genre, keyword);
-
-  if (count)
-    return {
-      props: {
-        items: items,
-        newItems: newItems,
-        keyword: keyword,
-        genre: genre,
-        page: page,
-        totalCount: count.count,
-        orderBy: orderBy,
-        order: order,
-      },
-    };
+  return {
+    props: {
+      items: result.items,
+      newItems: newItems,
+      keyword: keyword,
+      genre: genre,
+      page: page,
+      totalCount: result.count,
+      orderBy: orderBy,
+      order: order,
+    },
+  };
 }
