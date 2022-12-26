@@ -60,7 +60,7 @@ export default function Header({
                 </Link>
               </li>
               <li>
-                <Link href="/search?categories_like=&q=">
+                <Link href="/search?categories=&q=">
                   <Image
                     className={styles.icon}
                     src={'/images/icon-search.png'}
@@ -141,7 +141,7 @@ export default function Header({
                 </Link>
               </li>
               <li>
-                <Link href="/search?categories_like=&q=">
+                <Link href="/search?categories=&q=">
                   <Image
                     src={'/images/icon-search.png'}
                     width={32}
