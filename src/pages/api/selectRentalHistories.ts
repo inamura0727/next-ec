@@ -1,13 +1,19 @@
 import prisma from '../../../lib/prisma';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { withIronSessionApiRoute } from 'iron-session/next';
+import { ironOptions } from '../../../lib/ironOprion';
 
-export default async function editReview(req: NextApiRequest, res: NextApiResponse,) {
+export default withIronSessionApiRoute(async function rentalHistory(
 
-    await prisma.review.update({
-        where: {
-            reviewId : req.body.reviewId,
-        },
-        data : req.body
-    })
-    res.status(200);
-}
+    res
+  ) {
+    const item = await prisma.rentalHistory.findMany({
+      where: {
+        // userId : Number(req.body.userId),
+        userId :2,
+      },
+    });
+
+    // res.status(200);
+  },
+  ironOptions);

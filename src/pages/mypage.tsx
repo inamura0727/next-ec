@@ -15,6 +15,7 @@ import Countdown from '../components/Countdown';
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Mypage() {
+  let [doLogout, setLogout] = useState(false);
   // 動画プレイヤー用のstateと関数
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
@@ -24,7 +25,10 @@ export default function Mypage() {
   };
 
   //ログインしたアカウント情報を取得
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+  const { data } = UseSWR<SessionUser>(
+    '/api/getSessionInfo',
+    fetcher
+  );
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -42,6 +46,15 @@ export default function Mypage() {
   if (!data.isLoggedIn) {
     router.push(`/`);
   }
+
+  const body = data.userId;
+  const RentalHistory = fetch('/api/selectRentalHistories', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+
+  console.log("ああああああ");
+  console.log(RentalHistory);
 
   const rentalHistories = data.userRentalHistories; //レンタル履歴を取得
 
@@ -89,22 +102,29 @@ export default function Mypage() {
       payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
       period: '',
       price: rentalHistory.price,
-      startDay:rentalHistory.rentalStart,
-      endDay:rentalHistory.rentalEnd
+      startDay: rentalHistory.rentalStart,
+      endDay: rentalHistory.rentalEnd,
     };
 
     return addRentalHistories;
   });
+
+  const logout = () => {
+    setLogout(true);
+    mutate('/api/getSessionInfo');
+  };
 
   return (
     <>
       <Head>
         <title>マイページ</title>
       </Head>
+
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/getUser')}
+        dologout={() => logout()}
       />
+
       <main>
         <div className={styles.mypageMain}>
           <div className={styles.mypageGrop}>
@@ -127,14 +147,22 @@ export default function Mypage() {
                                 alt="画像"
                               />
                               <div className={styles.rentalInfo}>
-                              {(rentalNow.rentalEnd && rentalNow.rentalStart) &&
-                                <Countdown endTime={rentalNow.rentalEnd} startTime ={rentalNow.rentalStart}/>
-                              }
+                                {rentalNow.rentalEnd &&
+                                  rentalNow.rentalStart && (
+                                    <Countdown
+                                      endTime={rentalNow.rentalEnd}
+                                      startTime={
+                                        rentalNow.rentalStart
+                                      }
+                                    />
+                                  )}
                                 <div className={styles.btnWrapper}>
                                   <button
                                     className={`${styles.btn} ${styles.pushdown}`}
                                     onClick={() =>
-                                      startPlayer(rentalNow.rentalHistoryId)
+                                      startPlayer(
+                                        rentalNow.rentalHistoryId
+                                      )
                                     }
                                   >
                                     再生
@@ -172,9 +200,13 @@ export default function Mypage() {
                             />
                             <div className={styles.rentalInfo}>
                               <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
-                              {(rentalHistory.endDay && rentalHistory.startDay)?(
-                              <Countdown endTime={rentalHistory.endDay} startTime ={rentalHistory.startDay}/>
-                              ):(
+                              {rentalHistory.endDay &&
+                              rentalHistory.startDay ? (
+                                <Countdown
+                                  endTime={rentalHistory.endDay}
+                                  startTime={rentalHistory.startDay}
+                                />
+                              ) : (
                                 <p>未再生</p>
                               )}
                               <p>{`金額：${rentalHistory.price}円`}</p>
