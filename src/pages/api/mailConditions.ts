@@ -12,7 +12,7 @@ export default withIronSessionApiRoute(async function loginRoute(
     },
   });
 
-  if (item) {
+  if (item[0] ) {
     res.json({result: false ,message: 'このメールアドレスはすでに登録済みです'});
   } else {
     res.json({result: true});
