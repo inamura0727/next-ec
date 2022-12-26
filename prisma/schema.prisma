@@ -96,7 +96,7 @@ model Cart{
 
 // チャットボットシナリオ情報
 model Chatbot{
-  chatobotId Int @id @default(autoincrement())
+  chatbotId Int @id @default(autoincrement())
   text String?
   continue Boolean
   option String
@@ -106,11 +106,11 @@ model Chatbot{
 // チャットボット選択肢情報
 model ChatbotChoise{
   chatbotChoiseId Int @default(autoincrement())
-  chatobotId Int 
+  chatbotId Int 
   text String
-  Chatbot Chatbot @relation(fields: [chatobotId], references: [chatobotId])
+  Chatbot Chatbot @relation(fields: [chatbotId], references: [chatbotId])
 
-  @@unique([chatbotChoiseId,chatobotId])
+  @@unique([chatbotChoiseId,chatbotId])
 }
 
 // チャットボット回答情報
