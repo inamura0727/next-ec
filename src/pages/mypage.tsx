@@ -82,7 +82,7 @@ export default function Mypage() {
     const PayDate = PayDay.getDate();
 
     let addRentalHistories = {
-      id: rentalHistory.id,
+      id: rentalHistory.rentalHistoryId,
       itemId: rentalHistory.itemId,
       itemImage: rentalHistory.itemImage,
       itemName: rentalHistory.itemName,
@@ -116,7 +116,7 @@ export default function Mypage() {
                     if (rentalNows?.length) {
                       return rentalNows?.map(
                         (rentalNow: RentalHistory) => (
-                          <li key={rentalNow.id}>
+                          <li key={rentalNow.rentalHistoryId}>
                             <h2>{`${rentalNow.itemName}`}</h2>
                             <div className={styles.itemInfo}>
                               <Image
@@ -134,7 +134,7 @@ export default function Mypage() {
                                   <button
                                     className={`${styles.btn} ${styles.pushdown}`}
                                     onClick={() =>
-                                      startPlayer(rentalNow.id)
+                                      startPlayer(rentalNow.rentalHistoryId)
                                     }
                                   >
                                     再生

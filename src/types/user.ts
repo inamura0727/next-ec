@@ -24,7 +24,8 @@ type User = {
 // レンタル履歴
 type RentalHistory = {
   displayPeriod?: string;
-  id: number;
+  rentalHistoryId: number;
+  userId: number;
   itemId: number;
   itemName: string;
   price: number;
