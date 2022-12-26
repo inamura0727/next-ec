@@ -100,21 +100,49 @@ export default async function searchItem(keyword: string | string[] | undefined,
   } else if (id === 0) {
     count = await prisma.item.count({
       where: {
-        keywords: {
-          has: keyword
-        }
-      }
+        OR: [
+          {
+            keywords: {
+              has: keyword
+            }
+          },
+          {
+            artist: {
+              contains: keyword
+            }
+          },
+          {
+            fesName: {
+              contains: keyword
+            }
+          }
+        ]
+      },
     });
   } else {
     count = await prisma.item.count({
       where: {
+        OR: [
+          {
+            keywords: {
+              has: keyword
+            }
+          },
+          {
+            artist: {
+              contains: keyword
+            }
+          },
+          {
+            fesName: {
+              contains: keyword
+            }
+          }
+        ],
         categories: {
           has: id,
         },
-        keywords: {
-          has: keyword
-        }
-      }
+      },
     });
   }
 
