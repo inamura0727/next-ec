@@ -10,16 +10,14 @@ export default async function selectGenre(req: NextApiRequest, res: NextApiRespo
         feeling = Number(answer[0]);
         who = Number(answer[1])
     };
-    const response = await prisma.chatbotAnswer.findMany({
+    const response = await prisma.chatbotAnswer.findUnique({
         where: {
-            question1: {
-                equals: feeling,
-            },
-            question2: {
-                equals: who,
+            question1_question2:{
+                question1: feeling,
+                question2: who
             }
         },
     });
 
-    res.json({ genre: response[0].categoryId });
+    res.json({ genre: response?.categoryId });
 }
