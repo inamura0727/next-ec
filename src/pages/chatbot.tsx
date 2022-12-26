@@ -69,10 +69,6 @@ export const getServerSideProps = withIronSessionSsr(
       orderBy: { chatbotId: 'asc' },
     });
 
-    // ユーザー情報の取得
-    let user: SessionUser = {
-      isLoggedIn: false,
-    };
     let userName = 'guest';
     // ログインしている場合、userNameを取得する
     if (req.session.user) {
@@ -84,8 +80,6 @@ export const getServerSideProps = withIronSessionSsr(
       if (result?.userName) {
         userName = result.userName;
       }
-      user.userId = req.session.user.userId;
-      user.isLoggedIn = true;
     }
 
     return {
