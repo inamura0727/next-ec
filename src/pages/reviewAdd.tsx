@@ -123,7 +123,6 @@ export const getServerSideProps = withIronSessionSsr(
   async ({ req, query }) => {
     const item = await prisma.item.findUnique({
       where: {
-        // itemId: Number(query.itemId),
         itemId: 6,
       },
     });
@@ -145,7 +144,6 @@ export const getServerSideProps = withIronSessionSsr(
     //     tmp.releaseDate = String(items?.releaseDate);
     //   }
     // }
-
     if (item) {
       const tmp: Item = item;
       tmp.releaseDate = String(item?.releaseDate);

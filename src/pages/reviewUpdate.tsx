@@ -25,7 +25,7 @@ export const getServerSideProps = withIronSessionSsr(
   async ({ query }) => {
     const reviewItem = await prisma.review.findUnique({
       where: {
-        reviewId: Number(query.reviewId),
+        reviewId: 1,
       },
 
       include: {
