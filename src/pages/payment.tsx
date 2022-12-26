@@ -7,10 +7,10 @@ import styles from '../styles/payment.module.css';
 import Head from 'next/head';
 import { loadStripe } from '@stripe/stripe-js';
 import Header from '../components/Header';
-import { SessionUser } from 'pages/api/getUser';
+import { SessionUser } from 'pages/api/getSessionInfo';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { config } from '../config/index';
+import { SelectCart } from './api/preRendering/PreCart';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -24,17 +24,9 @@ export const getServerSideProps: GetServerSideProps =
     };
     // ログインしている場合、カート情報を取得する
     if (req.session.user) {
-      const result = await fetch(
-        `${config.users}/${req.session.user.userId}`
-      );
-      const userData = await result.json();
-      const cart: UserCart[] = userData.userCarts;
-      // ID昇順
-      cart.sort((a, b) => {
-        return a.cartId - b.cartId;
-      });
       user.userId = req.session.user.userId;
-      user.userCarts = cart;
+      const res = await SelectCart(user.userId);
+      user.userCarts = res.cart;
       user.isLoggedIn = true;
     }
 
@@ -67,13 +59,15 @@ export default function Payment({
     router.push(`/`);
   }
   // 合計金額
-  const sum = 100;
-  // const sum = user.userCarts
-  //   ?.map((item) => item.price)
-  //   .reduce(
-  //     (accumulator, currentValue) => accumulator + currentValue,
-  //     0
-  //   );
+  const sum = user.userCarts?.map((item) => {
+    let price = 0;
+    if (item.rentalPeriod === 2) {
+      price = item.items.twoDaysPrice;
+    } else {
+      price = item.items.sevenDaysPrice
+    }
+    return price;
+  }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
   return (
     <>
@@ -100,20 +94,28 @@ export default function Payment({
             <div className={styles.itemGrop} key={item.itemId}>
               <div className={styles.itemWrapper}>
                 <div className={styles.ItemInfo}>
-                  {/* <Image
-                    src={item.itemImage}
+                  <Image
+                    src={item.items.itemImage}
                     width={200}
                     height={112}
                     alt={'商品画像のURL'}
-                  /> */}
-                  {/* <div className={styles.itemName}>
-                    <p>{item.itemName}</p>
+                  />
+                  <div className={styles.itemName}>
+                    <p>{`${item.items.artist}  ${item.items.fesName}`}</p>
                     <p>レンタル期間：{item.rentalPeriod}泊</p>
-                  </div> */}
+                  </div>
                 </div>
                 <div className={styles.price}>
                   <p>価格</p>
-                  {/* <div>{item.price}円</div> */}
+                  {item.rentalPeriod === 2 ? (
+                    <div>
+                      {item.items.twoDaysPrice}円
+                    </div>
+                  ) : (
+                    <div>
+                      {item.items.sevenDaysPrice}円
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
