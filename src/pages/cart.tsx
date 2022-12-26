@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps =
   }, ironOptions);
 
 export default function CartList({ cart }: { cart: UserCart[] }) {
-  const { data }= UseSWR('/api/getSessionInfo', fetcher);
+  const { data } = UseSWR('/api/getSessionInfo', fetcher);
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -153,6 +153,7 @@ export default function CartList({ cart }: { cart: UserCart[] }) {
                     <DeleteBtn
                       id={id}
                       cartId={item.cartId}
+                      itemId={item.itemId}
                       rebuild={() => mutate('/api/getSessionInfo')}
                     />
                   </div>

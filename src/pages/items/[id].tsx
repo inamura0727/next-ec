@@ -15,6 +15,7 @@ import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import itemDelete from 'pages/api/itemDelete';
 import Countdown from '../../components/Countdown';
+import useSWR from 'swr';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -77,8 +78,12 @@ export default function ItemDetail({
     setStart(!start);
     setStartId(id);
   };
+  const { data } = UseSWR<SessionUser>(
+    '/api/getSessionInfo',
+    fetcher
+  );
 
-  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
+  
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -93,8 +98,7 @@ export default function ItemDetail({
         </div>
       </div>
     );
-
-  const userId = data.userId;
+  console.log(data);
 
   let carts = data.userCarts;
   let rentalHistory: RentalHistory[] | undefined =
@@ -137,16 +141,16 @@ export default function ItemDetail({
     }
   }
 
-  if (carts) {
-    // 商品が既に追加されている場合に同じitemIdがないか確かめる
-    const check = carts.filter((cart) => {
-      return cart.itemId === item.itemId;
-    });
-    if (check.length) {
-      cartflg = true;
-      mutate('/api/getUser');
-    }
-  }
+  // if (carts) {
+  // 商品が既に追加されている場合に同じitemIdがないか確かめる
+  //   const check = carts.filter((cart) => {
+  //     return cart.itemId === item.itemId;
+  //   });
+  //   if (check.length) {
+  //     cartflg = true;
+  //     mutate('/api/getSessionInfo');
+  //   }
+  // }
 
   // レンタル中の作品情報を取得
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -175,42 +179,57 @@ export default function ItemDetail({
 
     // ユーザーidの取得
     const id = data.userId;
+    const itemId = item.itemId;
 
     // ログイン後
     if (id !== undefined) {
-      const req = await fetch(`${config.users}/${id}`);
-      const data = await req.json();
-      const res = data.userCarts;
-
-      let userCarts = {
-        cartId: res.length + 1,
-        rentalPeriod: period,
-        itemImage: item.itemImage,
-        itemId: item.itemId,
-      };
-
-      res.push(userCarts);
-      const body = { userCarts: res };
-
-      // ログイン後　userCartsに追加
-      fetch(`${config.users}/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
+      await fetch(`/api/addCart/${id}/${itemId}/${period}`)
         .then((res) => res.json())
         .then((result) => {
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
-          cartflg = true;
-          mutate('/api/getUser');
+          console.log(result.isAdd);
+          if (result.isAdd === true) {
+            cartflg = true;
+            mutate('/api/getSessionInfo');
+          }
         })
         .catch((error) => {
           console.log('Error', error);
         });
+      // const req = await fetch(`${config.users}/${id}`);
+      // const data = await req.json();
+      // const res = data.userCarts;
+
+      // let userCarts = {
+      //   rentalPeriod: period,
+      //   itemImage: item.itemImage,
+      //   itemId: item.itemId,
+      // };
+
+      // res.push(userCarts);
+      // const body = { userCarts: res };
+
+      // // ログイン後　userCartsに追加
+      // fetch(`${config.users}/${id}`, {
+      //   method: 'PATCH',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(body),
+      // })
+      //   .then((res) => res.json())
+      //   .then((result) => {
+      //     if (isChoiced === true) {
+      //       setIsChoiced(!isChoiced);
+      //     }
+      //     cartflg = true;
+      //     mutate('/api/getUser');
+      //   })
+      //   .catch((error) => {
+      //     console.log('Error', error);
+      //   });
     } else {
       // ログイン前
 
@@ -240,12 +259,11 @@ export default function ItemDetail({
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
           cartflg = true;
-          mutate('/api/getUser');
+          mutate('/api/getSessionInfo');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -256,45 +274,44 @@ export default function ItemDetail({
   // 選択した商品をカートから削除
   const handleDelte = async (item: Item) => {
     const id = data.userId;
+    const itemId = item.itemId;
+    // ログイン後の場合
     if (id !== undefined) {
-      // ログイン後の場合
-      const req = await fetch(`${config.users}/${id}`);
-      const data = await req.json();
-      const res = data.userCarts;
-
-      const fil = res.filter((cartItem: UserCart) => {
-        return cartItem.itemId !== item.itemId;
-      });
-
-      const newFil = [];
-      for (let item of fil) {
-        newFil.push({
-          id: newFil.length + 1,
-          itemId: item.itemId,
-          itemName: item.itemName,
-          itemImage: item.itemImage,
-          price: item.price,
-          rentalPeriod: item.rentalPeriod,
-        });
-      }
-
-      const body = { userCarts: newFil };
-
-      await fetch(`${config.users}/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          cartflg = false;
-          mutate('/api/getUser');
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
+      await fetch(`/api/deleteCart/${id}/${itemId}`);
+      // await deleteCart()
+      // const req = await fetch(`${config.users}/${id}`);
+      // const data = await req.json();
+      // const res = data.userCarts;
+      // const fil = res.filter((cartItem: UserCart) => {
+      //   return cartItem.itemId !== item.itemId;
+      // });
+      // const newFil = [];
+      // for (let item of fil) {
+      //   newFil.push({
+      //     id: newFil.length + 1,
+      //     itemId: item.itemId,
+      //     itemName: item.itemName,
+      //     itemImage: item.itemImage,
+      //     price: item.price,
+      //     rentalPeriod: item.rentalPeriod,
+      //   });
+      // }
+      // const body = { userCarts: newFil };
+      // await fetch(`${config.users}/${id}`, {
+      //   method: 'PATCH',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(body),
+      // })
+      //   .then((res) => res.json())
+      //   .then((result) => {
+      //     cartflg = false;
+      //     mutate('/api/getUser');
+      //   })
+      //   .catch((error) => {
+      //     console.log('Error', error);
+      //   });
     } else {
       // ログイン前の場合
       const body = { id: item.itemId, detail: true };
@@ -308,9 +325,8 @@ export default function ItemDetail({
       })
         .then((res) => res.json())
         .then((result) => {
-          console.log('Success', result);
           cartflg = false;
-          mutate('/api/getUser');
+          mutate('/api/getSessionInfo');
         })
         .catch((error) => {
           console.log('Error', error);
@@ -327,7 +343,7 @@ export default function ItemDetail({
   };
   const closePlayer = () => {
     setStart(!start);
-    mutate('/api/getUser');
+    mutate('/api/getSessionInfo');
   };
 
   return (
@@ -337,7 +353,7 @@ export default function ItemDetail({
       </Head>
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/getUser')}
+        dologout={() => mutate('/api/getSessionInfo')}
       />
       <div className={styles.detailImgWrapper}>
         <Image
@@ -455,7 +471,7 @@ export default function ItemDetail({
           <Player
             closePlayer={() => closePlayer()}
             id={startId}
-            startPlayer={() => mutate('/api/getUser')}
+            startPlayer={() => mutate('/api/getSessionInfo')}
           />
         )}
         <section className={styles.review}>
