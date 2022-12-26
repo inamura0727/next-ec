@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import { Item } from 'types/item';
+import prisma from '../../lib/prisma';
 
 type ReviewItem = {
   reviewId: number;

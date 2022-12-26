@@ -8,6 +8,7 @@ import { Item } from 'types/item';
 import ReviewForm from '../components/ReviewForm';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
+import prisma from '../../lib/prisma';
 
 export default function Review({
   item,
