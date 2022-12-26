@@ -17,10 +17,8 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Review({
   item,
-  userId,
 }: {
   item: Item;
-  userId: number;
 }) {
   let [doLogout, setLogout] = useState(false)
   const [formReviewTitle, setFormReviewTitle] = useState('');
@@ -63,7 +61,7 @@ export default function Review({
 
     const body = {
       itemId: item.itemId,
-      userId: userId,
+      userId: data.userId,
       postTime: nowPostTime,
       reviewTitle: formReviewTitle,
       reviewText: formReviewText,
@@ -152,8 +150,6 @@ export const getServerSideProps = withIronSessionSsr(
       };
     }
 
-    const userId = req.session.user.userId;
-
     if (item) {
       const tmp: Item = item;
       tmp.releaseDate = String(item?.releaseDate);
@@ -162,7 +158,6 @@ export const getServerSideProps = withIronSessionSsr(
     return {
       props: {
         item,
-        userId
       },
     };
   },

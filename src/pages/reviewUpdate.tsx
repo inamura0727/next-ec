@@ -31,7 +31,6 @@ export default function ReviewEdit({
 }: {
   reviewItem: ReviewItem;
 }) {
-  console.log(reviewItem);
 
   let [doLogout, setLogout] = useState(false);
   const [formReviewTitle, setFormReviewTitle] = useState(
