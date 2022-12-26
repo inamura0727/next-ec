@@ -47,14 +47,7 @@ export default function Mypage() {
     router.push(`/`);
   }
 
-  const body = data.userId;
-  const RentalHistory = fetch('/api/selectRentalHistories', {
-    method: 'POST',
-    body: JSON.stringify(body),
-  });
 
-  console.log("ああああああ");
-  console.log(RentalHistory);
 
   const rentalHistories = data.userRentalHistories; //レンタル履歴を取得
 

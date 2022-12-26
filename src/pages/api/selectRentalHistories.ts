@@ -4,12 +4,11 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 
 export default withIronSessionApiRoute(async function rentalHistory(
-
     res
   ) {
     const item = await prisma.rentalHistory.findMany({
       where: {
-        // userId : Number(req.body.userId),
+        // userId :req.session.user.userId,
         userId :2,
       },
     });
