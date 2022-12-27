@@ -8,7 +8,6 @@ export const selectReview = async (
   let itemId;
   const { selectReview } = req.query;
   itemId = Number(selectReview);
-  console.log(itemId);
   const result = await prisma.review.findMany({
     where: {
       itemId: itemId,
