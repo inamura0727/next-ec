@@ -1,13 +1,19 @@
-import { UserCart } from '../../../types/user';
-import prisma from '../../../../lib/prisma';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { Item } from 'types/item';
+import { UserCart } from 'types/user';
+import prisma from '../../../../lib/prisma';
 
 export const SelectCart = async (
-  req: number
-): Promise<{ cart?: UserCart[]; errorFlg: boolean }> => {
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  let userId;
+  const { selectCart } = req.query;
+  userId = Number(selectCart);
+
   const data = await prisma.user.findUnique({
     where: {
-      userId: req,
+      userId: userId,
     },
     select: {
       carts: {
@@ -33,8 +39,7 @@ export const SelectCart = async (
 
     tmpItem.releaseDate = item.items.releaseDate.toString();
   });
-  return {
-    cart: carts,
-    errorFlg: errorFlg,
-  };
+  res.json({ cart: carts, errorFlg: errorFlg });
 };
+
+export default SelectCart;
