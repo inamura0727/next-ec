@@ -22,7 +22,6 @@ export default function Mypage({
 }: {
   rentalHistories: RentalHistory[];
 }) {
-  let [doLogout, setLogout] = useState(false);
   // 動画プレイヤー用のstateと関数
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
@@ -107,10 +106,6 @@ export default function Mypage({
     }
   );
 
-  const logout = () => {
-    setLogout(true);
-    mutate('/api/getSessionInfo');
-  };
 
   return (
     <>
@@ -120,7 +115,7 @@ export default function Mypage({
 
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => logout()}
+        dologout={() => mutate('/api/getUser')}
       />
 
       <main>
