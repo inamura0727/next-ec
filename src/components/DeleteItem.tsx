@@ -16,7 +16,7 @@ export default function DeleteBtn({
     if (id !== undefined) {
       // ログイン後の場合
       // deleteCartに飛ばす
-      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      await fetch(`/api/deleteCart/${cartId}`);
       await fetch(`api/selectCart/${id}`).then((res) =>
         res.json().then((result) => {
           rebuild(result.cart);

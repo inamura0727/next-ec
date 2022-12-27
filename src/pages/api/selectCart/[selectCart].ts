@@ -7,14 +7,10 @@ export const SelectCart = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  let userId
-  const {selectCart} = req.query
-  if(Array.isArray(selectCart)){
-    userId = Number(selectCart[0])
-  }else{
-    return res.redirect('/error')
-  }
-  
+  let userId;
+  const { selectCart } = req.query;
+  userId = Number(selectCart);
+
   const data = await prisma.user.findUnique({
     where: {
       userId: userId,
