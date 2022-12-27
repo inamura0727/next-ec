@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Item } from 'types/item';
 import { RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -72,12 +72,23 @@ export default function ItemDetail({
   const [isChoiced, setIsChoiced] = useState(false);
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
+  const [rental, setRental] = useState<RentalHistory[]>([]);
 
   const startPlayer = (id: number) => {
     setStart(!start);
     setStartId(id);
   };
+
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+
+  const userId = data?.userId;
+  useEffect(() => {
+    fetch(`/api/selectRental/${userId}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setRental(result.rental);
+      });
+  }, [userId]);
 
   if (!data)
     return (
@@ -98,8 +109,7 @@ export default function ItemDetail({
   let carts = data.userCarts;
 
   // ログイン前のカート
-  let rentalHistory: RentalHistory[] | undefined =
-    data.userRentalHistories;
+  let rentalHistory: RentalHistory[] = rental;
   let rentalFlg = false;
   let cartflg = false;
   let rentalPeriod;
