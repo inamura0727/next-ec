@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import ReactPlayer from 'react-player'
 import styles from '../styles/player.module.css';
 
@@ -7,14 +8,17 @@ type playerProps = {
   startPlayer: () => void;
 };
 
-export default function Player({ closePlayer, id ,startPlayer}: playerProps) {
+export default function Player({ closePlayer, id, startPlayer }: playerProps) {
+  const router = useRouter();
   const sample = (id: number) => {
-    const data = { id: id };
-    fetch('/api/startRental', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then(() => startPlayer());
+    fetch(`/api/startRental/${id}`, {
+    }).then((response) => response.json()).then((data) => {
+      if (data.result) {
+        startPlayer()
+      } else {
+        router.push('/error')
+      }
+    });
   };
   return (
     <div className={styles.playerArea}>
