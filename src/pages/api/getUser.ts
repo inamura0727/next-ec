@@ -32,7 +32,6 @@ async function getUserRoute(
         },
       },
     });
-    console.log(result);
     res.json({
       userId: userId,
       isLoggedIn: true,

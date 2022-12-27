@@ -1,7 +1,5 @@
-import { Item } from 'types/item';
-import { useState } from 'react';
 import styles from 'styles/cart.module.css';
-import { config } from '../config/index';
+import { UserCart } from 'types/user';
 
 export default function DeleteBtn({
   id,
@@ -12,15 +10,18 @@ export default function DeleteBtn({
   id: number | undefined;
   cartId: number;
   itemId: number;
-  rebuild: () => void;
+  rebuild: (cart: UserCart[]) => void;
 }) {
   const handleDelte = async () => {
-    const detail = false;
     if (id !== undefined) {
       // ログイン後の場合
       // deleteCartに飛ばす
-      await fetch(`/api/deleteCart/${id}/${cartId}/${itemId}/${detail}`);
-      rebuild();
+      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      await fetch(`api/selectCart/${id}`).then((res) =>
+        res.json().then((result) => {
+          rebuild(result.cart);
+        })
+      );
     } else {
       // ログイン前の場合
       const body = { id: itemId };
@@ -34,7 +35,7 @@ export default function DeleteBtn({
       })
         .then((res) => res.json())
         .then((result) => {
-          rebuild();
+          rebuild(result.cart);
         })
         .catch((error) => {
           console.log('Error', error);

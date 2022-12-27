@@ -15,6 +15,7 @@ import { redirect } from 'next/dist/server/api-utils';
 import { GetServerSideProps } from 'next';
 import { SessionUserCart } from 'types/session';
 import { SelectCart } from './api/preRendering/PreCart';
+import { useState } from 'react';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -53,6 +54,7 @@ export const getServerSideProps: GetServerSideProps =
   }, ironOptions);
 
 export default function CartList({ cart }: { cart: UserCart[] }) {
+  const [cartItem, setCartItem] = useState(cart);
   const { data } = UseSWR('/api/getSessionInfo', fetcher);
   if (!data)
     return (
@@ -75,14 +77,14 @@ export default function CartList({ cart }: { cart: UserCart[] }) {
   let carts = data.userCarts;
 
   let isCartflg = true;
-  if (!cart?.length) {
+  if (!cartItem?.length) {
     isCartflg = false;
   }
 
   // 合計金額の表示
   let sum: number[] = [];
-  if (cart !== undefined) {
-    cart.map((item) => {
+  if (cartItem !== undefined) {
+    cartItem.map((item) => {
       if (item.rentalPeriod === 2) {
         sum.push(item.items.twoDaysPrice);
       } else if (item.rentalPeriod === 7) {
@@ -107,7 +109,7 @@ export default function CartList({ cart }: { cart: UserCart[] }) {
         dologout={() => mutate('/api/getSessionInfo')}
       />
       <main className={styles.cart}>
-        {cart?.map((item: UserCart) => {
+        {cartItem?.map((item: UserCart) => {
           return (
             <div className={styles.cartContent} key={item.itemId}>
               <div className={styles.cartMedia}>
@@ -154,7 +156,7 @@ export default function CartList({ cart }: { cart: UserCart[] }) {
                       id={id}
                       cartId={item.cartId}
                       itemId={item.itemId}
-                      rebuild={() => mutate('/api/getSessionInfo')}
+                      rebuild={(cart) => setCartItem(cart)}
                     />
                   </div>
                 </div>

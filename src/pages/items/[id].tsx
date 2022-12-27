@@ -1,11 +1,5 @@
 import Image from 'next/image';
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useId,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { UserCart, RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
