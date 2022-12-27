@@ -13,10 +13,15 @@ import router from 'next/router';
 import Countdown from '../components/Countdown';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
+import prisma from '../../lib/prisma';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Mypage({rentalHistories}:{rentalHistories:RentalHistory[]}) {
+export default function Mypage({
+  rentalHistories,
+}: {
+  rentalHistories: RentalHistory[];
+}) {
   let [doLogout, setLogout] = useState(false);
   // 動画プレイヤー用のstateと関数
   const [start, setStart] = useState(false);
@@ -53,13 +58,13 @@ export default function Mypage({rentalHistories}:{rentalHistories:RentalHistory[
   let nowDate = new Date(); //今の時間
   //レンタル中商品のデータ取得
   const rentalNows = rentalHistories
-    ?.filter((item:RentalHistory) => {
+    ?.filter((item: RentalHistory) => {
       if (item.rentalStart && item.rentalEnd) {
         const EndDay = new Date(item.rentalEnd);
         return EndDay >= nowDate;
       }
     })
-    .map((rentalItem:RentalHistory) => {
+    .map((rentalItem: RentalHistory) => {
       if (rentalItem.rentalStart && rentalItem.rentalEnd) {
         const StartDay = new Date(rentalItem.rentalStart);
         const EndDay = new Date(rentalItem.rentalEnd);
@@ -79,26 +84,28 @@ export default function Mypage({rentalHistories}:{rentalHistories:RentalHistory[
     });
 
   //レンタル履歴に表示する情報取得
-  const rentalHistory = rentalHistories?.map((rentalHistory: RentalHistory) => {
-    const PayDay = new Date(rentalHistory.payDate);
-    const PayYear = PayDay.getFullYear();
-    const PayMonth = PayDay.getMonth() + 1;
-    const PayDate = PayDay.getDate();
+  const rentalHistory = rentalHistories?.map(
+    (rentalHistory: RentalHistory) => {
+      const PayDay = new Date(rentalHistory.payDate);
+      const PayYear = PayDay.getFullYear();
+      const PayMonth = PayDay.getMonth() + 1;
+      const PayDate = PayDay.getDate();
 
-    let addRentalHistory = {
-      id: rentalHistory.rentalHistoryId,
-      itemId: rentalHistory.itemId,
-      itemImage: rentalHistory.itemImage,
-      itemName: rentalHistory.itemName,
-      payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
-      period: '',
-      price: rentalHistory.price,
-      startDay: rentalHistory.rentalStart,
-      endDay: rentalHistory.rentalEnd,
-    };
+      let addRentalHistory = {
+        id: rentalHistory.rentalHistoryId,
+        itemId: rentalHistory.itemId,
+        itemImage: rentalHistory.itemImage,
+        itemName: rentalHistory.itemName,
+        payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
+        period: '',
+        price: rentalHistory.price,
+        startDay: rentalHistory.rentalStart,
+        endDay: rentalHistory.rentalEnd,
+      };
 
-    return addRentalHistory;
-  });
+      return addRentalHistory;
+    }
+  );
 
   const logout = () => {
     setLogout(true);
@@ -234,23 +241,21 @@ export default function Mypage({rentalHistories}:{rentalHistories:RentalHistory[
   );
 }
 
-
 export const getServerSideProps = withIronSessionSsr(
   async ({ req }) => {
-    const rentalHistories:RentalHistory[] = await prisma.rentalHistory.findMany({
-      where: {
-        userId : req.session.user?.userId,
-      },
-    });
-
-    if (rentalHistories) {
-      rentalHistories.map((item) => {
-        const tmp = item;
-        tmp.payDate = String(item?.payDate);
-        tmp.rentalStart = String(item?.rentalStart);
-        tmp.rentalEnd = String(item?.rentalEnd);
+    const rentalHistories: RentalHistory[] =
+      await prisma.rentalHistory.findMany({
+        where: {
+          userId: req.session.user?.userId,
+        },
       });
-    }
+
+    rentalHistories.map((item) => {
+      const tmp = item;
+      tmp.payDate = String(item?.payDate);
+      tmp.rentalStart = String(item?.rentalStart);
+      tmp.rentalEnd = String(item?.rentalEnd);
+    });
 
     return {
       props: {
