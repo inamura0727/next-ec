@@ -6,12 +6,13 @@ export const selectReview = async (
 ) => {
   let itemId;
   const { selectReview } = req.query;
-  console.log(selectReview);
-  if (Array.isArray(selectReview)) {
-    itemId = Number(selectReview[0]);
-  } else {
-    return res.redirect('/error');
-  }
+  // if (Array.isArray(selectReview)) {
+  //   itemId = Number(selectReview[0]);
+  // } else {
+  //   return res.redirect('/error');
+  // }
+  itemId = Number(selectReview);
+  console.log(itemId);
   const result = await prisma.review.findMany({
     where: {
       itemId: itemId,
