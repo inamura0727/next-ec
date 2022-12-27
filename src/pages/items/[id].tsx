@@ -105,16 +105,12 @@ export default function ItemDetail({
       </div>
     );
 
-  // ログイン状態のカート
   let carts = data.userCarts;
-
-  // ログイン前のカート
   let rentalHistory: RentalHistory[] = rental;
   let rentalFlg = false;
   let cartflg = false;
   let rentalPeriod;
   let rentalCartId: number;
-  let nowDate = new Date();
   let isRentaled = false;
   let rentalStart;
   let rentalEnd;
@@ -423,11 +419,11 @@ export default function ItemDetail({
               <Review itemId={item.itemId} total={total} />
             </div>
             <div className={styles.tac}>
-              {/* <ReviewBtn
+              <ReviewBtn
                 userId={userId}
                 id={item.itemId}
                 isRentaled={isRentaled}
-              /> */}
+              />
             </div>
           </div>
         </section>

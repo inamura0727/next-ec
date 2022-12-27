@@ -82,7 +82,7 @@ export default function Review({
           <ReviewSelect selectChange={selectChange} />
           {reviews.map((review: Reviews) => {
             return (
-              <div key={review.id} className={styles.accordion}>
+              <div key={review.reviewId} className={styles.accordion}>
                 <input
                   type="checkbox"
                   className={styles.toggle}
