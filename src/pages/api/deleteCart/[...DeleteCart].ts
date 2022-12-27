@@ -14,7 +14,7 @@ export const deleteCart = async (
     userId = Number(DeleteCart[0]);
     cartId = Number(DeleteCart[1]);
   }
-  const cartItem = await prisma.cart.delete({
+  await prisma.cart.delete({
     where: {
       cartId: cartId,
     },

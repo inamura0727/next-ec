@@ -79,7 +79,6 @@ export default function ItemDetail({
   const [isChoiced, setIsChoiced] = useState(false);
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
-  const [userCart, setUserCart] = useState();
 
   const startPlayer = (id: number) => {
     setStart(!start);
@@ -104,7 +103,6 @@ export default function ItemDetail({
 
   // ログイン状態のカート
   let carts = data.userCarts;
-  console.log(carts);
 
   // ログイン前のカート
   let rentalHistory: RentalHistory[] | undefined =
@@ -153,7 +151,6 @@ export default function ItemDetail({
     const check = carts.filter((cart) => {
       return cart.itemId === item.itemId;
     });
-    console.log(check);
     if (check.length) {
       cartflg = true;
       cartId = check[0].cartId;
@@ -420,7 +417,7 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              {/* <Review itemId={item.itemId} total={total} /> */}
+              <Review itemId={item.itemId} total={total} />
             </div>
             <div className={styles.tac}>
               {/* <ReviewBtn
