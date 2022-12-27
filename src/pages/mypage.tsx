@@ -114,7 +114,7 @@ export default function Mypage({
 
       <Header
         isLoggedIn={data?.isLoggedIn}
-        dologout={() => mutate('/api/getUser')}
+        dologout={() => mutate('/api/getSessionInfo')}
       />
 
       <main>
@@ -192,10 +192,12 @@ export default function Mypage({
                             />
                             <div className={styles.rentalInfo}>
                               <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
-                              {(rentalHistory.endDay &&
+                              {/* {rentalHistory.endDay &&
                               rentalHistory.startDay &&
                               rentalHistory.endDay !== 'null' &&
-                              rentalHistory.startDay !== 'null') ? (
+                              rentalHistory.startDay !== 'null' ? ( */}
+                              {rentalHistory.endDay &&
+                              rentalHistory.startDay ? (
                                 <Countdown
                                   endTime={rentalHistory.endDay}
                                   startTime={rentalHistory.startDay}
@@ -228,7 +230,7 @@ export default function Mypage({
             <Player
               closePlayer={() => setStart(!start)}
               id={startId}
-              startPlayer={() => mutate('/api/getUser')}
+              startPlayer={() => mutate('/api/getSessionInfo')}
             />
           )}
         </div>
@@ -249,8 +251,10 @@ export const getServerSideProps = withIronSessionSsr(
     rentalHistories.map((item) => {
       const tmp = item;
       tmp.payDate = String(item?.payDate);
-      tmp.rentalStart = String(item?.rentalStart);
-      tmp.rentalEnd = String(item?.rentalEnd);
+      if (tmp.rentalStart) {
+        tmp.rentalStart = String(item?.rentalStart);
+        tmp.rentalEnd = String(item?.rentalEnd);
+      }
     });
 
     return {
