@@ -14,12 +14,10 @@ async function startRentalRoute(
 
 		// レンタル履歴IDの取得
 		const { rentalHistoryId } = req.query;
-		console.log(rentalHistoryId)
 		if(!rentalHistoryId){
 			return res.json({ result: false });
 		}
 		const id = Number(rentalHistoryId);
-		console.log(id)
 
 		// ログインユーザのレンタル履歴情報を取得
 		const rentalHistory = await prisma.rentalHistory.findMany({
