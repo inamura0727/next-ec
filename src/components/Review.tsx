@@ -5,6 +5,7 @@ import { Reviews } from 'types/review';
 import { useState } from 'react';
 import ReviewSelect from './ReviewSort ';
 import Pagination from './Paging';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -18,8 +19,13 @@ export default function Review({
   const [num, setNum] = useState(1);
   const [sort, setSort] = useState('reviewId&_order=desc');
 
+  // const { data } = useSWR(
+  //   `/api/reviews/?itemId=${itemId}&_page=${num}&_limit=5&_sort=${sort}`,
+  //   fetcher
+  // );
+
   const { data } = useSWR(
-    `/api/reviews/?itemId=${itemId}&_page=${num}&_limit=5&_sort=${sort}`,
+    `/api/selectReview/${itemId}`,
     fetcher
   );
 
@@ -38,8 +44,10 @@ export default function Review({
       </div>
     );
 
+  const reviews = data.data;
+
   // 点数の配列のみ取り出す
-  let scoreArr = data.map((dataList: Reviews) => {
+  let scoreArr = reviews.map((dataList: Reviews) => {
     return dataList.evaluation;
   });
 
@@ -80,7 +88,7 @@ export default function Review({
         </p>
         <div className={styles.accordionOuter}>
           <ReviewSelect selectChange={selectChange} />
-          {data.map((review: Reviews) => {
+          {reviews.map((review: Reviews) => {
             return (
               <div key={review.id} className={styles.accordion}>
                 <input
@@ -109,12 +117,12 @@ export default function Review({
           })}
         </div>
       </section>
-      <Pagination
+      {/* <Pagination
         totalCount={total}
         pageSize={5}
         onClick={handleClick}
         currentPage={0}
-      />
+      /> */}
       <style jsx>
         {`
           p {
