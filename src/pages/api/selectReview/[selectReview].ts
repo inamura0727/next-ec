@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '../../../../lib/prisma';
 
 export const selectReview = async (
   req: NextApiRequest,
@@ -6,11 +7,6 @@ export const selectReview = async (
 ) => {
   let itemId;
   const { selectReview } = req.query;
-  // if (Array.isArray(selectReview)) {
-  //   itemId = Number(selectReview[0]);
-  // } else {
-  //   return res.redirect('/error');
-  // }
   itemId = Number(selectReview);
   console.log(itemId);
   const result = await prisma.review.findMany({
