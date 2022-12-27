@@ -404,7 +404,7 @@ export default function ItemDetail({
           <Player
             closePlayer={() => closePlayer()}
             id={startId}
-            startPlayer={() => mutate('/api/getSessionInfo')}
+            startPlayer={() => mutate('/api/getUser')}
           />
         )}
         <section className={styles.review}>
