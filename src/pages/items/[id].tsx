@@ -410,7 +410,7 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              {/* <Review itemId={item.itemId} total={total} /> */}
+              <Review itemId={item.itemId} total={total} />
             </div>
             <div className={styles.tac}>
               {/* <ReviewBtn
