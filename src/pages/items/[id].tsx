@@ -243,7 +243,7 @@ export default function ItemDetail({
     const id = data.userId;
     // ログイン後の場合
     if (id !== undefined) {
-      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      await fetch(`/api/deleteCart/${cartId}`);
       mutate('/api/getUser');
     } else {
       // ログイン前の場合

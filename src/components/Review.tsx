@@ -19,15 +19,7 @@ export default function Review({
   const [num, setNum] = useState(1);
   const [sort, setSort] = useState('reviewId&_order=desc');
 
-  // const { data } = useSWR(
-  //   `/api/reviews/?itemId=${itemId}&_page=${num}&_limit=5&_sort=${sort}`,
-  //   fetcher
-  // );
-
-  const { data } = useSWR(
-    `/api/selectReview/${itemId}`,
-    fetcher
-  );
+  const { data } = useSWR(`/api/selectReview/${itemId}`, fetcher);
 
   if (!data)
     return (

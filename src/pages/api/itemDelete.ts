@@ -2,7 +2,6 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 
 export default withIronSessionApiRoute(async (req, res) => {
-  console.log('itemDeleteきた');
   const { id } = await req.body;
   const { detail } = await req.body;
   const carts = req.session.cart;
