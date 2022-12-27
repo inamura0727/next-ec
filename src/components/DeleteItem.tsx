@@ -1,59 +1,30 @@
-import { Item } from 'types/item';
-import { useState } from 'react';
 import styles from 'styles/cart.module.css';
-import { config } from '../config/index';
+import { UserCart } from 'types/user';
 
 export default function DeleteBtn({
   id,
   cartId,
+  itemId,
   rebuild,
 }: {
   id: number | undefined;
   cartId: number;
-  rebuild: () => void;
+  itemId: number;
+  rebuild: (cart: UserCart[]) => void;
 }) {
   const handleDelte = async () => {
     if (id !== undefined) {
       // ログイン後の場合
-      const req = await fetch(`${config.users}/${id}`);
-      const data = await req.json();
-      const res = data.userCarts;
-
-      const fil = res.filter((cartItem: Item) => {
-        return cartItem.itemId !== cartId;
-      });
-
-      const newFil = [];
-      for (let item of fil) {
-        newFil.push({
-          id: newFil.length + 1,
-          itemId: item.itemId,
-          itemName: item.itemName,
-          itemImage: item.itemImage,
-          price: item.price,
-          rentalPeriod: item.rentalPeriod,
-        });
-      }
-
-      const body = { userCarts: newFil };
-
-      await fetch(`${config.users}/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          rebuild();
+      // deleteCartに飛ばす
+      await fetch(`/api/deleteCart/${id}/${cartId}`);
+      await fetch(`api/selectCart/${id}`).then((res) =>
+        res.json().then((result) => {
+          rebuild(result.cart);
         })
-        .catch((error) => {
-          console.log('Error', error);
-        });
+      );
     } else {
       // ログイン前の場合
-      const body = { id: cartId };
+      const body = { id: itemId };
 
       await fetch(`/api/itemDelete`, {
         method: 'POST',
@@ -64,7 +35,7 @@ export default function DeleteBtn({
       })
         .then((res) => res.json())
         .then((result) => {
-          rebuild();
+          rebuild(result.cart);
         })
         .catch((error) => {
           console.log('Error', error);

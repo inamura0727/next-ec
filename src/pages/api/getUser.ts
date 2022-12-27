@@ -2,7 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart, RentalHistory } from '../../types/user';
-
+import prisma from '../../../lib/prisma';
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
@@ -17,20 +17,28 @@ export type SessionUser = {
 
 async function getUserRoute(
   req: NextApiRequest,
-  res: NextApiResponse<SessionUser>
+  res: NextApiResponse
 ) {
+  console.log('getUserきた');
   if (req.session.user) {
-    const result = await fetch(
-      `http://localhost:8000/users/${req.session.user.userId}`
-    );
-    const userData: User = await result.json();
+    console.log('ユーザーです');
+    const userId = req.session.user.userId;
+    const result = await prisma.user.findUnique({
+      where: {
+        userId: userId,
+      },
+      select: {
+        carts: {
+          include: {
+            items: true,
+          },
+        },
+      },
+    });
     res.json({
-      userId: userData.id,
-      userName: userData.userName,
-      userCarts: userData.userCarts,
-      userRentalHistories: userData.rentalHistories,
-      favoriteGenre: userData.favoriteGenre,
+      userId: userId,
       isLoggedIn: true,
+      userCarts: result?.carts,
     });
   } else {
     const sessionCart = req.session.cart;

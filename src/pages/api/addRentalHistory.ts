@@ -2,6 +2,7 @@ import { withIronSessionApiRoute } from 'iron-session/next';
 import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { User, UserCart, RentalHistory } from '../../types/user';
+import prisma from '../../../lib/prisma';
 
 export default withIronSessionApiRoute(getUserRoute, ironOptions);
 
@@ -10,48 +11,61 @@ async function getUserRoute(
   res: NextApiResponse
 ) {
   if (req.session.user) {
-    const result = await fetch(
-      `http://localhost:8000/users/${req.session.user.userId}`
-    );
-    const userData: User = await result.json();
-    let cart: UserCart[] = userData.userCarts;
-    let rentalHistory: RentalHistory[] = userData.rentalHistories;
-    const time = new Date();
+    // セッションからユーザIDの取得
+    const userId = req.session.user.userId;
 
-    if (!cart) {
-      return false;
+    // ユーザ情報に紐づくカートの取得
+    const result = await prisma.user.findUnique({
+      where:{
+        userId:userId
+      },
+      select: {
+        carts: {
+          include: {
+            items: true,
+          },
+        },
+      },
+    })
+    if (!result) {
+      return res.redirect('/error');
     }
-    // レンタル履歴がundefiedの場合は配列を新規作成
-    if (!rentalHistory) {
-      rentalHistory = [];
-    }
-    cart.map((item) => {
-      const addItem: RentalHistory = {
-        id: rentalHistory.length + 1,
+
+    // レンタル履歴追加用のデータを作成
+    const carts:UserCart[] = result.carts;
+    const time = new Date();
+    const addItem = carts.map((item) => {
+      const tempItem = {
+        userId: userId,
         itemId: item.itemId,
-        // itemName: item.itemName,
-        // price: item.price,
-        // itemImage: item.itemImage,
-        itemName: 'dummy',
-        price: 100,
-        itemImage: '/dummy',
+        itemName: `${item.items.artist} ${item.items.fesName}`,
+        itemImage: item.items.itemImage,
+        price: 0,
         rentalPeriod: item.rentalPeriod,
         payDate: time,
       };
-      // レンタル履歴に追加
-      rentalHistory.push(addItem);
-    });
-    // カートを空にする
-    cart = [];
-    // データベースを更新する
-    const data = { userCarts: cart, rentalHistories: rentalHistory };
-    await fetch(
-      `http://localhost:8000/users/${req.session.user.userId}`,
-      {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      if(item.rentalPeriod === 2 ){
+        tempItem.price = item.items.twoDaysPrice;
+      }else{
+        tempItem.price = item.items.sevenDaysPrice;
       }
-    ).then(() => res.redirect('/paymentComp'));
+      return tempItem;
+    })  
+
+    // レンタル履歴テーブルとカートテーブルを同時更新
+    const tran = await prisma.$transaction([
+      // レンタル履歴に追加
+      prisma.rentalHistory.createMany({
+        data: addItem
+      }),
+      // カート情報を削除
+      prisma.cart.deleteMany({
+        where: {
+          userId: userId
+        }
+      })
+      // 失敗したらエラー画面へ
+    ]).catch(() => res.redirect('/error'));
+    res.redirect('/paymentComp');
   }
 }

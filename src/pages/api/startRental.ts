@@ -23,7 +23,7 @@ async function startRentalRoute(
 
     // 対象作品の取得
     const rantalItem = rentalHistory.find(
-      (item: RentalHistory) => item.id === id
+      (item: RentalHistory) => item.rentalHistoryId === id
     );
 
     // 対象作品が見つからない場合はエラーを返却
@@ -46,7 +46,7 @@ async function startRentalRoute(
     rantalItem.rentalEnd = endDate;
 
     // 対象作品を更新
-    const index = rentalHistory.findIndex((item) => item.id === id);
+    const index = rentalHistory.findIndex((item) => item.rentalHistoryId === id);
     rentalHistory[index] = rantalItem;
 
     // データベースを更新する

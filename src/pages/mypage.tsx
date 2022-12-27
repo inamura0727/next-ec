@@ -11,10 +11,17 @@ import styles from 'styles/mypage.module.css';
 import loadStyles from 'styles/loading.module.css';
 import router from 'next/router';
 import Countdown from '../components/Countdown';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
+import prisma from '../../lib/prisma';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Mypage() {
+export default function Mypage({
+  rentalHistories,
+}: {
+  rentalHistories: RentalHistory[];
+}) {
   // 動画プレイヤー用のstateと関数
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
@@ -24,7 +31,10 @@ export default function Mypage() {
   };
 
   //ログインしたアカウント情報を取得
-  const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
+  const { data } = UseSWR<SessionUser>(
+    '/api/getSessionInfo',
+    fetcher
+  );
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -43,19 +53,17 @@ export default function Mypage() {
     router.push(`/`);
   }
 
-  const rentalHistories = data.userRentalHistories; //レンタル履歴を取得
-
   //レンタル中作品情報を取得
   let nowDate = new Date(); //今の時間
   //レンタル中商品のデータ取得
   const rentalNows = rentalHistories
-    ?.filter((item) => {
+    ?.filter((item: RentalHistory) => {
       if (item.rentalStart && item.rentalEnd) {
         const EndDay = new Date(item.rentalEnd);
         return EndDay >= nowDate;
       }
     })
-    .map((rentalItem) => {
+    .map((rentalItem: RentalHistory) => {
       if (rentalItem.rentalStart && rentalItem.rentalEnd) {
         const StartDay = new Date(rentalItem.rentalStart);
         const EndDay = new Date(rentalItem.rentalEnd);
@@ -75,36 +83,41 @@ export default function Mypage() {
     });
 
   //レンタル履歴に表示する情報取得
-  const rentalHistory = rentalHistories?.map((rentalHistory) => {
-    const PayDay = new Date(rentalHistory.payDate);
-    const PayYear = PayDay.getFullYear();
-    const PayMonth = PayDay.getMonth() + 1;
-    const PayDate = PayDay.getDate();
+  const rentalHistory = rentalHistories?.map(
+    (rentalHistory: RentalHistory) => {
+      const PayDay = new Date(rentalHistory.payDate);
+      const PayYear = PayDay.getFullYear();
+      const PayMonth = PayDay.getMonth() + 1;
+      const PayDate = PayDay.getDate();
 
-    let addRentalHistories = {
-      id: rentalHistory.id,
-      itemId: rentalHistory.itemId,
-      itemImage: rentalHistory.itemImage,
-      itemName: rentalHistory.itemName,
-      payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
-      period: '',
-      price: rentalHistory.price,
-      startDay:rentalHistory.rentalStart,
-      endDay:rentalHistory.rentalEnd
-    };
+      let addRentalHistory = {
+        id: rentalHistory.rentalHistoryId,
+        itemId: rentalHistory.itemId,
+        itemImage: rentalHistory.itemImage,
+        itemName: rentalHistory.itemName,
+        payDate: { Year: PayYear, Month: PayMonth, Date: PayDate },
+        period: '',
+        price: rentalHistory.price,
+        startDay: rentalHistory.rentalStart,
+        endDay: rentalHistory.rentalEnd,
+      };
 
-    return addRentalHistories;
-  });
+      return addRentalHistory;
+    }
+  );
+
 
   return (
     <>
       <Head>
         <title>マイページ</title>
       </Head>
+
       <Header
         isLoggedIn={data?.isLoggedIn}
         dologout={() => mutate('/api/getUser')}
       />
+
       <main>
         <div className={styles.mypageMain}>
           <div className={styles.mypageGrop}>
@@ -116,7 +129,7 @@ export default function Mypage() {
                     if (rentalNows?.length) {
                       return rentalNows?.map(
                         (rentalNow: RentalHistory) => (
-                          <li key={rentalNow.id}>
+                          <li key={rentalNow.rentalHistoryId}>
                             <h2>{`${rentalNow.itemName}`}</h2>
                             <div className={styles.itemInfo}>
                               <Image
@@ -127,14 +140,22 @@ export default function Mypage() {
                                 alt="画像"
                               />
                               <div className={styles.rentalInfo}>
-                              {(rentalNow.rentalEnd && rentalNow.rentalStart) &&
-                                <Countdown endTime={rentalNow.rentalEnd} startTime ={rentalNow.rentalStart}/>
-                              }
+                                {rentalNow.rentalEnd &&
+                                  rentalNow.rentalStart && (
+                                    <Countdown
+                                      endTime={rentalNow.rentalEnd}
+                                      startTime={
+                                        rentalNow.rentalStart
+                                      }
+                                    />
+                                  )}
                                 <div className={styles.btnWrapper}>
                                   <button
                                     className={`${styles.btn} ${styles.pushdown}`}
                                     onClick={() =>
-                                      startPlayer(rentalNow.id)
+                                      startPlayer(
+                                        rentalNow.rentalHistoryId
+                                      )
                                     }
                                   >
                                     再生
@@ -172,9 +193,13 @@ export default function Mypage() {
                             />
                             <div className={styles.rentalInfo}>
                               <p>{`決済日：${rentalHistory.payDate.Year}年${rentalHistory.payDate.Month}月${rentalHistory.payDate.Date}日`}</p>
-                              {(rentalHistory.endDay && rentalHistory.startDay)?(
-                              <Countdown endTime={rentalHistory.endDay} startTime ={rentalHistory.startDay}/>
-                              ):(
+                              {rentalHistory.endDay &&
+                              rentalHistory.startDay ? (
+                                <Countdown
+                                  endTime={rentalHistory.endDay}
+                                  startTime={rentalHistory.startDay}
+                                />
+                              ) : (
                                 <p>未再生</p>
                               )}
                               <p>{`金額：${rentalHistory.price}円`}</p>
@@ -210,3 +235,28 @@ export default function Mypage() {
     </>
   );
 }
+
+export const getServerSideProps = withIronSessionSsr(
+  async ({ req }) => {
+    const rentalHistories: RentalHistory[] =
+      await prisma.rentalHistory.findMany({
+        where: {
+          userId: req.session.user?.userId,
+        },
+      });
+
+    rentalHistories.map((item) => {
+      const tmp = item;
+      tmp.payDate = String(item?.payDate);
+      tmp.rentalStart = String(item?.rentalStart);
+      tmp.rentalEnd = String(item?.rentalEnd);
+    });
+
+    return {
+      props: {
+        rentalHistories,
+      },
+    };
+  },
+  ironOptions
+);

@@ -24,7 +24,8 @@ type User = {
 // レンタル履歴
 type RentalHistory = {
   displayPeriod?: string;
-  id: number;
+  rentalHistoryId: number;
+  userId: number;
   itemId: number;
   itemName: string;
   price: number;
@@ -32,11 +33,11 @@ type RentalHistory = {
   // 単位：日
   rentalPeriod: number;
   // 形式: yyyy-MM-dd hh:mm:ss
-  payDate: Date;
+  payDate: Date | string;
   // 形式: yyyy-MM-dd hh:mm:ss
-  rentalStart?: Date;
+  rentalStart?: Date | string | null;
   // 形式: yyyy-MM-dd hh:mm:ss
-  rentalEnd?: Date;
+  rentalEnd?: Date | string | null;
 };
 
 // カート情報
