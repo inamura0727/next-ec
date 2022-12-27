@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
-import { UserCart, RentalHistory } from 'types/user';
+import { RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../api/getUser';
@@ -13,7 +13,6 @@ import { config } from '../../config/index';
 import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
-import itemDelete from 'pages/api/itemDelete';
 import Countdown from '../../components/Countdown';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

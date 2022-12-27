@@ -18,7 +18,9 @@ async function getUserRoute(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log('getUserきた');
   if (req.session.user) {
+    console.log('ユーザーです');
     const userId = req.session.user.userId;
     const result = await prisma.user.findUnique({
       where: {
