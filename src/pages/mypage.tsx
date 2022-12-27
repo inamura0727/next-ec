@@ -11,10 +11,12 @@ import styles from 'styles/mypage.module.css';
 import loadStyles from 'styles/loading.module.css';
 import router from 'next/router';
 import Countdown from '../components/Countdown';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '../../lib/ironOprion';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Mypage() {
+export default function Mypage({rentalHistories}:{rentalHistories:RentalHistory[]}) {
   let [doLogout, setLogout] = useState(false);
   // 動画プレイヤー用のstateと関数
   const [start, setStart] = useState(false);
@@ -47,21 +49,17 @@ export default function Mypage() {
     router.push(`/`);
   }
 
-
-
-  const rentalHistories = data.userRentalHistories; //レンタル履歴を取得
-
   //レンタル中作品情報を取得
   let nowDate = new Date(); //今の時間
   //レンタル中商品のデータ取得
   const rentalNows = rentalHistories
-    ?.filter((item) => {
+    ?.filter((item:RentalHistory) => {
       if (item.rentalStart && item.rentalEnd) {
         const EndDay = new Date(item.rentalEnd);
         return EndDay >= nowDate;
       }
     })
-    .map((rentalItem) => {
+    .map((rentalItem:RentalHistory) => {
       if (rentalItem.rentalStart && rentalItem.rentalEnd) {
         const StartDay = new Date(rentalItem.rentalStart);
         const EndDay = new Date(rentalItem.rentalEnd);
@@ -81,13 +79,13 @@ export default function Mypage() {
     });
 
   //レンタル履歴に表示する情報取得
-  const rentalHistory = rentalHistories?.map((rentalHistory) => {
+  const rentalHistory = rentalHistories?.map((rentalHistory: RentalHistory) => {
     const PayDay = new Date(rentalHistory.payDate);
     const PayYear = PayDay.getFullYear();
     const PayMonth = PayDay.getMonth() + 1;
     const PayDate = PayDay.getDate();
 
-    let addRentalHistories = {
+    let addRentalHistory = {
       id: rentalHistory.rentalHistoryId,
       itemId: rentalHistory.itemId,
       itemImage: rentalHistory.itemImage,
@@ -99,7 +97,7 @@ export default function Mypage() {
       endDay: rentalHistory.rentalEnd,
     };
 
-    return addRentalHistories;
+    return addRentalHistory;
   });
 
   const logout = () => {
@@ -235,3 +233,30 @@ export default function Mypage() {
     </>
   );
 }
+
+
+export const getServerSideProps = withIronSessionSsr(
+  async ({ req }) => {
+    const rentalHistories:RentalHistory[] = await prisma.rentalHistory.findMany({
+      where: {
+        userId : req.session.user?.userId,
+      },
+    });
+
+    if (rentalHistories) {
+      rentalHistories.map((item) => {
+        const tmp = item;
+        tmp.payDate = String(item?.payDate);
+        tmp.rentalStart = String(item?.rentalStart);
+        tmp.rentalEnd = String(item?.rentalEnd);
+      });
+    }
+
+    return {
+      props: {
+        rentalHistories,
+      },
+    };
+  },
+  ironOptions
+);
