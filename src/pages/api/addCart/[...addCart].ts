@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { UserCart } from 'types/user';
+import prisma from '../../../../lib/prisma';
 
 export const addCart = async (
   req: NextApiRequest,
