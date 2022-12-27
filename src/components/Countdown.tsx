@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 type Countdown = {
-  endTime: Date;
-  startTime: Date;
+  endTime: Date|string;
+  startTime: Date|string;
 };
 
 export default function Countdown(props: Countdown) {
