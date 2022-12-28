@@ -6,8 +6,21 @@ import { useState } from 'react';
 import ReviewSelect from './ReviewSort ';
 import Pagination from './Paging';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Item } from 'types/item';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+type Review = {
+  reviewId: number;
+  itemId: number;
+  userId: number;
+  postTime: string;
+  reviewTitle: string;
+  reviewText: string;
+  evaluation: number;
+  spoiler: boolean;
+  items: Item;
+};
 
 export default function Review({
   itemId,
@@ -39,7 +52,7 @@ export default function Review({
   const reviews = data.data;
 
   // 点数の配列のみ取り出す
-  let scoreArr = reviews.map((dataList: Reviews) => {
+  let scoreArr = reviews.map((dataList: Review) => {
     return dataList.evaluation;
   });
 
@@ -80,26 +93,26 @@ export default function Review({
         </p>
         <div className={styles.accordionOuter}>
           <ReviewSelect selectChange={selectChange} />
-          {reviews.map((review: Reviews) => {
+          {reviews.map((review: Review) => {
             return (
               <div key={review.reviewId} className={styles.accordion}>
                 <input
                   type="checkbox"
                   className={styles.toggle}
-                  id={String(review.id)}
+                  id={String(review.reviewId)}
                 />
                 <label
                   className={styles.label}
-                  htmlFor={String(review.id)}
+                  htmlFor={String(review.reviewId)}
                 >
-                  {review.reviewName}
-
+                  {review.reviewTitle}
                   {review.spoiler && (
                     <span className={styles.tag}>ネタバレあり </span>
                   )}
                 </label>
                 <div className={styles.contentBody}>
-                  <p>投稿者名：{review.userName}</p>
+                  {/* <p>投稿者名：{review.}</p> */}
+                  {/* userNameはどう取得する？ */}
                   <p>投稿日：{review.postTime}</p>
                   <p>点数：{review.evaluation}点</p>
                   <p>{review.reviewText}</p>

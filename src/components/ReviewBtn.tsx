@@ -50,12 +50,12 @@ export default function Review({
         <>
           {isReviewed ? (
             <Link
-              href={`/reviewEdit?reviewId=${rentals[0].reviewId}`}
+              href={`/reviewUpdate?reviewId=${rentals[0].reviewId}`}
             >
               <button className={styles.btnReview}>編集する</button>
             </Link>
           ) : (
-            <Link href={`/review?itemId=${id}`}>
+            <Link href={`/reviewAdd?itemId=${id}`}>
               <button className={styles.btnReview}>
                 レビューする
               </button>

@@ -14,14 +14,17 @@ export const selctUserReview = async (
   } else {
     return res.redirect('/error');
   }
-
-  const review = await prisma.review.findMany({
-    where: {
-      userId: userId,
-      itemId: itemId,
-    },
-  });
-  res.json({ result: review });
+  if (userId) {
+    const review = await prisma.review.findMany({
+      where: {
+        userId: userId,
+        itemId: itemId,
+      },
+    });
+    res.json({ result: review });
+  } else {
+    res.json({ result: [] });
+  }
 };
 
 export default selctUserReview;
