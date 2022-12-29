@@ -137,29 +137,25 @@ export default function Review({ itemId }: { itemId: number }) {
           })}
         </div>
       </section>
-      <div className={`${styles.paging} ${styles.taLeft}`}>
-        {(function () {
-          const list = [];
-          for (let i = 1; i <= pageCount; i++) {
-            list.push(
-              <button
-                key={i}
-                className={styles.pagingBtn}
-                onClick={() => handleClick(i)}
-              >
-                {i}
-              </button>
-            );
-          }
-          return <div>{list}</div>;
-        })()}
-      </div>
-      {/* <Pagination
-        totalCount={total}
-        pageSize={5}
-        onClick={handleClick}
-        currentPage={0}
-      /> */}
+      {(function () {
+        const list = [];
+        for (let i = 1; i <= pageCount; i++) {
+          list.push(
+            <button
+              key={i}
+              className={styles.pagingBtn}
+              onClick={() => handleClick(i)}
+            >
+              {i}
+            </button>
+          );
+        }
+        return (
+          <div className={`${styles.paging} ${styles.taLeft}`}>
+            {list}
+          </div>
+        );
+      })()}
       <style jsx>
         {`
           p {
