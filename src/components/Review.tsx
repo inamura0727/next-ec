@@ -2,7 +2,7 @@ import styles from 'styles/review.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
 import { Reviews } from 'types/review';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import ReviewSelect from './ReviewSort ';
 import Pagination from './Paging';
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -30,9 +30,13 @@ export default function Review({
   total: number;
 }) {
   const [num, setNum] = useState(1);
-  const [sort, setSort] = useState('reviewId&_order=desc');
+  const [orderBy, setOrderBy] = useState('reviewId');
+  const [order, setOrder] = useState('desc');
 
-  const { data } = useSWR(`/api/selectReview/${itemId}`, fetcher);
+  const { data } = useSWR(
+    `/api/selectReview/${itemId}/${orderBy}/${order}`,
+    fetcher
+  );
 
   if (!data)
     return (
@@ -79,8 +83,11 @@ export default function Review({
     setNum(number);
   };
 
+  // 動的APIルーティングの値を変更
   const selectChange = (value: string) => {
-    setSort(value);
+    const result = value.split(',');
+    setOrderBy(result[0]);
+    setOrder(result[1]);
   };
 
   return (
