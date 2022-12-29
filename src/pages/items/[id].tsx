@@ -14,6 +14,7 @@ import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import Countdown from '../../components/Countdown';
+import { useRouter } from 'next/router';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -62,11 +63,10 @@ export async function getStaticProps({
 
 export default function ItemDetail({
   item,
-  total,
 }: {
   item: Item;
-  total: number;
 }) {
+  const router = useRouter();
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
@@ -416,7 +416,7 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              <Review itemId={item.itemId} total={total} />
+              <Review itemId={item.itemId}/>
             </div>
             <div className={styles.tac}>
               <ReviewBtn
