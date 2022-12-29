@@ -22,16 +22,11 @@ type Review = {
   items: Item;
 };
 
-export default function Review({
-  itemId,
-  total,
-}: {
-  itemId: number;
-  total: number;
-}) {
-  const [num, setNum] = useState(1);
+export default function Review({ itemId }: { itemId: number }) {
   const [orderBy, setOrderBy] = useState('reviewId');
   const [order, setOrder] = useState('desc');
+  // 選択されたページの1番目の番号
+  const [itemOffset, setItemOffSet] = useState(0);
 
   const { data } = useSWR(
     `/api/selectReview/${itemId}/${orderBy}/${order}`,
@@ -54,6 +49,16 @@ export default function Review({
     );
 
   const reviews = data.data;
+  const total = data.count;
+
+  // １ページにつき表示する件数
+  const itemPerPage = 5;
+
+  // ページの終わりの番号
+  const endOffset = itemOffset + itemPerPage;
+
+  const currentReviews = reviews.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(total / itemPerPage);
 
   // 点数の配列のみ取り出す
   let scoreArr = reviews.map((dataList: Review) => {
@@ -79,8 +84,11 @@ export default function Review({
     rate = 0;
   }
 
-  const handleClick = (number: number) => {
-    setNum(number);
+  // 余りが選択されたページ番号の1番目番号になる
+  const handleClick = (i: number) => {
+    let num = i - 1;
+    const newOffset = (num * itemPerPage) % total;
+    setItemOffSet(newOffset);
   };
 
   // 動的APIルーティングの値を変更
@@ -100,7 +108,7 @@ export default function Review({
         </p>
         <div className={styles.accordionOuter}>
           <ReviewSelect selectChange={selectChange} />
-          {reviews.map((review: Review) => {
+          {currentReviews.map((review: Review) => {
             return (
               <div key={review.reviewId} className={styles.accordion}>
                 <input
@@ -129,6 +137,23 @@ export default function Review({
           })}
         </div>
       </section>
+      <div className={`${styles.paging} ${styles.taLeft}`}>
+        {(function () {
+          const list = [];
+          for (let i = 1; i <= pageCount; i++) {
+            list.push(
+              <button
+                key={i}
+                className={styles.pagingBtn}
+                onClick={() => handleClick(i)}
+              >
+                {i}
+              </button>
+            );
+          }
+          return <div>{list}</div>;
+        })()}
+      </div>
       {/* <Pagination
         totalCount={total}
         pageSize={5}

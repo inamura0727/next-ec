@@ -33,7 +33,13 @@ export const selectReview = async (
     },
   });
 
-  res.json({ data: result });
+  const total = await prisma.review.count({
+    where: {
+      itemId: itemId,
+    },
+  });
+
+  res.json({ data: result, count: total });
 };
 
 export default selectReview;
