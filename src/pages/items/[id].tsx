@@ -9,12 +9,10 @@ import Header from '../../components/Header';
 import Head from 'next/head';
 import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
-import { config } from '../../config/index';
 import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import Countdown from '../../components/Countdown';
-import { useRouter } from 'next/router';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -85,6 +83,8 @@ export default function ItemDetail({ item }: { item: Item }) {
       });
   }, [userId]);
 
+  const isLoggedIn = data?.isLoggedIn;
+
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -101,16 +101,16 @@ export default function ItemDetail({ item }: { item: Item }) {
     );
 
   let carts = data.userCarts;
-  let rentalHistory: RentalHistory[] = rental;
-  let rentalFlg = false;
   let cartflg = false;
   let rentalPeriod;
   let rentalCartId: number;
   let isRentaled = false;
-  let nowDate = new Date();
+  let rentalFlg;
   let rentalStart;
   let rentalEnd;
   let startFlg;
+  let nowDate = new Date();
+  let rentalHistory: RentalHistory[] = rental;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.itemId;
@@ -140,6 +140,12 @@ export default function ItemDetail({ item }: { item: Item }) {
         rentalFlg = true;
       }
     }
+  }
+
+  // ログアウトした際に再生ボタンの非表示
+  if (!isLoggedIn) {
+    rentalFlg = false;
+    mutate('api/getUser');
   }
 
   let cartId: number;
@@ -192,7 +198,6 @@ export default function ItemDetail({ item }: { item: Item }) {
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
-          console.log(result.isAdd);
           if (result.isAdd === true) {
             cartflg = true;
             mutate('/api/getUser');
@@ -420,6 +425,7 @@ export default function ItemDetail({ item }: { item: Item }) {
                 userId={userId}
                 id={item.itemId}
                 isRentaled={isRentaled}
+                isLoggedIn={isLoggedIn}
               />
             </div>
           </div>

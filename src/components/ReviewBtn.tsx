@@ -2,7 +2,6 @@ import styles from 'styles/detail.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
 import Link from 'next/link';
-import { Reviews } from 'types/review';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -10,10 +9,12 @@ export default function Review({
   userId,
   id,
   isRentaled,
+  isLoggedIn,
 }: {
   userId: number | undefined;
   id: number;
   isRentaled: boolean;
+  isLoggedIn: boolean | undefined;
 }) {
   // ユーザーのレビュー情報を取得
   const { data } = useSWR(
@@ -42,6 +43,11 @@ export default function Review({
   let isReviewed = false;
   if (rentals.length) {
     isReviewed = true;
+  }
+
+  // ログアウトした際にボタンを非表示にする
+  if (!isLoggedIn) {
+    isRentaled = false;
   }
 
   return (
