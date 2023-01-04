@@ -62,7 +62,6 @@ export async function getStaticProps({
 }
 
 export default function ItemDetail({ item }: { item: Item }) {
-  const router = useRouter();
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
@@ -328,7 +327,6 @@ export default function ItemDetail({ item }: { item: Item }) {
                       ) : (
                         <p>視聴期間：{rentalPeriod}</p>
                       )}
-
                       <button
                         className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
