@@ -61,11 +61,7 @@ export async function getStaticProps({
   };
 }
 
-export default function ItemDetail({
-  item,
-}: {
-  item: Item;
-}) {
+export default function ItemDetail({ item }: { item: Item }) {
   const router = useRouter();
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
@@ -112,6 +108,7 @@ export default function ItemDetail({
   let rentalPeriod;
   let rentalCartId: number;
   let isRentaled = false;
+  let nowDate = new Date();
   let rentalStart;
   let rentalEnd;
   let startFlg;
@@ -137,10 +134,12 @@ export default function ItemDetail({
       rentalCartId = lastItem.rentalHistoryId;
       rentalPeriod = '未再生';
     } else if (lastItem.rentalStart && lastItem.rentalEnd) {
-      rentalFlg = true;
       startFlg = true;
       rentalStart = new Date(lastItem.rentalStart);
       rentalEnd = new Date(lastItem.rentalEnd);
+      if (rentalEnd > nowDate) {
+        rentalFlg = true;
+      }
     }
   }
 
@@ -416,7 +415,7 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              <Review itemId={item.itemId}/>
+              <Review itemId={item.itemId} />
             </div>
             <div className={styles.tac}>
               <ReviewBtn
