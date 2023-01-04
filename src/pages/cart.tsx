@@ -55,8 +55,6 @@ export default function CartList({ cart }: { cart: UserCart[] }) {
   const [cartItem, setCartItem] = useState(cart);
   const { data } = UseSWR('/api/getSessionInfo', fetcher);
 
-  console.log(data);
-
   const isLoggedIn = data?.isLoggedIn;
 
   // ユーザーのカート情報を取得
