@@ -51,15 +51,7 @@ export default function Review({ itemId }: { itemId: number }) {
   const reviews = data.data;
   const total = data.count;
 
-  // １ページにつき表示する件数
-  const itemPerPage = 5;
-
-  // ページの終わりの番号
-  const endOffset = itemOffset + itemPerPage;
-
-  const currentReviews = reviews.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(total / itemPerPage);
-
+  // レーティング機能
   // 点数の配列のみ取り出す
   let scoreArr = reviews.map((dataList: Review) => {
     return dataList.evaluation;
@@ -83,6 +75,16 @@ export default function Review({ itemId }: { itemId: number }) {
     average = 0;
     rate = 0;
   }
+
+  // ページネーション機能
+  // １ページにつき表示する件数
+  const itemPerPage = 5;
+
+  // ページの終わりの番号
+  const endOffset = itemOffset + itemPerPage;
+
+  const currentReviews = reviews.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(total / itemPerPage);
 
   // 余りが選択されたページ番号の1番目番号になる
   const handleClick = (i: number) => {
@@ -137,29 +139,25 @@ export default function Review({ itemId }: { itemId: number }) {
           })}
         </div>
       </section>
-      <div className={`${styles.paging} ${styles.taLeft}`}>
-        {(function () {
-          const list = [];
-          for (let i = 1; i <= pageCount; i++) {
-            list.push(
-              <button
-                key={i}
-                className={styles.pagingBtn}
-                onClick={() => handleClick(i)}
-              >
-                {i}
-              </button>
-            );
-          }
-          return <div>{list}</div>;
-        })()}
-      </div>
-      {/* <Pagination
-        totalCount={total}
-        pageSize={5}
-        onClick={handleClick}
-        currentPage={0}
-      /> */}
+      {(function () {
+        const list = [];
+        for (let i = 1; i <= pageCount; i++) {
+          list.push(
+            <button
+              key={i}
+              className={styles.pagingBtn}
+              onClick={() => handleClick(i)}
+            >
+              {i}
+            </button>
+          );
+        }
+        return (
+          <div className={`${styles.paging} ${styles.taLeft}`}>
+            {list}
+          </div>
+        );
+      })()}
       <style jsx>
         {`
           p {

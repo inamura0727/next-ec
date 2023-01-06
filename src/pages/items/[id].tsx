@@ -9,12 +9,10 @@ import Header from '../../components/Header';
 import Head from 'next/head';
 import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
-import { config } from '../../config/index';
 import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import Countdown from '../../components/Countdown';
-import { useRouter } from 'next/router';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -61,12 +59,7 @@ export async function getStaticProps({
   };
 }
 
-export default function ItemDetail({
-  item,
-}: {
-  item: Item;
-}) {
-  const router = useRouter();
+export default function ItemDetail({ item }: { item: Item }) {
   const [price, setPrice] = useState(0);
   const [period, setPeriod] = useState(0);
   const [isChoiced, setIsChoiced] = useState(false);
@@ -90,6 +83,8 @@ export default function ItemDetail({
       });
   }, [userId]);
 
+  const isLoggedIn = data?.isLoggedIn;
+
   if (!data)
     return (
       <div className={loadStyles.loadingArea}>
@@ -106,15 +101,16 @@ export default function ItemDetail({
     );
 
   let carts = data.userCarts;
-  let rentalHistory: RentalHistory[] = rental;
-  let rentalFlg = false;
   let cartflg = false;
   let rentalPeriod;
   let rentalCartId: number;
   let isRentaled = false;
+  let rentalFlg;
   let rentalStart;
   let rentalEnd;
   let startFlg;
+  let nowDate = new Date();
+  let rentalHistory: RentalHistory[] = rental;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.itemId;
@@ -137,11 +133,19 @@ export default function ItemDetail({
       rentalCartId = lastItem.rentalHistoryId;
       rentalPeriod = '未再生';
     } else if (lastItem.rentalStart && lastItem.rentalEnd) {
-      rentalFlg = true;
       startFlg = true;
       rentalStart = new Date(lastItem.rentalStart);
       rentalEnd = new Date(lastItem.rentalEnd);
+      if (rentalEnd > nowDate) {
+        rentalFlg = true;
+      }
     }
+  }
+
+  // ログアウトした際に再生ボタンの非表示
+  if (!isLoggedIn) {
+    rentalFlg = false;
+    mutate('api/getUser');
   }
 
   let cartId: number;
@@ -194,7 +198,6 @@ export default function ItemDetail({
           if (isChoiced === true) {
             setIsChoiced(!isChoiced);
           }
-          console.log(result.isAdd);
           if (result.isAdd === true) {
             cartflg = true;
             mutate('/api/getUser');
@@ -329,7 +332,6 @@ export default function ItemDetail({
                       ) : (
                         <p>視聴期間：{rentalPeriod}</p>
                       )}
-
                       <button
                         className={`${styles.btn} ${styles.pushdown}`}
                         onClick={() => startPlayer(rentalCartId)}
@@ -416,13 +418,14 @@ export default function ItemDetail({
         <section className={styles.review}>
           <div className={styles.listWrpper}>
             <div className={styles.listInner}>
-              <Review itemId={item.itemId}/>
+              <Review itemId={item.itemId} />
             </div>
             <div className={styles.tac}>
               <ReviewBtn
                 userId={userId}
                 id={item.itemId}
                 isRentaled={isRentaled}
+                isLoggedIn={isLoggedIn}
               />
             </div>
           </div>
