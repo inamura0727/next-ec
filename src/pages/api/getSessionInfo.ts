@@ -3,7 +3,6 @@ import { ironOptions } from '../../../lib/ironOprion';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { UserCart } from '../../types/user';
 
-
 export default withIronSessionApiRoute(getSessionRoute, ironOptions);
 
 export type SessionUser = {
@@ -16,6 +15,7 @@ async function getSessionRoute(
   req: NextApiRequest,
   res: NextApiResponse<SessionUser>
 ) {
+  console.log(req.session.user);
   if (req.session.user) {
     res.json({
       userId: req.session.user.userId,

@@ -17,8 +17,8 @@ export default withIronSessionApiRoute(async function loginRoute(
   const user = result.data;
   if (user) {
     req.session.user = {
-      userId: user.userId,
-      userName: user.userName,
+      userId: user[0].userId,
+      userName: user[0].userName,
     };
     await req.session.save();
     res.status(200).end();
