@@ -84,24 +84,23 @@ export const getServerSideProps = withIronSessionSsr(
     let useChatbot = false;
     // ログインしている場合、favoriteIdを取得する
     if (req.session.user) {
-      const result = await prisma.user.findUnique({
-        where: {
-          userId: req.session.user.userId,
-        },
-      });
-      if (result?.favoriteId) {
-        favoriteId = result.favoriteId;
+      const id = req.session.user.userId;
+      const result = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`
+      );
+      const userInfo = result.data;
+      if (userInfo?.favoriteId) {
+        favoriteId = userInfo.favoriteId;
         useChatbot = true;
       }
-      if (result?.userName) {
-        userName = result.userName;
+      if (userInfo?.userName) {
+        userName = userInfo.userName;
       }
       user.userId = req.session.user.userId;
       user.isLoggedIn = true;
     }
 
     // 作品情報取得
-    // const { newItems, genreItems } = await PreTop(take, favoriteId);
     const result = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/item/${favoriteId}`
     );
