@@ -178,6 +178,7 @@ export default function LoginScreen() {
             firstNameKana: formValues.firstNameKana,
             mailAddress: formValues.mailAddress,
             password: formValues.password,
+            passwordTest: formValues.passwordTest,
             rentalHistories,
             userCarts,
             favoriteGenre,
@@ -317,7 +318,6 @@ export default function LoginScreen() {
         </div>
       </header>
       <main className={styles.registMain}>
-        <div>{error}</div>
         <form onSubmit={handleSubmit} className={styles.form}>
           <ul>
             <li>
