@@ -102,7 +102,7 @@ export const getServerSideProps = withIronSessionSsr(
 
     // 作品情報取得
     const result = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/item/${favoriteId}`
+      `${process.env.NEXT_PUBLIC_API_URL}/item/pretop/${favoriteId}`
     );
     const { newItems, genreItems } = result.data;
 
