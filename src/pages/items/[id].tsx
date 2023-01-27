@@ -196,7 +196,6 @@ export default function ItemDetail({ item }: { item: Item }) {
           rentalPeriod: period,
         }
       );
-      console.log(result.data);
       if (isChoiced === true) {
         setIsChoiced(!isChoiced);
       }
