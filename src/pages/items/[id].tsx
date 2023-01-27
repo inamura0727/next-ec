@@ -185,23 +185,23 @@ export default function ItemDetail({ item }: { item: Item }) {
     // ユーザーidの取得
     const id = data.userId;
     const itemId = item.itemId;
-
     // ログイン後
     if (id !== undefined) {
-      await fetch(`/api/addCart/${id}/${itemId}/${period}`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (isChoiced === true) {
-            setIsChoiced(!isChoiced);
-          }
-          if (result.isAdd === true) {
-            cartflg = true;
-            mutate('/api/getUser');
-          }
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/add`,
+        {
+          userId: id,
+          itemId: itemId,
+          rentalPeriod: period,
+        }
+      );
+      if (isChoiced === true) {
+        setIsChoiced(!isChoiced);
+      }
+      if (result.data === true) {
+        cartflg = true;
+        mutate('/api/getUser');
+      }
     } else {
       // ログイン前
 
