@@ -181,27 +181,29 @@ export default function ItemDetail({ item }: { item: Item }) {
       setIsChoiced(true);
       return;
     }
+    console.log(price);
 
     // ユーザーidの取得
     const id = data.userId;
     const itemId = item.itemId;
-
     // ログイン後
     if (id !== undefined) {
-      await fetch(`/api/addCart/${id}/${itemId}/${period}`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (isChoiced === true) {
-            setIsChoiced(!isChoiced);
-          }
-          if (result.isAdd === true) {
-            cartflg = true;
-            mutate('/api/getUser');
-          }
-        })
-        .catch((error) => {
-          console.log('Error', error);
-        });
+      const result = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/add`,
+        {
+          userId: id,
+          itemId: itemId,
+          rentalPeriod: period,
+        }
+      );
+      if (isChoiced === true) {
+        setIsChoiced(!isChoiced);
+      }
+
+      if (result.data.isAdd === true) {
+        cartflg = true;
+        mutate('/api/getUser');
+      }
     } else {
       // ログイン前
 
@@ -248,7 +250,11 @@ export default function ItemDetail({ item }: { item: Item }) {
     const id = data.userId;
     // ログイン後の場合
     if (id !== undefined) {
-      await fetch(`/api/deleteCart/${cartId}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/delete/${cartId}/${id}`
+      );
+      setPeriod(0);
+      setPrice(0);
       mutate('/api/getUser');
     } else {
       // ログイン前の場合

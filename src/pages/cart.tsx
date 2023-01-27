@@ -14,6 +14,7 @@ import { GetServerSideProps } from 'next';
 import { SessionUserCart } from 'types/session';
 import { SelectCart } from './api/preRendering/PreCart';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -23,8 +24,12 @@ export const getServerSideProps: GetServerSideProps =
     let userId = req.session.user?.userId;
     if (userId) {
       // ログイン後
-      const res = await SelectCart(userId);
-      if (!res.cart) {
+      // const res = await SelectCart(userId);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/getCartItem/${userId}`
+      );
+      const cart = res.data.carts;
+      if (!cart) {
         return {
           redirect: {
             permanent: false,
@@ -34,7 +39,7 @@ export const getServerSideProps: GetServerSideProps =
       }
       return {
         props: {
-          cart: res.cart,
+          cart: cart,
         },
       };
     } else {
