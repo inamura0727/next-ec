@@ -186,7 +186,6 @@ export default function LoginScreen() {
         );
         router.push('/registerComp');
       } catch (e: any) {
-        console.log(e.response.data.message[0]);
         setError(e.response.data.message[0]);
       }
 

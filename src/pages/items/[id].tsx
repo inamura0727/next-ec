@@ -13,18 +13,15 @@ import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
 import prisma from '../../../lib/prisma';
 import Countdown from '../../components/Countdown';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export async function getStaticPaths() {
-  const data = await prisma.item.findMany();
-  const paths = data.map((item: { itemId: number }) => {
-    return {
-      params: {
-        id: item.itemId.toString(),
-      },
-    };
-  });
+  const result = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/item/allItems`
+  );
+  const paths = result.data;
   return {
     paths,
     fallback: false,
@@ -37,11 +34,10 @@ export async function getStaticProps({
   params: { id: string };
 }) {
   const id = parseInt(params.id);
-  const item: Item | null = await prisma.item.findUnique({
-    where: {
-      itemId: id,
-    },
-  });
+  const result = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/item/getItem/${id}`
+  );
+  const item = result.data;
   if (!item) {
     return {
       redirect: {
@@ -75,13 +71,13 @@ export default function ItemDetail({ item }: { item: Item }) {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
 
   const userId = data?.userId;
-  useEffect(() => {
-    fetch(`/api/selectRental/${userId}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setRental(result.rental);
-      });
-  }, [userId]);
+  // useEffect(() => {
+  //   fetch(`/api/selectRental/${userId}`)
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       setRental(result.rental);
+  //     });
+  // }, [userId]);
 
   const isLoggedIn = data?.isLoggedIn;
 
