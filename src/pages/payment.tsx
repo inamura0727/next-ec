@@ -11,6 +11,7 @@ import { SessionUser } from 'pages/api/getSessionInfo';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { SelectCart } from './api/preRendering/PreCart';
+import axios from 'axios';
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
@@ -25,8 +26,11 @@ export const getServerSideProps: GetServerSideProps =
     // ログインしている場合、カート情報を取得する
     if (req.session.user) {
       user.userId = req.session.user.userId;
-      const res = await SelectCart(user.userId);
-      user.userCarts = res.cart;
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/getCartItem/${user.userId}`
+      );
+      const cart = res.data.carts;
+      user.userCarts = cart;
       user.isLoggedIn = true;
     }
 
