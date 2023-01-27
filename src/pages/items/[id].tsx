@@ -181,6 +181,7 @@ export default function ItemDetail({ item }: { item: Item }) {
       setIsChoiced(true);
       return;
     }
+    console.log(price);
 
     // ユーザーidの取得
     const id = data.userId;
@@ -195,10 +196,12 @@ export default function ItemDetail({ item }: { item: Item }) {
           rentalPeriod: period,
         }
       );
+      console.log(result.data);
       if (isChoiced === true) {
         setIsChoiced(!isChoiced);
       }
-      if (result.data === true) {
+
+      if (result.data.isAdd === true) {
         cartflg = true;
         mutate('/api/getUser');
       }
@@ -248,7 +251,11 @@ export default function ItemDetail({ item }: { item: Item }) {
     const id = data.userId;
     // ログイン後の場合
     if (id !== undefined) {
-      await fetch(`/api/deleteCart/${cartId}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/delete/${cartId}/${id}`
+      );
+      setPeriod(0);
+      setPrice(0);
       mutate('/api/getUser');
     } else {
       // ログイン前の場合
