@@ -181,7 +181,6 @@ export default function ItemDetail({ item }: { item: Item }) {
       setIsChoiced(true);
       return;
     }
-    console.log(price);
 
     // ユーザーidの取得
     const id = data.userId;

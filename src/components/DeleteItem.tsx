@@ -18,7 +18,6 @@ export default function DeleteBtn({
       // ログイン後の場合
       // deleteCartに飛ばす
       // await fetch(`/api/deleteCart/${cartId}`);
-      console.log(cartId, id);
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/cart/delete/${cartId}/${id}`
       );

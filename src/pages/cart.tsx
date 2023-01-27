@@ -59,17 +59,13 @@ export const getServerSideProps: GetServerSideProps =
 export default function CartList({ cart }: { cart: UserCart[] }) {
   const [cartItem, setCartItem] = useState(cart);
   const { data } = UseSWR('/api/getSessionInfo', fetcher);
-
   const isLoggedIn = data?.isLoggedIn;
-
-  // ユーザーのカート情報を取得
-  let carts = data?.userCarts;
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setCartItem(carts);
+      setCartItem(cart);
     }
-  }, [isLoggedIn, carts]);
+  }, [isLoggedIn, cart]);
 
   if (!data)
     return (
