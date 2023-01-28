@@ -71,14 +71,8 @@ export default function ItemDetail({ item }: { item: Item }) {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
 
   const userId = data?.userId;
-  // useEffect(() => {
-  //   fetch(`/api/selectRental/${userId}`)
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       setRental(result.rental);
-  //     });
-  // }, [userId]);
-
+  const rentalHistory: RentalHistory[] | undefined =
+    data?.userRentalHistories;
   const isLoggedIn = data?.isLoggedIn;
 
   if (!data)
@@ -106,7 +100,7 @@ export default function ItemDetail({ item }: { item: Item }) {
   let rentalEnd;
   let startFlg;
   let nowDate = new Date();
-  let rentalHistory: RentalHistory[] = rental;
+  // let rentalHistory: RentalHistory[] = rental;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.itemId;

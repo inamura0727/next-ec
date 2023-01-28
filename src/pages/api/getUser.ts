@@ -23,14 +23,20 @@ async function getUserRoute(
   if (req.session.user) {
     const userId = req.session.user.userId;
 
-    const result = await axios.get(
+    console.log(userId);
+    const cartResult = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/cart/getCartItem/${userId}`
     );
-    const cart = result.data.carts;
+    const rentalResult = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/rental/${userId}`
+    );
+    const cart = cartResult.data.carts;
+    const rental = rentalResult.data;
     res.json({
       userId: userId,
       isLoggedIn: true,
       userCarts: cart,
+      userRentalHistories: rental,
     });
   } else {
     const sessionCart = req.session.cart;
