@@ -13,7 +13,6 @@ import router from 'next/router';
 import Countdown from '../components/Countdown';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import prisma from '../../lib/prisma';
 import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -238,12 +237,6 @@ export default function Mypage({
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req }) => {
-    // const rentalHistories: RentalHistory[] =
-    //   await prisma.rentalHistory.findMany({
-    //     where: {
-    //       userId: req.session.user?.userId,
-    //     },
-    //   });
     const userId = req.session.user?.userId;
     const result = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/rental/${userId}`
