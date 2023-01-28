@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Item } from 'types/item';
 import { RentalHistory } from 'types/user';
 import styles from 'styles/detail.module.css';
@@ -11,7 +11,6 @@ import Player from '../../components/Player';
 import loadStyles from 'styles/loading.module.css';
 import Review from '../../components/Review';
 import ReviewBtn from 'components/ReviewBtn';
-import prisma from '../../../lib/prisma';
 import Countdown from '../../components/Countdown';
 import axios from 'axios';
 
@@ -61,7 +60,6 @@ export default function ItemDetail({ item }: { item: Item }) {
   const [isChoiced, setIsChoiced] = useState(false);
   const [start, setStart] = useState(false);
   const [startId, setStartId] = useState(0);
-  const [rental, setRental] = useState<RentalHistory[]>([]);
 
   const startPlayer = (id: number) => {
     setStart(!start);
@@ -71,14 +69,8 @@ export default function ItemDetail({ item }: { item: Item }) {
   const { data } = UseSWR<SessionUser>('/api/getUser', fetcher);
 
   const userId = data?.userId;
-  // useEffect(() => {
-  //   fetch(`/api/selectRental/${userId}`)
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       setRental(result.rental);
-  //     });
-  // }, [userId]);
-
+  const rentalHistory: RentalHistory[] | undefined =
+    data?.userRentalHistories;
   const isLoggedIn = data?.isLoggedIn;
 
   if (!data)
@@ -106,7 +98,6 @@ export default function ItemDetail({ item }: { item: Item }) {
   let rentalEnd;
   let startFlg;
   let nowDate = new Date();
-  let rentalHistory: RentalHistory[] = rental;
 
   let rentaledItems = rentalHistory?.filter((rentaledItem) => {
     return rentaledItem.itemId === item.itemId;
