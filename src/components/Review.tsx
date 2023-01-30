@@ -27,11 +27,10 @@ export default function Review({ itemId }: { itemId: number }) {
   const [order, setOrder] = useState('desc');
   // 選択されたページの1番目の番号
   const [itemOffset, setItemOffSet] = useState(0);
-
-  const { data } = useSWR(
-    `/api/selectReview/${itemId}/${orderBy}/${order}`,
-    fetcher
+  const url = encodeURI(
+    `${process.env.NEXT_PUBLIC_API_URL}/review/${itemId}/${orderBy}/${order}`
   );
+  const { data } = useSWR(url, fetcher);
 
   if (!data)
     return (
@@ -48,7 +47,8 @@ export default function Review({ itemId }: { itemId: number }) {
       </div>
     );
 
-  const reviews = data.data;
+  console.log(data.reviews);
+  const reviews = data.reviews;
   const total = data.count;
 
   // レーティング機能

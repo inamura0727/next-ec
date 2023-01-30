@@ -12,6 +12,7 @@ import UseSWR, { mutate } from 'swr';
 import { SessionUser } from './api/getSessionInfo';
 import Header from '../components/Header';
 import loadStyles from 'styles/loading.module.css';
+import axios from 'axios';
 
 type ReviewItem = {
   reviewId: number;
@@ -31,7 +32,6 @@ export default function ReviewEdit({
 }: {
   reviewItem: ReviewItem;
 }) {
-
   let [doLogout, setLogout] = useState(false);
   const [formReviewTitle, setFormReviewTitle] = useState(
     reviewItem.reviewTitle
@@ -85,22 +85,18 @@ export default function ReviewEdit({
     const body = {
       reviewId: reviewItem.reviewId,
       postTime: nowPostTime,
-      // reviewTitle: formReviewTitle,
+      reviewTitle: formReviewTitle,
       reviewText: formReviewText,
       evaluation: formEvaluation,
       spoiler: formSpoiler,
     };
 
-    await fetch(`/api/updateReview`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-      },
-    }).then(() => {
-      router.push(`/items/${reviewItem.item.fesName}`);
-      //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
-    });
+    await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/review/update`,
+      body
+    );
+    router.push(`/items/${reviewItem.item.itemId}`);
+    //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
   };
 
   const logout = () => {
@@ -149,7 +145,6 @@ export default function ReviewEdit({
     </>
   );
 }
-
 
 //編集前の商品情報表示
 export const getServerSideProps = withIronSessionSsr(
