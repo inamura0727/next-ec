@@ -12,21 +12,21 @@ import prisma from '../../lib/prisma';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from './api/getSessionInfo';
 import Header from '../components/Header';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Review({
-  item,
-}: {
-  item: Item;
-}) {
-  let [doLogout, setLogout] = useState(false)
+export default function Review({ item }: { item: Item }) {
+  let [doLogout, setLogout] = useState(false);
   const [formReviewTitle, setFormReviewTitle] = useState('');
   const [formReviewText, setFormReviewText] = useState('');
   const [formEvaluation, setFormEvaluation] = useState(0);
   const [formSpoiler, setFormSpoiler] = useState(false);
 
-  const { data } = UseSWR<SessionUser>('/api/getSessionInfo', fetcher);
+  const { data } = UseSWR<SessionUser>(
+    '/api/getSessionInfo',
+    fetcher
+  );
 
   if (!data)
     return (
@@ -69,21 +69,18 @@ export default function Review({
       spoiler: formSpoiler,
     };
 
-    await fetch('/api/addReview', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-      },
-    }).then(() => {
-      router.push(`/items/${item.itemId}`); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
-    });
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/review/add`,
+      body
+    );
+    //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
+    router.push(`/items/${item.itemId}`);
   };
 
   const logout = () => {
-    setLogout(true)
-    mutate('/api/getSessionInfo')
-  }
+    setLogout(true);
+    mutate('/api/getSessionInfo');
+  };
 
   return (
     <>
@@ -98,7 +95,6 @@ export default function Review({
         isLoggedIn={data?.isLoggedIn}
         dologout={() => logout()}
       />
-
 
       <div>
         <Image
