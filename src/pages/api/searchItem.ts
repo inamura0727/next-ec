@@ -1,20 +1,26 @@
 import prisma from '../../../lib/prisma';
 
-export default async function searchItem(keyword: string | string[] | undefined, id: number, orderBy: string | string[], order: string | string[], page
-  : number, take: number) {
+export default async function searchItem(
+  keyword: string | string[] | undefined,
+  id: number,
+  orderBy: string | string[],
+  order: string | string[],
+  page: number,
+  take: number
+) {
   let response;
   let skip = (page - 1) * take;
   let items;
   let count;
 
   if (typeof keyword !== 'string') {
-    return
+    return;
   }
   if (typeof orderBy !== 'string') {
-    return
+    return;
   }
   if (typeof order !== 'string') {
-    return
+    return;
   }
 
   if (keyword.length === 0) {
@@ -22,7 +28,7 @@ export default async function searchItem(keyword: string | string[] | undefined,
       where: {
         categories: {
           has: id,
-        }
+        },
       },
       orderBy: {
         [orderBy]: order,
@@ -36,20 +42,20 @@ export default async function searchItem(keyword: string | string[] | undefined,
         OR: [
           {
             keywords: {
-              has: keyword
-            }
+              has: keyword,
+            },
           },
           {
             artist: {
-              contains: keyword
-            }
+              contains: keyword,
+            },
           },
           {
             fesName: {
-              contains: keyword
-            }
-          }
-        ]
+              contains: keyword,
+            },
+          },
+        ],
       },
       orderBy: {
         [orderBy]: order,
@@ -63,19 +69,19 @@ export default async function searchItem(keyword: string | string[] | undefined,
         OR: [
           {
             keywords: {
-              has: keyword
-            }
+              has: keyword,
+            },
           },
           {
             artist: {
-              contains: keyword
-            }
+              contains: keyword,
+            },
           },
           {
             fesName: {
-              contains: keyword
-            }
-          }
+              contains: keyword,
+            },
+          },
         ],
         categories: {
           has: id,
@@ -94,8 +100,8 @@ export default async function searchItem(keyword: string | string[] | undefined,
       where: {
         categories: {
           has: id,
-        }
-      }
+        },
+      },
     });
   } else if (id === 0) {
     count = await prisma.item.count({
@@ -103,20 +109,20 @@ export default async function searchItem(keyword: string | string[] | undefined,
         OR: [
           {
             keywords: {
-              has: keyword
-            }
+              has: keyword,
+            },
           },
           {
             artist: {
-              contains: keyword
-            }
+              contains: keyword,
+            },
           },
           {
             fesName: {
-              contains: keyword
-            }
-          }
-        ]
+              contains: keyword,
+            },
+          },
+        ],
       },
     });
   } else {
@@ -125,19 +131,19 @@ export default async function searchItem(keyword: string | string[] | undefined,
         OR: [
           {
             keywords: {
-              has: keyword
-            }
+              has: keyword,
+            },
           },
           {
             artist: {
-              contains: keyword
-            }
+              contains: keyword,
+            },
           },
           {
             fesName: {
-              contains: keyword
-            }
-          }
+              contains: keyword,
+            },
+          },
         ],
         categories: {
           has: id,
@@ -151,7 +157,7 @@ export default async function searchItem(keyword: string | string[] | undefined,
       itemId: item.itemId,
       itemImage: item.itemImage,
       artist: item.artist,
-      fesName: item.fesName
+      fesName: item.fesName,
     }));
 
   if (keyword.length === 0) {
@@ -159,16 +165,16 @@ export default async function searchItem(keyword: string | string[] | undefined,
       where: {
         categories: {
           has: id,
-        }
-      }
+        },
+      },
     });
   } else if (id === 0) {
     count = await prisma.item.count({
       where: {
         keywords: {
-          has: keyword
-        }
-      }
+          has: keyword,
+        },
+      },
     });
   } else {
     count = await prisma.item.count({
@@ -177,11 +183,11 @@ export default async function searchItem(keyword: string | string[] | undefined,
           has: id,
         },
         keywords: {
-          has: keyword
-        }
-      }
+          has: keyword,
+        },
+      },
     });
   }
 
-  return { items: items, count: count }
+  return { items: items, count: count };
 }
