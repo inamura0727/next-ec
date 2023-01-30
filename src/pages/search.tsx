@@ -14,9 +14,10 @@ import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
 import searchItem from './api/searchItem';
 import selectNewItem from './api/selectNewItem';
+import axios from 'axios';
 
 // 1ページあたりの最大表示件数を指定
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -195,14 +196,19 @@ export async function getServerSideProps({
   const orderBy = query.orderBy ? query.orderBy : 'itemId';
   const order = query.order ? query.order : 'desc';
   const take = PAGE_SIZE;
-  const result = await searchItem(
-    keyword,
-    genre,
-    orderBy,
-    order,
-    page,
-    take
+
+  const res = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_URL}/search/getItems`,
+    {
+      keyword: keyword,
+      genre: genre,
+      orderBy: orderBy,
+      order: order,
+      page: page,
+      take: take,
+    }
   );
+  const result = res.data;
 
   if (!result) {
     return;

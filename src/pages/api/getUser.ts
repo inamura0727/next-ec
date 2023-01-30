@@ -23,7 +23,6 @@ async function getUserRoute(
   if (req.session.user) {
     const userId = req.session.user.userId;
 
-    console.log(userId);
     const cartResult = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/cart/getCartItem/${userId}`
     );
