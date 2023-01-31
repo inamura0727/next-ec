@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 type Reviews = {
   itemId: number;
   itemName: string;
@@ -12,6 +14,6 @@ type Reviews = {
   fesName:string;
   itemImg:string;
   id:number;
+  user: User
 };
-
 export type { Reviews };

@@ -132,11 +132,11 @@ export default function Review({ item }: { item: Item }) {
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req, query }) => {
-    const item = await prisma.item.findUnique({
-      where: {
-        itemId: Number(query.itemId),
-      },
-    });
+    const id = query.itemId;
+    const result = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/item/getItem/${id}`
+    );
+    const item = result.data;
     if (!req.session.user) {
       return {
         redirect: {
