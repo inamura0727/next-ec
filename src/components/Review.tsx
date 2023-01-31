@@ -1,12 +1,10 @@
 import styles from 'styles/review.module.css';
 import useSWR from 'swr';
 import loadStyles from 'styles/loading.module.css';
-import { Reviews } from 'types/review';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import ReviewSelect from './ReviewSort ';
-import Pagination from './Paging';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { Item } from 'types/item';
+import { User } from 'types/user';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -20,15 +18,25 @@ type Review = {
   evaluation: number;
   spoiler: boolean;
   items: Item;
+  users: User;
 };
 
 export default function Review({ itemId }: { itemId: number }) {
   const [orderBy, setOrderBy] = useState('reviewId');
   const [order, setOrder] = useState('desc');
-  // 選択されたページの1番目の番号
-  const [itemOffset, setItemOffSet] = useState(0);
+  // ページ番号
+  const [page, setPage] = useState(1);
+
+  // １ページにつき表示する件数
+  const itemPerPage = 5;
+
+  // ページ番号の総数を出す式
+  const range = (start: number, end: number) =>
+    [...Array(end - start + 1)].map((_, i) => start + i);
+
+  // ２バイト文字のパラメーター含むURLはエラーになるためエンコードに変換
   const url = encodeURI(
-    `${process.env.NEXT_PUBLIC_API_URL}/review/${itemId}/${orderBy}/${order}`
+    `${process.env.NEXT_PUBLIC_API_URL}/review/${itemId}/${orderBy}/${order}/${page}/${itemPerPage}`
   );
   const { data } = useSWR(url, fetcher);
 
@@ -47,50 +55,19 @@ export default function Review({ itemId }: { itemId: number }) {
       </div>
     );
 
-  console.log(data.reviews);
+  // 取得したレビュー
   const reviews = data.reviews;
-  const total = data.count;
+  // アイテムの平均スコア
+  const average = data.average._avg.evaluation;
+  // レビューの総数
+  const total = data.total;
 
-  // レーティング機能
-  // 点数の配列のみ取り出す
-  let scoreArr = reviews.map((dataList: Review) => {
-    return dataList.evaluation;
-  });
+  console.log(reviews[0].users.userName);
 
-  let sum = 0;
-  //平均点を求める
-  if (!scoreArr.length) {
-    sum = 0;
-  } else {
-    sum = scoreArr.reduce((pre: number, curr: number) => pre + curr);
-  }
-
-  // 平均点に１０をかけ、小数点を切り捨てた後１０で割ると小数点一桁のみ表示可能
-  let average = Math.floor((sum / scoreArr.length) * 10) / 10;
-
-  // 平均点を四捨五入
-  let rate = Math.round(average * 2) / 2;
-
-  if (!average) {
-    average = 0;
-    rate = 0;
-  }
-
-  // ページネーション機能
-  // １ページにつき表示する件数
-  const itemPerPage = 5;
-
-  // ページの終わりの番号
-  const endOffset = itemOffset + itemPerPage;
-
-  const currentReviews = reviews.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(total / itemPerPage);
-
-  // 余りが選択されたページ番号の1番目番号になる
+  // ページ番号の選択
   const handleClick = (i: number) => {
-    let num = i - 1;
-    const newOffset = (num * itemPerPage) % total;
-    setItemOffSet(newOffset);
+    setPage(i);
+    console.log(page);
   };
 
   // 動的APIルーティングの値を変更
@@ -106,11 +83,11 @@ export default function Review({ itemId }: { itemId: number }) {
         <h1 className={styles.title}>レビュー</h1>
         <p className={styles.score}>総合{average}点</p>
         <p className={styles.star}>
-          <span className={styles.rating} data-rate={rate}></span>
+          <span className={styles.rating} data-rate={average}></span>
         </p>
         <div className={styles.accordionOuter}>
           <ReviewSelect selectChange={selectChange} />
-          {currentReviews.map((review: Review) => {
+          {reviews.map((review: Review) => {
             return (
               <div key={review.reviewId} className={styles.accordion}>
                 <input
@@ -128,8 +105,7 @@ export default function Review({ itemId }: { itemId: number }) {
                   )}
                 </label>
                 <div className={styles.contentBody}>
-                  {/* <p>投稿者名：{review.}</p> */}
-                  {/* userNameはどう取得する？ */}
+                  <p>投稿者名：{review.users.userName}</p>
                   <p>投稿日：{review.postTime}</p>
                   <p>点数：{review.evaluation}点</p>
                   <p>{review.reviewText}</p>
@@ -139,25 +115,17 @@ export default function Review({ itemId }: { itemId: number }) {
           })}
         </div>
       </section>
-      {(function () {
-        const list = [];
-        for (let i = 1; i <= pageCount; i++) {
-          list.push(
-            <button
-              key={i}
-              className={styles.pagingBtn}
-              onClick={() => handleClick(i)}
-            >
-              {i}
-            </button>
-          );
-        }
-        return (
-          <div className={`${styles.paging} ${styles.taLeft}`}>
-            {list}
-          </div>
-        );
-      })()}
+      {range(1, Math.ceil(total / itemPerPage)).map(
+        (number, index) => (
+          <button
+            key={index}
+            className={styles.pagingBtn}
+            onClick={() => handleClick(number)}
+          >
+            {number}
+          </button>
+        )
+      )}
       <style jsx>
         {`
           p {
