@@ -149,15 +149,12 @@ export default function ReviewEdit({
 //編集前の商品情報表示
 export const getServerSideProps = withIronSessionSsr(
   async ({ query }) => {
-    const reviewItem = await prisma.review.findUnique({
-      where: {
-        reviewId: Number(query.reviewId),
-      },
+    const reviewId = query.reviewId;
 
-      include: {
-        item: true,
-      },
-    });
+    const result = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/review/${reviewId}`
+    );
+    const reviewItem = result.data;
 
     if (reviewItem?.item) {
       const tmp: Item = reviewItem?.item;
