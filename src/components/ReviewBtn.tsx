@@ -1,6 +1,5 @@
 import styles from 'styles/detail.module.css';
-import useSWR from 'swr';
-import loadStyles from 'styles/loading.module.css';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
