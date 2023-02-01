@@ -215,7 +215,10 @@ export async function getServerSideProps({
   }
 
   if (keyword?.length === 0 && genre === 0) {
-    const selectNew = await selectNewItem(10);
+    const result = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/item/selectNewItem`
+    );
+    const selectNew = result.data;
     newItems = selectNew;
   }
 
