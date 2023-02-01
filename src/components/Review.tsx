@@ -62,12 +62,9 @@ export default function Review({ itemId }: { itemId: number }) {
   // レビューの総数
   const total = data.total;
 
-  console.log(reviews[0].users.userName);
-
   // ページ番号の選択
   const handleClick = (i: number) => {
     setPage(i);
-    console.log(page);
   };
 
   // 動的APIルーティングの値を変更
