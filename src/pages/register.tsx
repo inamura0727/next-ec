@@ -111,22 +111,23 @@ export default function LoginScreen() {
   ) => {
     e.preventDefault();
     const error: Errors = validate(formValues);
+
     // 登録済みのメールアドレスを確認する
-    const res = await fetch('/api/mailConditions', {
-      //Jsonファイルに送る
-      method: 'POST',
-      body: JSON.stringify({
-        formValues,
-      }),
-      headers: {
-        'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-      },
-    });
-    const data = await res.json();
-    if (!data.result) {
-      error.mailAddress = data.message;
-    }
-    setFormErrors(error);
+    // const res = await fetch('/api/mailConditions', {
+    //   //Jsonファイルに送る
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     formValues,
+    //   }),
+    //   headers: {
+    //     'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
+    //   },
+    // });
+    // const data = await res.json();
+    // if (!data.result) {
+    //   error.mailAddress = data.message;
+    // }
+    // setFormErrors(error);
 
     // if (
     //   !(
@@ -184,6 +185,11 @@ export default function LoginScreen() {
             favoriteGenre,
           }
         );
+        if (response.data.result === false) {
+          error.mailAddress = response.data.message;
+          setFormErrors(error);
+          return;
+        }
         router.push('/registerComp');
       } catch (e: any) {
         setError(e.response.data.message[0]);

@@ -8,6 +8,7 @@ import Chatbot from 'components/Chatbot';
 import prisma from '../../lib/prisma';
 import { ironOptions } from '../../lib/ironOprion';
 import { withIronSessionSsr } from 'iron-session/next';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 type ChatList = {
@@ -64,19 +65,20 @@ export default function ChatbotPage({
 
 export const getServerSideProps = withIronSessionSsr(
   async ({ req }) => {
-    const chatList = await prisma.chatbot.findMany({
-      include: { chatbotChoice: true },
-      orderBy: { chatbotId: 'asc' },
-    });
+    const result = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/chatbot`
+    );
+    const chatList = result.data;
 
     let userName = 'guest';
     // ログインしている場合、userNameを取得する
     if (req.session.user) {
-      const result = await prisma.user.findUnique({
-        where: {
-          userId: req.session.user.userId,
-        },
-      });
+      const id = req.session.user.userId;
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/${id}`
+      );
+      const result = res.data;
+
       if (result?.userName) {
         userName = result.userName;
       }
