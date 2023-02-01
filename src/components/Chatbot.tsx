@@ -7,6 +7,7 @@ import Router from 'next/router';
 import React from 'react';
 import { config } from '../config/index';
 import { SessionUser } from 'pages/api/getUser';
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -51,11 +52,12 @@ export default function Chatbot({
 
   useEffect(() => {
     // itemsを取得
-    fetch(`/api/selectGenre/${genre}/4`)
-      .then((res) => res.json())
-      .then((data) => {
-        setItems(data);
-      });
+    (async () => {
+      const result = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/item/selectGenre/${genre}`
+      );
+      setItems(result.data);
+    })();
   }, [genre]);
 
   useEffect(() => {
@@ -199,12 +201,15 @@ export default function Chatbot({
       if (option === 2) {
         if (method === 4) {
           if (!selectWhoButton) {
-            fetch(`/api/selectAnswer/${feeling - 11}/${who - 14}`)
-              .then((res) => res.json())
-              .then((data) => {
-                console.log(data.genre);
-                setGenre(data.genre);
-              });
+            const getAnswer = async () => {
+              let feel = feeling - 11;
+              let anyone = who - 14;
+              const result = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}/chatbot/selectAnswer/${feel}/${anyone}`
+              );
+              setGenre(result.data.genre);
+            };
+            getAnswer();
             const id = setTimeout(() => {
               setCount((prev) => prev + 1);
               setOutput((prev) => [...prev, chatList[count]]);
@@ -272,7 +277,13 @@ export default function Chatbot({
     e.preventDefault();
     setButton(false);
     const info = { favoriteGenre: genre };
-    await fetch(`/api/updateUser/${data.userId}/${genre}`);
+    const result = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/update`,
+      {
+        id: data.userId,
+        genre: genre,
+      }
+    );
   };
 
   const route = () => {

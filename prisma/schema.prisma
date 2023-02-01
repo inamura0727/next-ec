@@ -25,6 +25,7 @@ model User {
   passwordTest    String
   carts           Cart[]
   rentalHistories RentalHistory[]
+  Review          Review[]
   category        Category?       @relation(fields: [favoriteId], references: [categoryId])
 }
 
@@ -61,6 +62,7 @@ model Review {
   evaluation  Int
   spoiler     Boolean
   item        Item    @relation(fields: [itemId], references: [itemId])
+  User        User    @relation(fields: [userId], references: [userId])
 }
 
 model RentalHistory {
