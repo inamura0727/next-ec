@@ -5,7 +5,7 @@ import Header from 'components/Header';
 import React from 'react';
 import loadStyles from 'styles/loading.module.css';
 import Chatbot from 'components/Chatbot';
-import prisma from '../../lib/prisma';
+
 import { ironOptions } from '../../lib/ironOprion';
 import { withIronSessionSsr } from 'iron-session/next';
 import axios from 'axios';

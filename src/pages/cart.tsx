@@ -12,7 +12,6 @@ import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
 import { GetServerSideProps } from 'next';
 import { SessionUserCart } from 'types/session';
-import { SelectCart } from './api/preRendering/PreCart';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
