@@ -12,8 +12,6 @@ import SortSelect from 'components/SortSelect';
 import UseSWR, { mutate } from 'swr';
 import { SessionUser } from '../pages/api/getUser';
 import loadStyles from 'styles/loading.module.css';
-import searchItem from './api/searchItem';
-import selectNewItem from './api/selectNewItem';
 import axios from 'axios';
 
 // 1ページあたりの最大表示件数を指定

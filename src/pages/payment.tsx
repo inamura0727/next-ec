@@ -10,7 +10,6 @@ import Header from '../components/Header';
 import { SessionUser } from 'pages/api/getSessionInfo';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { SelectCart } from './api/preRendering/PreCart';
 import axios from 'axios';
 
 const stripePromise = loadStripe(

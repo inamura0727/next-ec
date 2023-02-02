@@ -7,11 +7,10 @@ import RecommendItemList from 'components/RecommendItemList';
 import loadStyles from 'styles/loading.module.css';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '../../lib/ironOprion';
-import prisma from '../../lib/prisma';
 import { useState } from 'react';
 import { SessionUser } from './api/getSessionInfo';
 import axios from 'axios';
-import PreTop from './api/preRendering/PreTop';
+
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
