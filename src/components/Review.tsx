@@ -58,9 +58,13 @@ export default function Review({ itemId }: { itemId: number }) {
   // 取得したレビュー
   const reviews = data.reviews;
   // アイテムの平均スコア
-  const average = data.average._avg.evaluation;
+  let average = data.average._avg.evaluation;
   // レビューの総数
   const total = data.total;
+
+  if (average === null) {
+    average = 0;
+  }
 
   // ページ番号の選択
   const handleClick = (i: number) => {
