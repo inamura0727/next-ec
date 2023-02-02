@@ -25,9 +25,11 @@ export default function RecommendItemList({
   let logItems: Array<Item> = [];
   if (doLogout) {
     const id = 3;
+    const genre = 3;
     const take = 10;
     const { data } = UseSWR<Array<Item>>(
-      `${process.env.NEXT_PUBLIC_API_URL}/${id}`,
+      // 邦楽ジャンルを表示
+      `${process.env.NEXT_PUBLIC_API_URL}/item/selectGenre/${genre}`,
       fetcher
     );
     if (data) {

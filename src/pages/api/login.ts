@@ -14,23 +14,26 @@ export default withIronSessionApiRoute(async function loginRoute(
         password: req.body.password,
       }
     );
-    const user = result.data;
-    if (user) {
+    if (result.data.result === false) {
+      res.json({
+        message: result.data.message,
+      });
+      return;
+    } else {
+      const user = result.data.user;
       req.session.user = {
         userId: user[0].userId,
         userName: user[0].userName,
       };
       await req.session.save();
       res.json({
-        message: []
+        message: 'ok',
       });
-    } else {
-      res.status(404).end();
     }
   } catch (e: any) {
-    const messeage = e.response.data.message;
+    const message = e.response.data.message;
     res.json({
-      message: messeage,
+      message: message,
     });
   }
 },

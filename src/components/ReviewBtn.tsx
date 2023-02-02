@@ -1,11 +1,13 @@
 import styles from 'styles/detail.module.css';
-import useSWR from 'swr';
-import loadStyles from 'styles/loading.module.css';
+
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Review } from '@prisma/client';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export default function Review({
+export default function ReviewBtn({
   userId,
   id,
   isRentaled,
@@ -16,32 +18,24 @@ export default function Review({
   isRentaled: boolean;
   isLoggedIn: boolean | undefined;
 }) {
+  // 配列の中にどういう型の値が入ってくるか示すために<Review[]>の型指定を行う
+  const [userRental, setUserRentals] = useState<Review[]>([]);
+
   // ユーザーのレビュー情報を取得
-  const { data } = useSWR(
-    `/api/selectUserReview/${userId}/${id}`,
-    fetcher
-  );
-
-  if (!data)
-    return (
-      <div className={loadStyles.loadingArea}>
-        <div className={loadStyles.bound}>
-          <span>L</span>
-          <span>o</span>
-          <span>a</span>
-          <span>d</span>
-          <span>i</span>
-          <span>g</span>
-          <span>...</span>
-        </div>
-      </div>
-    );
-
-  const rentals = data.result;
+  useEffect(() => {
+    (async () => {
+      if (userId) {
+        const result = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/review/getUserReview/${userId}/${id}`
+        );
+        setUserRentals(result.data);
+      }
+    })();
+  }, [userId, id]);
 
   //レビューされた商品の場合はフラグを変更
   let isReviewed = false;
-  if (rentals.length) {
+  if (userRental.length) {
     isReviewed = true;
   }
 
@@ -49,14 +43,13 @@ export default function Review({
   if (!isLoggedIn) {
     isRentaled = false;
   }
-
   return (
     <>
       {isRentaled ? (
         <>
           {isReviewed ? (
             <Link
-              href={`/reviewUpdate?reviewId=${rentals[0].reviewId}`}
+              href={`/reviewUpdate?reviewId=${userRental[0].reviewId}`}
             >
               <button className={styles.btnReview}>編集する</button>
             </Link>

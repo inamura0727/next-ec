@@ -111,123 +111,37 @@ export default function LoginScreen() {
   ) => {
     e.preventDefault();
     const error: Errors = validate(formValues);
-
-    // 登録済みのメールアドレスを確認する
-    // const res = await fetch('/api/mailConditions', {
-    //   //Jsonファイルに送る
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     formValues,
-    //   }),
-    //   headers: {
-    //     'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-    //   },
-    // });
-    // const data = await res.json();
-    // if (!data.result) {
-    //   error.mailAddress = data.message;
-    // }
-    // setFormErrors(error);
-
-    // if (
-    //   !(
-    //     formValues.userName === '' ||
-    //     formValues.zipcode === '' ||
-    //     formValues.prefectures === '' ||
-    //     formValues.city === '' ||
-    //     formValues.houseNumber === '' ||
-    //     formValues.familyName === '' ||
-    //     formValues.firstName === '' ||
-    //     formValues.familyNameKana === '' ||
-    //     formValues.firstNameKana === '' ||
-    //     formValues.phoneNumbe === '' ||
-    //     formValues.mailAddress === '' ||
-    //     formValues.password === '' ||
-    //     formValues.passwordTest === ''
-    //   ) &&
-    //   error.userName === '' &&
-    //   error.zipcode === '' &&
-    //   error.prefectures === '' &&
-    //   error.city === '' &&
-    //   error.houseNumber === '' &&
-    //   error.familyName === '' &&
-    //   error.firstName === '' &&
-    //   error.familyNameKana === '' &&
-    //   error.firstNameKana === '' &&
-    //   error.phoneNumbe === '' &&
-    //   error.mailAddress === '' &&
-    //   error.password === '' &&
-    //   error.passwordTest === ''
-    // ) {
-    if (
-      !(formValues.passwordTest === '') &&
-      error.passwordTest === ''
-    ) {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/user/register`,
-          {
-            userName: formValues.userName,
-            zipcode: formValues.zipcode,
-            prefecture: formValues.prefectures,
-            city: formValues.city,
-            houseNumber: formValues.houseNumber,
-            buildingName: formValues.buildingName,
-            familyName: formValues.familyName,
-            firstName: formValues.firstName,
-            familyNameKana: formValues.familyNameKana,
-            firstNameKana: formValues.firstNameKana,
-            mailAddress: formValues.mailAddress,
-            password: formValues.password,
-            passwordTest: formValues.passwordTest,
-            rentalHistories,
-            userCarts,
-            favoriteGenre,
-          }
-        );
-        if (response.data.result === false) {
-          error.mailAddress = response.data.message;
-          setFormErrors(error);
-          return;
-        }
-        router.push('/registerComp');
-      } catch (e: any) {
-        setError(e.response.data.message[0]);
-      }
-
+    try {
       // 登録内容を登録する
-      // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/user/register`,
-      //   {
-      //     //Jsonファイルに送る
-      //     method: 'POST',
-      //     body: JSON.stringify({
-      //       //Jsonデータに保存する内容を記載
-      //       userName: formValues.userName,
-      //       zipcode: formValues.zipcode,
-      //       prefecture: formValues.prefectures,
-      //       city: formValues.city,
-      //       houseNumber: formValues.houseNumber,
-      //       buildingName: formValues.buildingName,
-      //       familyName: formValues.familyName,
-      //       firstName: formValues.firstName,
-      //       familyNameKana: formValues.familyNameKana,
-      //       firstNameKana: formValues.firstNameKana,
-      //       mailAddress: formValues.mailAddress,
-      //       password: formValues.password,
-      //       rentalHistories,
-      //       userCarts,
-      //       favoriteGenre,
-      //     }),
-      //     headers: {
-      //       'Content-type': 'application/json', //Jsonファイルということを知らせるために行う
-      //     },
-      //   }
-      // ).then(() => {
-      //   router.push('/registerComp'); //e.preventDefault()を行なった為、クライアント側の遷移処理をここで行う
-      // });
-    } else {
-      router.push('/register');
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/register`,
+        {
+          userName: formValues.userName,
+          zipcode: formValues.zipcode,
+          prefecture: formValues.prefectures,
+          city: formValues.city,
+          houseNumber: formValues.houseNumber,
+          buildingName: formValues.buildingName,
+          familyName: formValues.familyName,
+          firstName: formValues.firstName,
+          familyNameKana: formValues.familyNameKana,
+          firstNameKana: formValues.firstNameKana,
+          mailAddress: formValues.mailAddress,
+          password: formValues.password,
+          passwordTest: formValues.passwordTest,
+          rentalHistories,
+          userCarts,
+          favoriteGenre,
+        }
+      );
+      if (response.data.result === false) {
+        error.mailAddress = response.data.message;
+        setFormErrors(error);
+        return;
+      }
+      router.push('/registerComp');
+    } catch (e: any) {
+      setError(e.response.data.message[0]);
     }
   };
 
@@ -254,44 +168,6 @@ export default function LoginScreen() {
 
     const tellRegex = /^0\d{9,10}$/;
 
-    //   if (!formValues.userName) {
-    //     errors.userName = 'ユーザー名を入力してください';
-    //   }
-    //   if (!formValues.zipcode) {
-    //     errors.zipcode = '郵便番号を入力してください';
-    //   } else if (!(formValues.zipcode.length === 7)) {
-    //     errors.zipcode = '正しい郵便番号を入力してください';
-    //   }
-    //   if (!formValues.prefectures) {
-    //     errors.prefectures = '都道府県を入力してください';
-    //   }
-    //   if (!formValues.city) {
-    //     errors.city = '市区町村を入力してください';
-    //   }
-    //   if (!formValues.houseNumber) {
-    //     errors.houseNumber = '番地を入力してください';
-    //   }
-    //   if (!formValues.familyName) {
-    //     errors.familyName = '姓を入力してください';
-    //   }
-    //   if (!formValues.firstName) {
-    //     errors.firstName = '名を入力してください';
-    //   }
-    //   if (!formValues.familyNameKana) {
-    //     errors.familyNameKana = 'セイを入力してください';
-    //   }
-    //   if (!formValues.firstNameKana) {
-    //     errors.firstNameKana = 'メイを入力してください';
-    //   }
-    //   if (!formValues.phoneNumbe) {
-    //     errors.phoneNumbe = '電話番号を入力してください';
-    //   } else if (!tellRegex.test(formValues.phoneNumbe)) {
-    //     errors.phoneNumbe =
-    //       '正しい電話番号を入力してください(ハイフンなし)';
-    //   }
-    //   if (!formValues.mailAddress) {
-    //     errors.mailAddress = 'メールアドレスを入力してください';
-    //   }
     if (!formValues.password) {
       errors.password = 'パスワードを入力してください';
     } else if (!regex.test(formValues.password)) {

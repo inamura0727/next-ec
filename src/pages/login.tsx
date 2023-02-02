@@ -30,7 +30,7 @@ export default function Home() {
     })
       .then(async (res) => res.json())
       .then(async (result) => {
-        if (!result.message.length) {
+        if (result.message === 'ok') {
           await fetch('/api/addLogedinCart').then((res) =>
             router.push('/')
           );
